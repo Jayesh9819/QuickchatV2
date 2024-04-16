@@ -3,17 +3,18 @@
 ob_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-include './Router/initialize.php';
+// echo $uri;
 
 
-if ($uri == $firstparam || $uri == $secondparam) {
+
+if ($uri == "/QuickchatV2/" || $uri == "/QuickchatV2/index.php") {
     echo '<script type="text/JavaScript"> 
     window.location.replace("./index.php/Portal");
     </script>';
     die();
 } else {
-    $prefix = $thirdparam;
-    $root = $fourthparam;
+    $prefix = "/QuickchatV2/";
+    $root = "index.php";
     $routes = [
 
 

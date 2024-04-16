@@ -55,7 +55,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
 <html lang="en" dir="ltr">
 
 <head>
-    <?php
+    <?php 
 
     include("./Public/Pages/Common/header.php");
     include "./Public/Pages/Common/auth_user.php";
