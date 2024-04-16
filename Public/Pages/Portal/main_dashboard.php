@@ -250,7 +250,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
 <body class="  ">
     <!-- loader Start -->
     <?php
-    //  include("./Public/Pages/Common/loader.php");
+     include("./Public/Pages/Common/loader.php");
     ?>
     <!-- loader END -->
 

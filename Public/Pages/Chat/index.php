@@ -358,48 +358,194 @@
 								<i class="fa fa-search">Search</i>
 							</button>
 						</div>
-						<ul id="chatList" class="list-group mvh-50 overflow-auto" id="chat-box">
-							<?php if (!empty($conversations)) { ?>
-								<?php
-
-								foreach ($conversations as $conversation) { ?>
-									<li class="list-group-item">
-										<a href="./Chat_Screen?user=<?= $conversation['username'] ?>" class="d-flex
-	    				          justify-content-between
-	    				          align-items-center p-2">
-											<div class="d-flex
-	    					            align-items-center">
-												<img src="../assets/images/avatars/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="w-15 rounded-circle">
-												<h3 class="fs-xs m-2">
-													<?= $conversation['name'] ?><br>
-													<small>
-														<?php
-														echo lastChat($_SESSION['user_id'], $conversation['id'], $conn);
-														?>
-													</small>
-												</h3>
-											</div>
-											<?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
-												<div class="unread-messages"><?= $conversation['unread_messages'] ?></div>
-											<?php } ?>
-
-											<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
-												<div title="online">
-													<div class="online"></div>
-												</div>
-											<?php } ?>
-										</a>
-									</li>
-								<?php } ?>
-							<?php } else { ?>
-								<div class="alert alert-info 
-    				            text-center">
-									<i class="fa fa-comments d-block fs-big"></i>
-									No messages yet, Start the conversation
-								</div>
-						<?php }
+						
+						<?php 
 						} ?>
-						</ul>
+						
+
+						
+
+<ul id="chatList" class="list-group mvh-50 overflow-auto" style="padding: 0; margin: 0; list-style: none; background-color: #121212;">
+    <?php if (!empty($conversations)) {
+        foreach ($conversations as $conversation) { ?>
+            <li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: limegreen;">
+                <a href="./Chat_Screen?user=<?= $conversation['username'] ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+                    <div class="chat-avatar" style="flex-shrink: 0;">
+                        <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
+                    </div>
+                    <div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= $conversation['name'] ?></h5>
+                        <small style="color: #bbb; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></small>
+                    </div>
+                    <?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
+                        <span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages'] ?></span>
+                    <?php } ?>
+
+                    <?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+                        <span class="status-dot" style="width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-left: 10px;"></span>
+                    <?php } ?>
+                </a>
+            </li>
+        <?php }
+    } else { ?>
+        <div class="alert alert-info" style="text-align: center; background-color: #282828; color: #ccc; padding: 20px; margin-top: 20px; border-radius: 4px;">
+            <i class="fa fa-comments" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+            No messages yet, start the conversation
+        </div>
+    <?php } ?>
+</ul>
+
+<ul id="chatList" class="list-group mvh-50 overflow-auto" style="padding: 0; margin: 0; list-style: none; background-color: #121212;">
+    <?php if (!empty($conversations)) {
+        foreach ($conversations as $conversation) { ?>
+            <li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: limegreen;">
+                <a href="./Chat_Screen?user=<?= $conversation['username'] ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+                    <div class="chat-avatar" style="flex-shrink: 0;">
+                        <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
+                    </div>
+                    <div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= $conversation['name'] ?></h5>
+                        <small style="color: #bbb; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></small>
+                    </div>
+                    <?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
+                        <span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages'] ?></span>
+                    <?php } ?>
+
+                    <?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+                        <span class="status-dot" style="width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-left: 10px;"></span>
+                    <?php } ?>
+                </a>
+            </li>
+        <?php }
+    } else { ?>
+        <div class="alert alert-info" style="text-align: center; background-color: #282828; color: #ccc; padding: 20px; margin-top: 20px; border-radius: 4px;">
+            <i class="fa fa-comments" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+            No messages yet, start the conversation
+        </div>
+    <?php } ?>
+</ul>
+
+<ul id="chatList" class="list-group mvh-50 overflow-auto" style="padding: 0; margin: 0; list-style: none; background-color: #121212;">
+    <?php if (!empty($conversations)) {
+        foreach ($conversations as $conversation) { ?>
+            <li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: lightblue;">
+                <a href="./Chat_Screen?user=<?= $conversation['username'] ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+                    <div class="chat-avatar" style="flex-shrink: 0;">
+                        <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
+                    </div>
+                    <div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= $conversation['name'] ?></h5>
+                        <small style="color: #bbb; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></small>
+                    </div>
+                    <?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
+                        <span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages'] ?></span>
+                    <?php } ?>
+
+                    <?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+                        <span class="status-dot" style="width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-left: 10px;"></span>
+                    <?php } ?>
+                </a>
+            </li>
+        <?php }
+    } else { ?>
+        <div class="alert alert-info" style="text-align: center; background-color: #282828; color: #ccc; padding: 20px; margin-top: 20px; border-radius: 4px;">
+            <i class="fa fa-comments" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+            No messages yet, start the conversation
+        </div>
+    <?php } ?>
+</ul>
+
+<ul id="chatList" class="list-group mvh-50 overflow-auto" style="padding: 0; margin: 0; list-style: none; background-color: #121212;">
+    <?php if (!empty($conversations)) {
+        foreach ($conversations as $conversation) { ?>
+            <li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: lightblue;">
+                <a href="./Chat_Screen?user=<?= $conversation['username'] ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+                    <div class="chat-avatar" style="flex-shrink: 0;">
+                        <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
+                    </div>
+                    <div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= $conversation['name'] ?></h5>
+                        <small style="color: #bbb; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></small>
+                    </div>
+                    <?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
+                        <span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages'] ?></span>
+                    <?php } ?>
+
+                    <?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+                        <span class="status-dot" style="width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-left: 10px;"></span>
+                    <?php } ?>
+                </a>
+            </li>
+        <?php }
+    } else { ?>
+        <div class="alert alert-info" style="text-align: center; background-color: #282828; color: #ccc; padding: 20px; margin-top: 20px; border-radius: 4px;">
+            <i class="fa fa-comments" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+            No messages yet, start the conversation
+        </div>
+    <?php } ?>
+</ul>
+
+<ul id="chatList" class="list-group mvh-50 overflow-auto" style="padding: 0; margin: 0; list-style: none; background-color: #121212;">
+    <?php if (!empty($conversations)) {
+        foreach ($conversations as $conversation) { ?>
+            <li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: lightblue;">
+                <a href="./Chat_Screen?user=<?= $conversation['username'] ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+                    <div class="chat-avatar" style="flex-shrink: 0;">
+                        <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
+                    </div>
+                    <div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= $conversation['name'] ?></h5>
+                        <small style="color: #bbb; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></small>
+                    </div>
+                    <?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
+                        <span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages'] ?></span>
+                    <?php } ?>
+
+                    <?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+                        <span class="status-dot" style="width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-left: 10px;"></span>
+                    <?php } ?>
+                </a>
+            </li>
+        <?php }
+    } else { ?>
+        <div class="alert alert-info" style="text-align: center; background-color: #282828; color: #ccc; padding: 20px; margin-top: 20px; border-radius: 4px;">
+            <i class="fa fa-comments" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+            No messages yet, start the conversation
+        </div>
+    <?php } ?>
+</ul>
+
+<ul id="chatList" class="list-group mvh-50 overflow-auto" style="padding: 0; margin: 0; list-style: none; background-color: #121212;">
+    <?php if (!empty($conversations)) {
+        foreach ($conversations as $conversation) { ?>
+            <li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: lightblue;">
+                <a href="./Chat_Screen?user=<?= $conversation['username'] ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+                    <div class="chat-avatar" style="flex-shrink: 0;">
+                        <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
+                    </div>
+                    <div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= $conversation['name'] ?></h5>
+                        <small style="color: #bbb; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></small>
+                    </div>
+                    <?php if (!empty($conversation['unread_messages']) && $conversation['unread_messages'] > 0) { ?>
+                        <span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages'] ?></span>
+                    <?php } ?>
+
+                    <?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+                        <span class="status-dot" style="width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; display: inline-block; margin-left: 10px;"></span>
+                    <?php } ?>
+                </a>
+            </li>
+        <?php }
+    } else { ?>
+        <div class="alert alert-info" style="text-align: center; background-color: #282828; color: #ccc; padding: 20px; margin-top: 20px; border-radius: 4px;">
+            <i class="fa fa-comments" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+            No messages yet, start the conversation
+        </div>
+    <?php } ?>
+</ul>
+
+
 					</div>
 			</div>
 
