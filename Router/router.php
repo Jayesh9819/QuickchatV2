@@ -13,7 +13,7 @@ if ($uri == "/" || $uri == "/index.php") {
     </script>';
     die();
 } else {
-    $prefix = "/";
+    $prefix = "";
     $root = "/index.php";
     $routes = [
 
