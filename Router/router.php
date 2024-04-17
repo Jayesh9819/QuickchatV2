@@ -3,18 +3,17 @@
 ob_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-// echo $uri;
+include './Router/initialize.php';
 
 
-
-if ($uri == "/" || $uri == "/index.php") {
+if ($uri == $firstparam || $uri == $secondparam) {
     echo '<script type="text/JavaScript"> 
     window.location.replace("./index.php/Portal");
     </script>';
     die();
 } else {
-    $prefix = "";
-    $root = "/index.php";
+    $prefix = $thirdparam;
+    $root = $fourthparam;
     $routes = [
 
 
