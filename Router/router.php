@@ -13,7 +13,7 @@ if ($uri == "/QuickchatV2/" || $uri == "/QuickchatV2/index.php") {
     </script>';
     die();
 } else {
-    $prefix = "/QuickchatV2/";
+    $prefix = "/QuickchatV2//";
     $root = "index.php";
     $routes = [
 
