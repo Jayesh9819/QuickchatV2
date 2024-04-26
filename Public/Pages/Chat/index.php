@@ -3,6 +3,7 @@
 
 <head>
 	<?php
+	ob_start();
 	include("./Public/Pages/Common/header.php");
 	include "./Public/Pages/Common/auth_user.php";
 
@@ -275,7 +276,7 @@
 	    					            align-items-center">
 										<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="w-15 rounded-circle">
 										<h3 class="fs-xs m-2">
-											<?= $agent['name'] ?><br>
+											<?= $agent['username'] ?><br>
 											<small>
 
 												<?php
@@ -291,7 +292,7 @@
 					<div>
 						<h3>Chat History</h3>
 
-						<ul id="chatList" class="list-group mvh-50 overflow-auto" id="chat-box">
+						<!-- <ul id="chatList" class="list-group mvh-50 overflow-auto" id="chat-box">
 							<?php if (!empty($conversations)) { ?>
 								<?php
 
@@ -304,7 +305,7 @@
 	    					            align-items-center">
 												<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="w-15 rounded-circle">
 												<h3 class="fs-xs m-2">
-													<?= $conversation['name'] ?><br>
+													<?= $conversation['username'] ?><br>
 
 													<small>
 														<?php
@@ -333,7 +334,7 @@
 								</div>
 							<?php }
 							?>
-						</ul>
+						</ul> -->
 
 					</div>
 
@@ -348,7 +349,7 @@
 							<div class="d-flex
     			            align-items-center">
 								<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="w-15 rounded-circle">
-								<h3 class="fs-xs m-2"><?= $user['name'] ?></h3>
+								<h3 class="fs-xs m-2"><?= $user['username'] ?></h3>
 							</div>
 						</div>
 
@@ -376,7 +377,7 @@
 											<img src="../uploads/profile/<?= !empty($conversation['p_p']) ? htmlspecialchars($conversation['p_p']) : '07.png'; ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
 										</div>
 										<div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
-											<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= htmlspecialchars($conversation['name']); ?></h5>
+											<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= htmlspecialchars($conversation['username']); ?></h5>
 											<h6 style="color: #010011; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></h6>
 										</div>
 										<?php if ($hasUnread) { ?>

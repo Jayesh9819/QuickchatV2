@@ -62,9 +62,13 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
         include './App/db/db_connect.php';
         // include './App/db/db_users.php';
         $role = $_SESSION['role'];
-        if ($role == 'Admin') {
+        if ($role == 'Admin' ) {
             $sql = "SELECT * FROM user WHERE Role = 'User'";
-        } else {
+        } elseif($role == 'Manager' ||$role == 'Supervisor' ){
+            $branch = $_SESSION['branch1'];
+            $sql = "SELECT * FROM user WHERE Role = 'User' And branchname='$branch'";
+        }
+        else {
             $page = $_SESSION['page'];
             $sql = "SELECT * FROM user WHERE Role = 'User' AND pagename='$page'";
 
@@ -150,6 +154,8 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                                             <th scope="col">Password</th>
                                             <th scope="col">Full Name</th>
                                             <th scope="col">Role</th>
+                                            <th scope="col">Page Name</th>
+                                            <th scope="col">Branch Name</th>
                                             <th scope="col">Created At</th>
                                             <th scope="col">Last Login</th>
                                             </tr>';
@@ -168,10 +174,10 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                 </td>
                                                     <td>{$row['username']}</td>
                                                     <td>{$row['password']}</td>
-
                                                     <td>{$row['name']}</td>
-                                                    
                                                     <td>{$row['role']}</td>
+                                                    <td>{$row['pagename']}</td>
+                                                    <td>{$row['branchname']}</td>
                                                     <td>{$row['created_at']}</td> <!-- Consider if you really want to display passwords -->
                                                     <td>{$row['last_login']}</td>
                                                    

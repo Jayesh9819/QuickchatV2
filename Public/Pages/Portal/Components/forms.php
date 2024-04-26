@@ -13,6 +13,7 @@ if (isset($action)) {
     global $title;
     $heading = "Fill the details";
     $role = $_SESSION['role'];
+    $gbranch = $_SESSION['branch1'];
     // echo $role;
     // Assuming you have defined or included your functions like fhead, field, select, etc.
     // ...
@@ -31,12 +32,14 @@ if (isset($action)) {
         $resultBranch = $conn->query("SELECT * FROM branch where status=1");
         if ($resultBranch->num_rows > 0) {
             while ($row = $resultBranch->fetch_assoc()) {
+                // $branchOpt[$row['name']] = $row['name'];
+
                 $branchopt .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
             }
         }
 
         $pageopt = "<option value=''>Select Page Name</option>";
-        $resultPage = $conn->query("SELECT * FROM page where status=1");
+        $resultPage = $conn->query("SELECT branch.name AS bname,page.* FROM branch JOIN page ON page.bid = branch.bid WHERE branch.name = '$gbranch' And page.status=1");
         if ($resultPage->num_rows > 0) {
             while ($row = $resultPage->fetch_assoc()) {
                 $pageopt .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
@@ -70,10 +73,10 @@ if (isset($action)) {
                 }
             }
             if (isset($row['role'])) {
-                if ($row['role'] == 'Supervisor' || $row['role'] == 'Agent') {
+                if ($row['role'] == 'User' || $row['role'] == 'Agent') {
                     echo select("Page name", "page", "page", $branchOptions, isset($row['pagename']) ? $row['pagename'] : '');
-                } elseif ($row['role'] == 'Manager' || $row['role'] == 'User') {
-                    echo select("Page name", "page", "page", $branchOptions, isset($row['pagename']) ? $row['pagename'] : '');
+                } elseif ($row['role'] == 'Manager' || $row['role'] == 'Supervisor') {
+                    echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
                 } else {
                     echo "Invalid attempt";
                 }
@@ -94,8 +97,9 @@ if (isset($action)) {
                     echo '<label for="pagename">Page Name</label>';
                     echo '<select class="form-select" id="pagename" name="page" onchange="showOtherField(this, \'cashAppname-other\')">' . $pageopt . '</select>';
                 } elseif ($_POST['role'] == 'Manager') {
-                    echo '<label for="pagename">Page Name</label>';
-                    echo '<select class="form-select" id="pagename" name="page" onchange="showOtherField(this, \'cashAppname-other\')">' . $pageopt . '</select>';
+
+                    echo '<label for="pagename">Branch Name</label>';
+                    echo '<select class="form-select" id="branchname" name="branchname" onchange="showOtherField(this, \'cashAppname-other\')">' . $branchopt . '</select>';
                 } elseif ($_POST['role'] == 'User') {
                     echo $fbLink = field("Facebook Link", "text", "fb_link", "Enter Your Facebook Link", isset($_POST['fb_link']) ? $_POST['fb_link'] : '');
                     echo '<label for="pagename">Page Name</label>';
@@ -144,7 +148,7 @@ if (isset($action)) {
             echo $branchid = field("Branch ID", "number", "branchid", "Enter Your Branch Id", isset($row['branchid']) ? $row['branchid'] : '');
             echo $withdrawl = field("Withdrawl ", "number", "withdrawl", "Enter the Withdrawl", isset($row['withdrawl']) ? $row['withdrawl'] : '');
         }
-    } else if ($action == "CASH_OUT" && ($role == "Agent" || $role == "Supervisor" || $role == "Admin")) {
+    } else if ($action == "CASH_OUT" && ($role == "Agent" || $role == "Supervisor" || $role == "Manager" || $role == "Admin")) {
         $title = "Reedem  Details";
         $heading = "Enter the Details Correctly";
         $action = "../App/Logic/creation.php?action=CashOut";
@@ -168,7 +172,7 @@ if (isset($action)) {
 
         echo field("Excess Amount", "number", "excessamount", "Enter the Excess Amount");
         $platformOptions = "<option value=''>Select Platform</option>";
-        $result = $conn->query("SELECT name FROM platform where status =1");
+        $result = $conn->query("SELECT name FROM platform where status =1 And branch='$gbranch'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $platformOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
@@ -181,7 +185,7 @@ if (isset($action)) {
 
         // echo field("cashApp Name", "text", "cashAppname", "Enter the cashApp Name");
         $cashAppOptions = "<option value=''>Select cashApp</option>";
-        $result = $conn->query("SELECT * FROM cashapp where status =1");
+        $result = $conn->query("SELECT * FROM cashapp where status =1 And branch='$gbranch'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $cashAppOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
@@ -224,7 +228,7 @@ if (isset($action)) {
 
         // echo field("page ID", "text", "fbid", "Enter the Facebook ID");
         $platformOptions = "<option value=''>Select Platform</option>";
-        $result = $conn->query("SELECT name FROM platform where status=1");
+        $result = $conn->query("SELECT name FROM platform where status=1 And branch='$gbranch'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $platformOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
@@ -232,12 +236,12 @@ if (isset($action)) {
         }
         $platformOptions .= "<option value='other'>Other</option>";
         echo '<label for="platformname">Platform Name</label>';
-        echo '<select class="form-select" id="platformname" name="platformname" onchange="showOtherField(this, \'platformname-other\')">' . $platformOptions . '</select>';
+        echo '<select required class="form-select" id="platformname" name="platformname" onchange="showOtherField(this, \'platformname-other\')">' . $platformOptions . '</select>';
         echo '<input type="text" id="platformname-other" name="platformname_other" style="display:none;" placeholder="Enter Platform Name">';
 
         // echo field("cashApp Name", "text", "cashAppname", "Enter the cashApp Name");
         $cashAppOptions = "<option value=''>Select cashApp</option>";
-        $result = $conn->query("SELECT * FROM cashapp where status=1");
+        $result = $conn->query("SELECT * FROM cashapp where status=1 And branch='$gbranch'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $cashAppOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
@@ -245,7 +249,7 @@ if (isset($action)) {
         }
         $cashAppOptions .= "<option value='other'>Other</option>";
         echo '<label for="cashAppname">cashApp Name</label>';
-        echo '<select class="form-select" id="cashAppname" name="cashAppname" onchange="showOtherField(this, \'cashAppname-other\')">' . $cashAppOptions . '</select>';
+        echo '<select required class="form-select" id="cashAppname" name="cashAppname" onchange="showOtherField(this, \'cashAppname-other\')">' . $cashAppOptions . '</select>';
         echo '<input type="text" id="cashAppname-other" name="cashAppname_other" style="display:none;" placeholder="Enter cashApp Name">';
 
         echo field("Bonus Amount", "number", "bonusamount", "Enter the Bonus Amount");
@@ -561,7 +565,7 @@ if (isset($action)) {
             }
         }
         $platformOptions .= "<option value='other'>Other</option>";
-        $option=["Select Type","Deduct From Redeem Amount","Deduct From Platfrom"];
+        $option = ["Select Type", "Deduct From Redeem Amount", "Deduct From Platfrom"];
         echo '<label for="platformname">Platform Name</label>';
         echo '<select class="form-select" id="platformname" name="platformname" onchange="showOtherField(this, \'platformname-other\')">' . $platformOptions . '</select>';
         echo '<input type="text" id="platformname-other" name="platformname_other" style="display:none;" placeholder="Enter Platform Name">';

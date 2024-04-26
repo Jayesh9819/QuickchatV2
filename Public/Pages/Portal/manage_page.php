@@ -63,7 +63,17 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
         <?php
         include './App/db/db_connect.php';
         // include './App/db/db_users.php';
-        $sql = "SELECT * FROM page ";
+        $role = $_SESSION['role'];
+        if ($role == 'Admin' ) {
+            $sql = "SELECT * FROM page ";
+        } 
+        else {
+            $branch = $_SESSION['branch1'];
+            $sql = "SELECT branch.name AS bname,page.* FROM branch JOIN page ON page.bid = branch.bid WHERE branch.name = '$branch'";
+
+        }
+
+        // $sql = "SELECT * FROM page ";
 
         $result = $conn->query($sql);
 
@@ -139,13 +149,17 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                                             <th scope="col">ID</th>
                                             <th scope="col">Update</th>
                                             <th scope="col">Page Name</th>
+                                            <th scope="col">Branch Name</th>
+
                                             <th scope="col">Added By</th>
+
                                             <th scope="col">Created At</th>
                                             </tr>';
                                                     ?>
                                                     <thead>
                                                     <tbody>
                                                         <?php
+
                                                         while ($row = $result->fetch_assoc()) {
                                                             echo "<tr>
                                                     
@@ -157,6 +171,9 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                     </form>
                 </td>
                                                     <td>{$row['name']}</td>
+                                                    
+                                                    <td>{$row['bname']}</td>
+
                                                     <td>{$row['by_u']}</td>
                                                     <td>{$row['created_at']}</td> <!-- Consider if you really want to display passwords -->
                                                    

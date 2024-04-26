@@ -159,6 +159,9 @@
 
                     <?php
                     include "./App/db/db_connect.php";
+                    $role = $_SESSION['role'];
+                    $bra = $_SESSION['branch1'];
+                    $pag = $_SESSION['page1'];
                     if (isset($_SESSION['page']) && $_SESSION['page'] !== "") {
                         $u = $_SESSION['page'];
                         $sql = "SELECT * FROM transaction WHERE page='$u'";
@@ -178,7 +181,13 @@
                     }
                     $sql .= " AND redeem_status = 1 AND cashout_status = 1";
                     $sumSql .= " AND redeem_status = 1 AND cashout_status = 1";
-
+                    if ($role == 'Manager' || $role == 'Supervisor') {
+                        $sql .= " AND branch='$bra' ";
+                        $sumSql .= " AND branch='$bra'";
+                    } elseif ($role == 'Agent') {
+                        $sql .= " AND page='$pag' ";
+                        $sumSql .= " AND page='$pag'";
+                    }
 
                     if (isset($_SESSION['start_date']) && isset($_SESSION['end_date']) && $_SESSION['start_date'] !== '' && $_SESSION['end_date'] !== '') {
                         // Both start and end dates are provided
@@ -258,6 +267,8 @@
                                         <th>Timestamp</th>
                                         <th>Username</th>
                                         <th>By</th>
+                                        <th>Remark</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -285,6 +296,8 @@
                                             <td><?= $createdAtFormatted ?></td>
                                             <td><?= $row['username'] ?></td>
                                             <td><?= $row['by_u'] ?></td>
+                                            <td><?= $row['remark'] ?></td>
+
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php

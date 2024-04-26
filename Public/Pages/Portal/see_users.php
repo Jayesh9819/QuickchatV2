@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" dir="ltr">
 
@@ -77,17 +76,20 @@
                         <?php
 
                         include './App/db/db_connect.php';
+                        $branch = $_SESSION['branch1'];
+                        $page = $_SESSION['page1'];
+
                         if ($role === 'Admin') {
                             $sql = "SELECT * FROM user";
                             // No parameters needed for Admin
                         } elseif ($role === 'Manager') {
-                            $sql = "SELECT * FROM user WHERE Role IN ('Agent', 'User', 'Supervisor')";
+                            $sql = "SELECT * FROM user WHERE Role IN ('Agent', 'User', 'Supervisor') AND branchname='$branch'";
                             $params = [];
                         } elseif ($role === 'Supervisor') {
-                            $sql = "SELECT * FROM user WHERE Role IN ('Agent', 'User')";
+                            $sql = "SELECT * FROM user WHERE Role IN ('Agent', 'User') AND branchname='$branch' ";
                             $params = [];
                         } elseif ($role === 'Agent') {
-                            $sql = "SELECT * FROM user WHERE Role = 'User'";
+                            $sql = "SELECT * FROM user WHERE Role = 'User' AND pagename='$page'";
                             $params = [];
                         }
 
@@ -109,7 +111,8 @@
                                             <th scope="col">Full Name</th>
                                             <th scope="col">Password</th>
                                             <th scope="col">Fb-Link</th>
-
+                                            <th scope="col">Page Name</th>
+                                            <th scope="col">Branch Name</th>
                                             <th scope="col">Role</th>
                                             <th scope="col">Created At</th>
                                             <th scope="col">Last Login</th>
@@ -135,6 +138,9 @@
                 <td>{$row['name']}</td>
                 <td>{$row['password']}</td> <!-- Consider hashing passwords and not displaying them directly -->
                 <td><a href='{$fbLink}' target='_blank'>Link</a></td>
+                <td>{$row['pagename']}</td>
+                <td>{$row['branchname']}</td>
+
                 <td>{$row['role']}</td>
                 <td>{$row['created_at']}</td>
                 <td>{$row['last_login']}</td>
@@ -176,6 +182,21 @@
         ?>
 
     </main>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "order": [
+                    [8, "desc"]
+                ],
+                dom: 'Bfrtip', // Add the Bfrtip option to enable buttons
+
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
+            });
+        });
+    </script>
+
     <!-- Wrapper End-->
     <!-- Live Customizer start -->
     <!-- Setting offcanvas start here -->

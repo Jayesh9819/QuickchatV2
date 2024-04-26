@@ -83,6 +83,8 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     include './App/db/db_connect.php';
     $role = $_SESSION['role'];
     $username = $_SESSION['username'];
+    $page=$_SESSION['page1'];
+    $barnch=$_SESSION['branch1'];
     if ($role == 'Admin') {
 
         $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND date(created_at) = CURDATE()";
@@ -92,13 +94,17 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
         $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND username='$username' AND date(created_at) = CURDATE()";
         $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND username='$username' AND date(created_at) = CURDATE()";
         $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND username='$username'";
+    } else if ($role == 'Manager' || $role == 'Supervisor') {
+        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND branch='$barnch' AND date(created_at) = CURDATE()";
+        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND branch='$barnch' AND date(created_at) = CURDATE()";
+        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND branchname='$barnch'";
     } else {
         $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND by_u='$username' AND date(created_at) = CURDATE()";
         $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND by_u='$username' AND date(created_at) = CURDATE()";
         $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND 'by' ='$username' ";
     }
     // ... Add more queries as needed
-
+// echo $activeUsersQuery;
     // Execute the queries and fetch the results
     $rechargeResult = $conn->query($rechargeQuery);
     $redeemResult = $conn->query($redeemQuery);

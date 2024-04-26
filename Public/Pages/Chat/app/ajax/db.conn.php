@@ -2,12 +2,12 @@
 ob_start();
 
 # server name
-$sName = "66.45.252.210";
+$sName = "199.231.187.146";
 # user name
-$uName = "QC";
+$uName = "sweepstrac";
 # password
 $pass = "12345678";
-$db_name = "quickchat";
+$db_name = "sweepstrac";
 
 #creating database connection
 try {

@@ -68,7 +68,14 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
         include './App/db/db_connect.php';
         // include './App/db/db_users.php';
 
-        $sql = "SELECT * FROM cashapp ";
+        $role = $_SESSION['role'];
+        if ($role == 'Admin' ) {
+            $sql = "SELECT * FROM cashapp ";
+        } 
+        else {
+            $branch = $_SESSION['branch1'];
+            $sql = "SELECT * FROM cashapp WHERE branch='$branch'";
+        }
 
 
         $result = $conn->query($sql);
@@ -164,6 +171,8 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
         <th scope="col">CashApp Name</th>
         <th scope="col">Cash Tag</th>
         <th scope="col">Email Address</th>
+        <th scope="col">Brnch Name</th>
+
         <th scope="col">Status</th>
         <th scope="col">Remarks</th>
       </tr>';
@@ -186,6 +195,8 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                 <td>{$row['name']}</td>
                 <td>{$row['cashtag']}</td>
                 <td>{$row['email']}</td>
+                <td>{$row['branch']}</td>
+
                 <td>" . ($row['status'] == 1 ? 'Activated' : 'Not Active') . "</td>
                 <td>{$row['remark']}</td>
               </tr>";
