@@ -29,7 +29,7 @@
     include "./App/db/db_connect.php"; // Ensure this path is correct for your DB connection script
 
     // Function to save uploaded files
-    function saveUploadedFile($fileInfo, $allowedExtensions = ['jpg', 'png', 'gif']) {
+    function saveUploadedFile($fileInfo, $allowedExtensions = ['jpg', 'png', 'gif', 'ipa', 'apk']) {
         if ($fileInfo['error'] == UPLOAD_ERR_NO_FILE) {
             return null;
         }
@@ -48,11 +48,19 @@
         $filePath = $uploadDir . $safeName;
     
         if (move_uploaded_file($fileInfo['tmp_name'], $filePath)) {
-            return '/uploads/' . $safeName;
+            // Check if the file is an app file and return a full URL
+            if (in_array(strtolower($fileExt), ['ipa', 'apk'])) {
+                $webPath = 'https://' . $_SERVER['HTTP_HOST'] . '/uploads/'; // Adjust 'http' to 'https' if necessary
+                return $webPath . $safeName;
+            } else {
+                // Return the path relative to the document root for other files
+                return '/uploads/' . $safeName;
+            }
         } else {
             throw new Exception("Failed to move the uploaded file.");
         }
     }
+    
     
 
 
