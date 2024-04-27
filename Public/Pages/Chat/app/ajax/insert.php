@@ -77,15 +77,21 @@ if (isset($_SESSION['username'])) {
 			}
 ?>
 		<?php
-
-			echo '<p class="rtext align-self-end border rounded p-2 mb-1">';
-			echo linkify($message);;
-			if ($attachmentPath) {
-				echo '<img src="../uploads/' . htmlspecialchars($attachmentPath) . '" alt="Attachment" style="max-width:100%;display:block;">';
-			}
-			echo '<small class="d-block">' . date("h:i:s a") . '</small>';
-			echo '</p>';
+	echo '<div class="message sent" style="text-align: right;  padding-right: 21px;">'; // Added semicolon here
+	echo '<div class="message-box" style="display: inline-block; background-color: #dcf8c6; padding: 10px; border-radius: 10px; margin: 5px;">';
+	echo '<p style="margin: 0;">';
+	echo linkify($message); // Removed extra semicolon here
+	if ($attachmentPath) {
+		echo '<img src="../uploads/' . htmlspecialchars($attachmentPath) . '" alt="Attachment" style="max-width:100%;display:block;">';
+	}
+	echo '</p>';
+	echo '<small style="display: block; color: #666; font-size: smaller;">' . date("h:i:s a") . '</small>';
+	echo '</div>';
+	echo '</div>';
+	
 		}
+
+
 	}
 } else {
 	header("Location: ../../index.php");

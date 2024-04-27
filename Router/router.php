@@ -3,17 +3,17 @@
 ob_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-include './Router/initialize.php';
+// include './Router/initialize.php';
 
 
-if ($uri == $firstparam || $uri == $secondparam) {
+if ($uri == "/QuickchatV2/" || $uri == "/QuickchatV2/index.php") {
     echo '<script type="text/JavaScript"> 
-    window.location.replace("./index.php/Portal");
+    window.location.replace("./index.php/Login_to_CustCount");
     </script>';
     die();
 } else {
-    $prefix = $thirdparam;
-    $root = $fourthparam;
+    $prefix = "/QuickchatV2/";
+    $root = "index.php";
     $routes = [
 
 
