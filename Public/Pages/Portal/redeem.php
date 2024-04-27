@@ -103,14 +103,15 @@
                                         <th>Page Name</th>
                                         <?php
                                         if ($role == 'Admin') {
-                                            echo '<th>Approved By</th>
+                                            echo '
                       <th>Approval</th>
+                      <th>Approved By</th>
                       <th>Platform Redeem</th>
                       <th>Redeem By</th> 
                       <th>Cash Out</th>
                       <th>Cashout By</th>';
                                         } elseif ($role == 'Manager' || $role == 'Supervisor') {
-                                            echo '<th>Platform Redeem</th>
+                                            echo '<th>Approved By</th><th>Platform Redeem</th>
                       <th>Redeem By</th> 
                       <th>Cash Out</th>
                       <th>Cashout By</th>';
@@ -135,7 +136,6 @@
                                             <td><?= htmlspecialchars($row['page']) ?></td>
 
                                             <?php if ($role == 'Admin') : ?>
-                                                <td><?= htmlspecialchars($row['approved_by']) ?></td>
                                                 <td>
                                                     <?php if ($row['approval_status'] == 0) : ?>
                                                         <button class="btn btn-warning">Pending</button>
@@ -146,6 +146,8 @@
                                             <?php endif; ?>
 
                                             <?php if ($role == 'Admin' || $role == 'Manager' || $role == 'Supervisor') : ?>
+                                                <td><?= htmlspecialchars($row['approved_by']) ?></td>
+
                                                 <td><?= htmlspecialchars($row['redeem_by']) ?></td>
                                                 <td>
                                                     <button class="btn btn-<?= $row['redeem_status'] == 0 ? 'warning' : 'success' ?>" onclick="status(<?= $id; ?>, 'transaction', 'redeem_status', 'tid')">
