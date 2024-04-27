@@ -112,10 +112,10 @@
                                                     </ul>
                                                 </div>
                                                 <p class="mt-3 text-center">
-                                                    <button onclick="window.location.href='<?php echo $settings['AndroiLink']; ?>'" class="btn btn-primary">Download for Android</button>
+                                                    <button onclick="window.location.href='<?php echo $settings['androidlink']; ?>'" class="btn btn-primary">Download for Android</button>
 
 <!-- For iOS -->
-<button onclick="window.location.href='https://warehouse.appilix.com/uploads/app-ipa-660a6f91c5ea7-1711959953.ipa'" class="btn btn-primary">Download for iOS</button>
+<button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
                                                 <p class="mt-3 text-center">
     For iOS Install using Scarlet or AltStore or similar tools
                                                     <!-- Don’t have an account? <a href="./Register_to_CustCount" class="text-underline">Click here to sign up.</a> -->
@@ -129,7 +129,7 @@
                     </div>
                     </div>
                     <div class="col-lg-6 d-lg-block d-none p-0 overflow-hidden" style="position: relative; right: 80px; background-color: #39DFE5;">
-                        <img src="../assets/images/cccc.webp" class="img-fluid gradient-main" alt="images" loop autoplay muted></img>
+                        <img src="<?php echo $settings['banner']; ?>" class="img-fluid gradient-main" alt="images" loop autoplay muted></img>
                     </div>
                 </div>
         </section>
