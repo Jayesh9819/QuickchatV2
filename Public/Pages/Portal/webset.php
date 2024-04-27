@@ -170,7 +170,7 @@
                         <label for="icon">Banner:</label>
                         <input type="file" class="form-control" id="banner" name="banner">
                         <?php if (isset($currentSettings['banner'])) : ?>
-                            <img src="<?php echo $currentSettings['banner']; ?>" alt="Current Icon" style="width: 50px; height: auto;">
+                            <img src="<?php echo $currentSettings['banner']; ?>" alt="Current Icon" style="width: 100px; height: auto;">
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
