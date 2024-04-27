@@ -94,6 +94,58 @@ class Commonf
         echo json_encode($response);
     }
 
+    public function Approval()
+    {
+        include "./db_connect.php";
+        $response = array('success' => false, 'message' => '');
+
+        if (isset($_POST['id'], $_POST['table'], $_POST['field'])) {
+            $cid = $_POST['cid'];
+            $id = $_POST['id'];
+            $table = $_POST['table'];
+            $field = $_POST['field'];
+            $where = $_POST['where'];
+            $username=$_SESSION['username'];
+
+            $sql = "SELECT $field FROM $table WHERE $cid=$id  ";
+            //Select status from platform where bud=1
+            // Change 'id' to your actual primary key column name
+            $result = $conn->query($sql);
+
+            if ($result) {
+                $row = $result->fetch_assoc();
+                $currentStatus = $row[$field];
+
+                if ($currentStatus == 1) {
+                    $updatesql = "UPDATE $table SET $field = 0,$where='$username' WHERE $cid = $id"; // Change 'id' to your actual primary key column name
+                    if ($conn->query($updatesql) === TRUE) {
+                        $response['success'] = true;
+                        $response['message'] = "Item removed from the cart successfully!";
+                    } else {
+                        $response['message'] = "Error updating status: " . $conn->error;
+                    }
+                } elseif ($currentStatus == 0 || $currentStatus == null) {
+                    $updatesql = "UPDATE $table SET $field = 1 WHERE $cid = $id"; // Change 'id' to your actual primary key column name
+                    if ($conn->query($updatesql) === TRUE) {
+                        $response['success'] = true;
+                        $response['message'] = "Item updated successfully!";
+                    } else {
+                        $response['message'] = "Error updating status: " . $conn->error;
+                    }
+                }
+            } else {
+                $response['message'] = "Error in SQL query: " . $conn->error;
+            }
+        } else {
+            $response['message'] = "Missing required parameters (id, table, field)";
+        }
+
+        // Clear any unwanted output before sending JSON response
+        ob_clean();
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
 
     public function passreset()
     {
@@ -225,4 +277,6 @@ if (isset($_GET['action']) && $_GET['action'] == "status") {
     $com->passreset();
 } else if (isset($_GET['action']) && $_GET['action'] == "cashapp") {
     $com->cashapp();
+}else if (isset($_GET['action']) && $_GET['action'] == "Approval") {
+    $com->Approval();
 }

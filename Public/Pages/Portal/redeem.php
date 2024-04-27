@@ -138,7 +138,7 @@
                                             <?php if ($role == 'Admin') : ?>
                                                 <td>
                                                     <?php if ($row['approval_status'] == 0) : ?>
-                                                        <button class="btn btn-warning">Pending</button>
+                                                        <button class="btn btn-warning" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Pending</button>
                                                     <?php elseif ($row['approval_status'] == 1) : ?>
                                                         <button class="btn btn-success">Approved</button>
                                                     <?php endif; ?>
@@ -150,19 +150,19 @@
 
                                                 <td><?= htmlspecialchars($row['redeem_by']) ?></td>
                                                 <td>
-                                                    <button class="btn btn-<?= $row['redeem_status'] == 0 ? 'warning' : 'success' ?>" onclick="status(<?= $id; ?>, 'transaction', 'redeem_status', 'tid')">
+                                                    <button class="btn btn-<?= $row['redeem_status'] == 0 ? 'warning' : 'success' ?>" onclick="status(<?= $id; ?>, 'transaction', 'redeem_status', 'tid','redeem_by')">
                                                         <?= $row['redeem_status'] == 0 ? 'Pending' : 'Done' ?>
                                                     </button>
                                                 </td>
                                                 <td><?= htmlspecialchars($row['cashout_by']) ?></td>
                                                 <td>
-                                                    <button class="btn btn-<?= $row['cashout_status'] == 0 ? 'warning' : 'success' ?>" onclick="cashapp(<?= $id; ?>, 'transaction', 'cashout_status', 'tid')">
+                                                    <button class="btn btn-<?= $row['cashout_status'] == 0 ? 'warning' : 'success' ?>" onclick="cashapp(<?= $id; ?>, 'transaction', 'cashout_status', 'tid','cashout_by')">
                                                         <?= $row['cashout_status'] == 0 ? 'Pending' : 'Done' ?>
                                                     </button>
                                                 </td>
                                             <?php elseif ($role == 'Agent') : ?>
                                                 <td>
-                                                    <button class="btn btn-primary" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid')">Approve</button>
+                                                    <button class="btn btn-primary" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Approve</button>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-danger" onclick="reject(<?= $id; ?>)">Reject</button>
@@ -196,16 +196,16 @@
         ?>
     </main>
     <script>
-        function status(product_id, table, field, id) {
+        function status(product_id, table, field, id,where) {
             if (confirm("Are you sure you want to Activate or Deactivate?")) {
                 const xhr = new XMLHttpRequest();
-                xhr.open("POST", "../App/Logic/commonf.php?action=status", true);
+                xhr.open("POST", "../App/Logic/commonf.php?action=Approval", true);
 
                 // Set the Content-Type header
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                 // Include additional parameters in the data sent to the server
-                const data = "id=" + product_id + "&table=" + table + "&field=" + field + "&cid=" + id;
+                const data = "id=" + product_id + "&table=" + table + "&field=" + field + "&cid=" + id+"&where="+where;
 
                 // Log the data being sent
                 console.log("Data sent to server:", data);
