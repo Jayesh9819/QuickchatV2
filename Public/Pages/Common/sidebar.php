@@ -6,10 +6,10 @@
             <!--Logo start-->
             <div class="logo-main">
                 <div class="logo-normal">
-                    <img src="../assets/images/<?php echo $settings['logo']; ?>" style="height: 40px;" alt="">
+                    <img src="<?php echo $settings['logo']; ?>" style="height: 40px;" alt="">
                 </div>
                 <div class="logo-mini">
-                    <img src="../assets/images/<?php echo $settings['logo']; ?>" alt="" srcset="">
+                    <img src="<?php echo $settings['logo']; ?>" alt="" srcset="">
                 </div>
             </div>
             <!--logo End-->
