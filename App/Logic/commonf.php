@@ -274,7 +274,7 @@ class Commonf
                 $stmt->bind_param("ssi", $msg, $username, $id);
                 if ($stmt->execute()) {
                     $response['success'] = true;
-                    $response['message'] = "Transaction updated successfully!";
+                    $response['message'] = "Sucessfully Rejected";
                 } else {
                     $response['message'] = "Error updating transaction: " . $stmt->error;
                 }
