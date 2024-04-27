@@ -65,7 +65,7 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
         // include './App/db/db_users.php';
         $role = $_SESSION['role'];
         if ($role == 'Admin' ) {
-            $sql = "SELECT * FROM page ";
+            $sql = "SELECT branch.name AS bname,page.* FROM branch JOIN page ON page.bid = branch.bid ";
         } 
         else {
             $branch = $_SESSION['branch1'];
