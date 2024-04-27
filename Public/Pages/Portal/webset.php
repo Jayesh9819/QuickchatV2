@@ -30,6 +30,10 @@
 
     // Function to save uploaded files
     function saveUploadedFile($fileInfo) {
+        if ($fileInfo['error'] == UPLOAD_ERR_NO_FILE) {
+            return null; // No file was uploaded, return null without error
+        }
+    
         $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/logo/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
@@ -50,32 +54,40 @@
         }
     }
     
+    
     // Handling form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-        $settings = [
-            'name' => $_POST['name'] ?? '',
-            'slogan' => $_POST['slogan'] ?? '',
-            'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo']) : null,
-            'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon']) : null,
-            'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader']) : null
-        ];
+      
     
-        foreach ($settings as $key => $value) {
-            if ($value !== null) {
-                $sql = "UPDATE websetting SET value = ? WHERE name = ?";
-                $stmt = $conn->prepare($sql);
-                if (!$stmt) {
-                    throw new Exception("Prepare failed: " . $conn->error);
-                }
-                $stmt->bind_param("ss", $value, $key);
-                if (!$stmt->execute()) {
-                    throw new Exception("Execute failed: " . $stmt->error);
+        try {
+            $settings = [
+                'name' => $_POST['name'] ?? '',
+                'slogan' => $_POST['slogan'] ?? '',
+                'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo']) : null,
+                'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon']) : null,
+                'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader']) : null
+            ];
+    
+            foreach ($settings as $key => $value) {
+                if ($value !== null) { // Check if a new value has been provided
+                    $sql = "UPDATE websetting SET value = ? WHERE name = ?";
+                    $stmt = $conn->prepare($sql);
+                    if (!$stmt) {
+                        throw new Exception("Prepare failed: " . $conn->error);
+                    }
+                    $stmt->bind_param("ss", $value, $key);
+                    if (!$stmt->execute()) {
+                        throw new Exception("Execute failed: " . $stmt->error);
+                    }
                 }
             }
+    
+            $stmt->close();
+        } catch (Exception $e) {
+            echo 'Error: ' . $e->getMessage();
         }
     
-        $stmt->close();
         $conn->close();
     }
     
