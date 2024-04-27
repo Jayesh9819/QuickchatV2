@@ -76,9 +76,8 @@
                 'color' => $_POST['themeColor'] ?? '#ffffff',
                 'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo'], ['jpg', 'png', 'gif']) : null,
                 'banner' => isset($_FILES['banner']) ? saveUploadedFile($_FILES['banner'], ['jpg', 'png', 'gif','webp']) : null,
-
                 'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon'], ['jpg', 'png', 'gif']) : null,
-                'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader'], ['gif']) : null,
+                'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader'], ['gif','jpg', 'png']) : null,
                 'ioslink' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['ipa']) : null,
                 'androidlink' => isset($_FILES['androidApp']) ? saveUploadedFile($_FILES['androidApp'], ['apk']) : null
             ];
