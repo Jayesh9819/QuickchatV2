@@ -37,7 +37,7 @@
         }
 
         if ($fileInfo['error'] == UPLOAD_ERR_OK) {
-            $fileName = $uploadDir . basename($fileInfo['name']);
+            $fileName = '/uploads/logo/' . basename($fileInfo['name']);
             if (move_uploaded_file($fileInfo['tmp_name'], $fileName)) {
                 return $fileName;
             }
