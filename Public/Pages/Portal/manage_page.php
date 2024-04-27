@@ -161,6 +161,8 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                                                         <?php
 
                                                         while ($row = $result->fetch_assoc()) {
+                                                            $bname = !empty($row['bname']) ? htmlspecialchars($row['bname']) : 'Not Available';  // Display 'Not Available' if bname is empty
+
                                                             echo "<tr>
                                                     
                                                     <td>{$row['pid']}</td>
@@ -172,7 +174,7 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
                 </td>
                                                     <td>{$row['name']}</td>
                                                     
-                                                    <td>{$row['bname']}</td>
+                                                    <td>{$bname}</td>
 
                                                     <td>{$row['by_u']}</td>
                                                     <td>{$row['created_at']}</td> <!-- Consider if you really want to display passwords -->
