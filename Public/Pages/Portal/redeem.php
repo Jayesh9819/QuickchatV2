@@ -114,7 +114,7 @@
                                             echo '<th>Approved By</th><th>Platform Redeem</th>
                       <th>Redeem By</th> 
                       <th>Cash Out</th>
-                      <th>Cashout By</th>';
+                      <th>Cashout By</th><th>Message</th>';
                                         } elseif ($role == 'Agent') {
                                             echo '<th>Approve</th>
                       <th>Reject</th>';
@@ -162,6 +162,8 @@
                                                         <?= $row['cashout_status'] == 0 ? 'Pending' : 'Done' ?>
                                                     </button>
                                                 </td>
+                                                <td><?= htmlspecialchars($row['Reject_msg']) ?></td>
+
                                             <?php elseif ($role == 'Agent') : ?>
                                                 <td>
                                                     <button class="btn btn-primary" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Approve</button>
