@@ -69,7 +69,7 @@
                 'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo'], ['jpg', 'png', 'gif']) : null,
                 'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon'], ['jpg', 'png', 'gif']) : null,
                 'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader'], ['gif']) : null,
-                'ioslink' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['iab']) : null,
+                'ioslink' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['ipa']) : null,
                 'androidlink' => isset($_FILES['androidApp']) ? saveUploadedFile($_FILES['androidApp'], ['apk']) : null
             ];
 
@@ -163,7 +163,7 @@
                     </div>
                     <div class="form-group">
                         <label for="iosApp">iOS App (.iab):</label>
-                        <input type="file" class="form-control" id="iosApp" name="iosApp" accept=".iab">
+                        <input type="file" class="form-control" id="iosApp" name="iosApp" accept=".ipa">
                     </div>
                     <div class="form-group">
                         <label for="androidApp">Android App (.apk):</label>
