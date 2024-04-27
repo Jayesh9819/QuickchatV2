@@ -260,8 +260,12 @@ class Commonf
         if (isset($_POST['id'], $_POST['msg'])) {
             // Sanitize user inputs
             $id = $conn->real_escape_string($_POST['id']);
-            $msg = $conn->real_escape_string($_POST['msg']);
-            $username = $_SESSION['username'];
+            if (!empty($_POST['msg'])) {
+                $msg = $conn->real_escape_string($_POST['msg']);
+            } else {
+                $msg = null;
+            }
+                        $username = $_SESSION['username'];
 
             // Prepare the SQL statement using a prepared statement
             $sql = "UPDATE transaction SET Reject_msg = ?, approval_status = 2, approved_by = ? WHERE tid = ?";
