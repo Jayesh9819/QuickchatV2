@@ -146,7 +146,6 @@
                                             <?php endif; ?>
 
                                             <?php if ($role == 'Admin' || $role == 'Manager' || $role == 'Supervisor') : ?>
-                                                <td><?= htmlspecialchars($row['platform_redeem']) ?></td>
                                                 <td><?= htmlspecialchars($row['redeem_by']) ?></td>
                                                 <td>
                                                     <button class="btn btn-<?= $row['redeem_status'] == 0 ? 'warning' : 'success' ?>" onclick="status(<?= $id; ?>, 'transaction', 'redeem_status', 'tid')">
