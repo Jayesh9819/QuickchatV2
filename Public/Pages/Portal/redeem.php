@@ -162,7 +162,7 @@
                                                 </td>
                                             <?php elseif ($role == 'Agent') : ?>
                                                 <td>
-                                                    <button class="btn btn-primary" onclick="approve(<?= $id; ?>)">Approve</button>
+                                                    <button class="btn btn-primary" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid')">Approve</button>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-danger" onclick="reject(<?= $id; ?>)">Reject</button>
