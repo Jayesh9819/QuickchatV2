@@ -67,6 +67,8 @@
                 'slogan' => $_POST['slogan'] ?? '',
                 'color' => $_POST['themeColor'] ?? '#ffffff',
                 'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo'], ['jpg', 'png', 'gif']) : null,
+                'banner' => isset($_FILES['banner']) ? saveUploadedFile($_FILES['banner'], ['jpg', 'png', 'gif']) : null,
+
                 'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon'], ['jpg', 'png', 'gif']) : null,
                 'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader'], ['gif']) : null,
                 'ioslink' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['ipa']) : null,
@@ -155,6 +157,13 @@
                         <input type="file" class="form-control" id="loader" name="loader">
                         <?php if (isset($currentSettings['loader'])) : ?>
                             <img src="<?php echo $currentSettings['loader']; ?>" alt="Current Loader" style="width: 100px; height: auto;">
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="icon">Banner:</label>
+                        <input type="file" class="form-control" id="banner" name="banner">
+                        <?php if (isset($currentSettings['banner'])) : ?>
+                            <img src="<?php echo $currentSettings['banner']; ?>" alt="Current Icon" style="width: 50px; height: auto;">
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
