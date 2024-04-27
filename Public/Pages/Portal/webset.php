@@ -88,7 +88,7 @@
             echo 'Error: ' . $e->getMessage();
         }
     
-        $conn->close();
+        // $conn->close();
     }
     
     
