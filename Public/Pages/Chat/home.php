@@ -282,6 +282,8 @@
 				/* Less columns */
 			}
 		}
+
+
 	</style>
 
 
@@ -308,9 +310,18 @@
 		?>
 
 
+
+
+
+
+
 		<div class="content-inner container-fluid pb-0" id="page_layout">
-			<br><br><br>
-			<div class="w-400 shadow p-4 rounded">
+			
+		
+
+			  
+
+			<div class="w-800 shadow p-4 rounded">
 
 				<a href="./Chat_l" class="btn btn-dark">Back</a>
 
