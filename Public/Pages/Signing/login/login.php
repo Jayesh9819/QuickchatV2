@@ -45,7 +45,7 @@
     <div id="loading">
         <div class="loader simple-loader">
             <div class="loader-body ">
-                <img src="<?php echo $settings['logo']; ?>" style="height: 25%;" alt="loader" class="image-loader img-fluid ">
+                <img src="<?php echo $settings['loader']; ?>" style="height: 25%;" alt="loader" class="image-loader img-fluid ">
             </div>
         </div>
     </div>
@@ -59,9 +59,9 @@
                         <div style="position: relative ; left: 100px;" class="col-md-12 col-lg-6 align-self-center">
                             <a href="#" class="navbar-brand d-flex align-items-center mb-3 justify-content-center text-primary">
                                 <div class="logo-normal">
-                                    <img src="../assets/images/CustCountFinal.png" style="height: 100px; " alt="">
+                                    <img src="<?php echo $settings['logo']; ?>" style="height: 100px; " alt="">
                                 </div>
-                                <h1 style="font-family: 'Times New Roman', Times, serif; color:#2fe082; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
+                                <h1 style="font-family: 'Times New Roman', Times, serif; color:<?php echo $settings['color']; ?>; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
 
                                 <h5 style=" text-decoration:double; position: relative; right: 180px; top: 40px; color: #ffbb00; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;" class="logo-title ms-3 mb-0"></h5>
 

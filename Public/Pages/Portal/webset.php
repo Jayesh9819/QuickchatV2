@@ -159,7 +159,7 @@
                     </div>
                     <div class="form-group">
                         <label for="themeColor">Theme Color:</label>
-                        <input type="color" class="form-control" id="themeColor" name="themeColor" value="<?php echo $currentSettings['themeColor'] ?? '#ffffff'; ?>">
+                        <input type="color" class="form-control" id="themeColor" name="themeColor" value="<?php echo $currentSettings['color'] ?? '#ffffff'; ?>">
                     </div>
                     <div class="form-group">
                         <label for="iosApp">iOS App (.iab):</label>

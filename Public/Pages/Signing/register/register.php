@@ -48,7 +48,7 @@
                                 <div class="logo-normal">
                                     <img src="<?php echo $settings['logo']; ?>" style="height: 100px; " alt="">
                                 </div>
-                                <h1 style="font-family: 'Times New Roman', Times, serif; color:#2fe082; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
+                                <h1 style="font-family: 'Times New Roman', Times, serif; color:<?php echo $settings['color']; ?>; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
 
                               
 
