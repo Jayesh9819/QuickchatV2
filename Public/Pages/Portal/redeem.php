@@ -141,6 +141,8 @@
                                                         <button class="btn btn-warning" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Pending</button>
                                                     <?php elseif ($row['approval_status'] == 1) : ?>
                                                         <button class="btn btn-success">Approved</button>
+                                                    <?php elseif ($row['approval_status'] == 2) : ?>
+                                                        <button class="btn btn-danger">Rejected</button>
                                                     <?php endif; ?>
                                                 </td>
                                             <?php endif; ?>
