@@ -29,24 +29,30 @@
     include "./App/db/db_connect.php"; // Ensure this path is correct for your DB connection script
 
     // Function to save uploaded files
-    function saveUploadedFile($fileInfo)
-    {
+    function saveUploadedFile($fileInfo) {
         $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/logo/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-
+    
         if ($fileInfo['error'] == UPLOAD_ERR_OK) {
-            $fileName = '/uploads/logo/' . basename($fileInfo['name']);
-            if (move_uploaded_file($fileInfo['tmp_name'], $fileName)) {
-                return $fileName;
+            // Secure the file name
+            $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', basename($fileInfo['name']));
+            $filePath = $uploadDir . $safeName;
+            
+            if (move_uploaded_file($fileInfo['tmp_name'], $filePath)) {
+                return '/uploads/logo/' . $safeName;  // Return the path relative to the document root
+            } else {
+                throw new Exception("Failed to move the uploaded file.");
             }
+        } else {
+            throw new Exception("Upload error: " . $fileInfo['error']);
         }
-        return null;
     }
-
+    
     // Handling form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
         $settings = [
             'name' => $_POST['name'] ?? '',
             'slogan' => $_POST['slogan'] ?? '',
@@ -56,14 +62,23 @@
         ];
     
         foreach ($settings as $key => $value) {
-            if ($value !== null) { // Check if a new value has been provided
+            if ($value !== null) {
                 $sql = "UPDATE websetting SET value = ? WHERE name = ?";
                 $stmt = $conn->prepare($sql);
+                if (!$stmt) {
+                    throw new Exception("Prepare failed: " . $conn->error);
+                }
                 $stmt->bind_param("ss", $value, $key);
-                $stmt->execute();
+                if (!$stmt->execute()) {
+                    throw new Exception("Execute failed: " . $stmt->error);
+                }
             }
         }
+    
+        $stmt->close();
+        $conn->close();
     }
+    
     
     // Fetch current settings
     $currentSettings = [];
