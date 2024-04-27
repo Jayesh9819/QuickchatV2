@@ -86,7 +86,7 @@
                     }
                 }
             }
-            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Error: ' . $e->getMessage()];
+            $_SESSION['toast'] = ['type' => 'success', 'message' => 'Settings updated successfully'];
 
             $stmt->close();
         } catch (Exception $e) {
