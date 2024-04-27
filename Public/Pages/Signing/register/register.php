@@ -29,7 +29,7 @@
     <div id="loading">
         <div class="loader simple-loader"> 
             <div class="loader-body ">
-                <img src="../assets/images/CustCountFinal.png" style="height: 25%;" alt="loader" class="image-loader img-fluid ">
+                <img src="<?php echo $settings['loader']; ?>" style="height: 25%;" alt="loader" class="image-loader img-fluid ">
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
                         <div style="position: relative ;left: 10px;" class="col-md-12 col-lg-6 align-self-center">
                             <a href="#" class="navbar-brand d-flex align-items-center mb-3 justify-content-center text-primary">
                                 <div class="logo-normal">
-                                    <img src="../assets/images/CustCountFinal.png" style="height: 100px; " alt="">
+                                    <img src="<?php echo $settings['logo']; ?>" style="height: 100px; " alt="">
                                 </div>
                                 <h1 style="font-family: 'Times New Roman', Times, serif; color:#2fe082; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
 
@@ -135,7 +135,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 d-lg-block d-none p-0 overflow-hidden" style="position: relative; right: 80px; background-color: #39DFE5; height: 100%;">
-                    <img src="../assets/images/cccc.webp" class="img-fluid gradient-main" alt="images" loop autoplay muted></img>
+                    <img src="<?php echo $settings['banner']; ?>" class="img-fluid gradient-main" alt="images" loop autoplay muted></img>
                 </div>
             </div>
         </section>
