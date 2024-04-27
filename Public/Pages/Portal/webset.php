@@ -29,46 +29,50 @@
     include "./App/db/db_connect.php"; // Ensure this path is correct for your DB connection script
 
     // Function to save uploaded files
-    function saveUploadedFile($fileInfo) {
+    function saveUploadedFile($fileInfo, $allowedExtensions = ['jpg', 'png', 'gif']) {
         if ($fileInfo['error'] == UPLOAD_ERR_NO_FILE) {
-            return null; // No file was uploaded, return null without error
+            return null;
         }
     
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/logo/';
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
     
-        if ($fileInfo['error'] == UPLOAD_ERR_OK) {
-            // Secure the file name
-            $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', basename($fileInfo['name']));
-            $filePath = $uploadDir . $safeName;
-            
-            if (move_uploaded_file($fileInfo['tmp_name'], $filePath)) {
-                return '/uploads/logo/' . $safeName;  // Return the path relative to the document root
-            } else {
-                throw new Exception("Failed to move the uploaded file.");
-            }
+        $fileExt = pathinfo($fileInfo['name'], PATHINFO_EXTENSION);
+        if (!in_array(strtolower($fileExt), $allowedExtensions)) {
+            throw new Exception("Invalid file type.");
+        }
+    
+        $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', basename($fileInfo['name']));
+        $filePath = $uploadDir . $safeName;
+    
+        if (move_uploaded_file($fileInfo['tmp_name'], $filePath)) {
+            return '/uploads/' . $safeName;
         } else {
-            throw new Exception("Upload error: " . $fileInfo['error']);
+            throw new Exception("Failed to move the uploaded file.");
         }
     }
     
-    
+
+
     // Handling form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-      
-    
+
+
+
         try {
             $settings = [
                 'name' => $_POST['name'] ?? '',
                 'slogan' => $_POST['slogan'] ?? '',
-                'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo']) : null,
-                'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon']) : null,
-                'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader']) : null
+                'themeColor' => $_POST['themeColor'] ?? '#ffffff',
+                'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo'], ['jpg', 'png', 'gif']) : null,
+                'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon'], ['jpg', 'png', 'gif']) : null,
+                'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader'], ['gif']) : null,
+                'iosApp' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['iab']) : null,
+                'androidApp' => isset($_FILES['androidApp']) ? saveUploadedFile($_FILES['androidApp'], ['apk']) : null
             ];
-    
+
             foreach ($settings as $key => $value) {
                 if ($value !== null) { // Check if a new value has been provided
                     $sql = "UPDATE websetting SET value = ? WHERE name = ?";
@@ -82,16 +86,19 @@
                     }
                 }
             }
-    
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Error: ' . $e->getMessage()];
+
             $stmt->close();
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Error: ' . $e->getMessage()];
+
         }
-    
+
         // $conn->close();
     }
-    
-    
+
+
     // Fetch current settings
     $currentSettings = [];
     $sql = "SELECT * FROM websetting";
@@ -150,6 +157,19 @@
                             <img src="<?php echo $currentSettings['loader']; ?>" alt="Current Loader" style="width: 100px; height: auto;">
                         <?php endif; ?>
                     </div>
+                    <div class="form-group">
+                        <label for="themeColor">Theme Color:</label>
+                        <input type="color" class="form-control" id="themeColor" name="themeColor" value="<?php echo $currentSettings['themeColor'] ?? '#ffffff'; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="iosApp">iOS App (.iab):</label>
+                        <input type="file" class="form-control" id="iosApp" name="iosApp" accept=".iab">
+                    </div>
+                    <div class="form-group">
+                        <label for="androidApp">Android App (.apk):</label>
+                        <input type="file" class="form-control" id="androidApp" name="androidApp" accept=".apk">
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Update Settings</button>
                 </form>
             </div>
