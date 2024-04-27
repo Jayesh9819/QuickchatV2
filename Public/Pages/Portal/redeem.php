@@ -165,7 +165,7 @@
                                                     <button class="btn btn-primary" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Approve</button>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-danger" onclick="reject(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Reject</button>
+                                                    <button class="btn btn-danger" onclick="Reject(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Reject</button>
                                                 </td>
                                             <?php endif; ?>
                                         </tr>
@@ -255,7 +255,7 @@
             }
         }
 
-        function cashapp(product_id, table, field, id) {
+        function cashapp(product_id, table, field, id,cashout_by) {
             const cashAppName = prompt("Please enter the cashapp name:");
 
             if (confirm("Are you sure you want to Chnage the Status?")) {
@@ -266,7 +266,7 @@
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                 // Include additional parameters in the data sent to the server
-                const data = "id=" + product_id + "&table=" + table + "&field=" + field + "&cid=" + id + "&cashapp=" + cashAppName;
+                const data = "id=" + product_id + "&table=" + table + "&field=" + field + "&cid=" + id + "&cashapp=" + cashAppName ;
 
                 // Log the data being sent
                 console.log("Data sent to server:", data);

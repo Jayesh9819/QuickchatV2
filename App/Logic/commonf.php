@@ -226,7 +226,7 @@ class Commonf
             $username = $_SESSION['username'];
 
             // Prepare the SQL statement using a prepared statement
-            $sql = "UPDATE transaction SET cashapp = ?, cashout_status = 1, by_u = ? WHERE tid = ?";
+            $sql = "UPDATE transaction SET cashapp = ?, cashout_status = 1, cashout_by = ? WHERE tid = ?";
             $stmt = $conn->prepare($sql);
 
             if (!$stmt) {
