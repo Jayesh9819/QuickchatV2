@@ -105,7 +105,7 @@ class Commonf
             $table = $_POST['table'];
             $field = $_POST['field'];
             $where = $_POST['where'];
-            $username=$_SESSION['username'];
+            $username = $_SESSION['username'];
 
             $sql = "SELECT $field FROM $table WHERE $cid=$id  ";
             //Select status from platform where bud=1
@@ -186,18 +186,6 @@ class Commonf
         header('Content-Type: application/json');
         echo json_encode($response);
     }
-
-
-
-
-
-
-
-
-
-
-
-
     public function delete()
     {
         include "./db_connect.php";
@@ -264,6 +252,44 @@ class Commonf
         header('Content-Type: application/json');
         echo json_encode($response);
     }
+    public function Reject()
+    {
+        include "./db_connect.php";
+        $response = array('success' => false, 'message' => '');
+
+        if (isset($_POST['id'], $_POST['msg'])) {
+            // Sanitize user inputs
+            $id = $conn->real_escape_string($_POST['id']);
+            $msg = $conn->real_escape_string($_POST['msg']);
+            $username = $_SESSION['username'];
+
+            // Prepare the SQL statement using a prepared statement
+            $sql = "UPDATE transaction SET Reject_msg = ?, approval_status = 2, approved_by = ? WHERE tid = ?";
+            $stmt = $conn->prepare($sql);
+
+            if (!$stmt) {
+                $response['message'] = "Error in preparing SQL statement";
+            } else {
+                // Bind parameters and execute the statement
+                $stmt->bind_param("ssi", $msg, $username, $id);
+                if ($stmt->execute()) {
+                    $response['success'] = true;
+                    $response['message'] = "Transaction updated successfully!";
+                } else {
+                    $response['message'] = "Error updating transaction: " . $stmt->error;
+                }
+                $stmt->close(); // Close the statement
+            }
+        } else {
+            $response['message'] = "Missing required parameters (id, cashapp)";
+        }
+
+        // Clear any unwanted output before sending JSON response
+        ob_clean();
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
 }
 
 $com = new Commonf;
@@ -277,6 +303,8 @@ if (isset($_GET['action']) && $_GET['action'] == "status") {
     $com->passreset();
 } else if (isset($_GET['action']) && $_GET['action'] == "cashapp") {
     $com->cashapp();
-}else if (isset($_GET['action']) && $_GET['action'] == "Approval") {
+} else if (isset($_GET['action']) && $_GET['action'] == "Approval") {
     $com->Approval();
+} else if (isset($_GET['action']) && $_GET['action'] == "Reject") {
+    $com->Reject();
 }

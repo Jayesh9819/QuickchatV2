@@ -165,7 +165,7 @@
                                                     <button class="btn btn-primary" onclick="status(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Approve</button>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-danger" onclick="reject(<?= $id; ?>)">Reject</button>
+                                                    <button class="btn btn-danger" onclick="reject(<?= $id; ?>, 'transaction', 'approval_status', 'tid','approved_by')">Reject</button>
                                                 </td>
                                             <?php endif; ?>
                                         </tr>
@@ -197,7 +197,7 @@
     </main>
     <script>
         function status(product_id, table, field, id,where) {
-            if (confirm("Are you sure you want to Activate or Deactivate?")) {
+            if (confirm("Are you sure you want to Chnage the Status?")) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", "../App/Logic/commonf.php?action=Approval", true);
 
@@ -258,7 +258,7 @@
         function cashapp(product_id, table, field, id) {
             const cashAppName = prompt("Please enter the cashapp name:");
 
-            if (confirm("Are you sure you want to Activate or Deactivate?")) {
+            if (confirm("Are you sure you want to Chnage the Status?")) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", "../App/Logic/commonf.php?action=cashapp", true);
 
@@ -267,6 +267,66 @@
 
                 // Include additional parameters in the data sent to the server
                 const data = "id=" + product_id + "&table=" + table + "&field=" + field + "&cid=" + id + "&cashapp=" + cashAppName;
+
+                // Log the data being sent
+                console.log("Data sent to server:", data);
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        console.log("XHR status:", xhr.status);
+
+                        if (xhr.status === 200) {
+                            console.log("Response received:", xhr.responseText);
+
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+
+                                if (response) {
+                                    console.log("Parsed JSON response:", response);
+
+                                    if (response.success) {
+                                        alert("Done successfully!");
+                                        location.reload();
+                                    } else {
+                                        alert("Error : " + response.message);
+                                    }
+                                } else {
+                                    console.error("Invalid JSON response:", xhr.responseText);
+                                    alert("Invalid JSON response from the server.");
+                                }
+                            } catch (error) {
+                                console.error("Error parsing JSON:", error);
+                                alert("Error parsing JSON response from the server.");
+                            }
+                        } else {
+                            console.error("HTTP request failed:", xhr.statusText);
+                            alert("Error: " + xhr.statusText);
+                        }
+                    }
+                };
+
+                // Log any network errors
+                xhr.onerror = function() {
+                    console.error("Network error occurred.");
+                    alert("Network error occurred. Please try again.");
+                };
+
+                // Send the request
+                xhr.send(data);
+            }
+        }
+        function Reject(id, table, field, id) {
+            const msg = prompt("Enter the Reason to Reject");
+
+            if (confirm("Are you sure you want to Reject?")) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "../App/Logic/commonf.php?action=Reject", true);
+
+                // Set the Content-Type header
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                // Include additional parameters in the data sent to the server
+                const data = "id=" + id + "&table=" + table + "&field=" + field + "&cid=" + id + "&msg=" + msg;
 
                 // Log the data being sent
                 console.log("Data sent to server:", data);
