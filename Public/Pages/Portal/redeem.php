@@ -58,19 +58,18 @@
                     <?php
                     include "./App/db/db_connect.php";
                     $role = $_SESSION['role'];
-                    $page='';
+                    $page = '';
                     $page = $_SESSION['page1'];
                     $branch = $_SESSION['branch1'];
 
 
                     if ($role == 'Admin') {
                         $sql = "SELECT * FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0)";
-                    }  elseif( $role == "Agent") {
+                    } elseif ($role == "Agent") {
                         $sql = "SELECT * FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND page='$page' AND approval=0 AND reject=0";
-                    }elseif( $role == "Manager" || $role == "Supervisor") {
+                    } elseif ($role == "Manager" || $role == "Supervisor") {
                         $sql = "SELECT * FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND branch='$branch' AND approval=1 AND reject=0";
-                    }
-                    else {
+                    } else {
                         $sql = "SELECT * FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND page='$page'";
                     }
                     // echo $sql;
@@ -102,49 +101,77 @@
                                         <th>Amount</th>
                                         <th>Platform Name</th>
                                         <th>Page Name</th>
-                                        <th>By</th>
-                                        <th>Platform Redeem</th>
-                                        <th>CashOut</th>
-
+                                        <?php
+                                        if ($role == 'Admin') {
+                                            echo '<th>Approved By</th>
+                      <th>Approval</th>
+                      <th>Platform Redeem</th>
+                      <th>Redeem By</th> 
+                      <th>Cash Out</th>
+                      <th>Cashout By</th>';
+                                        } elseif ($role == 'Manager' || $role == 'Supervisor') {
+                                            echo '<th>Platform Redeem</th>
+                      <th>Redeem By</th> 
+                      <th>Cash Out</th>
+                      <th>Cashout By</th>';
+                                        } elseif ($role == 'Agent') {
+                                            echo '<th>Approve</th>
+                      <th>Reject</th>';
+                                        }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($results as $row) :
                                         $createdAt = new DateTime($row['created_at'], new DateTimeZone('UTC'));
                                         $createdAtFormatted = $createdAt->format('Y-m-d H:i:s');
-                                        $platformRedeemStatus = $row['redeem_status'];
-                                        $cashOutStatus = $row['cashout_status'];
-                                        $id = $row['tid']
-
-
+                                        $id = $row['tid'];
                                     ?>
-
                                         <tr>
                                             <td><?= $createdAtFormatted ?></td>
-                                            <td><?= $row['username'] ?></td>
-                                            <td><?= $row['redeem'] ?></td>
-                                            <td><?= $row['platform'] ?></td>
-                                            <td><?= $row['page'] ?></td>
-                                            <td><?= $row['by_u'] ?></td>
-                                            <td>
-                                                <?php if ($platformRedeemStatus == 0) : ?>
-                                                    <button class="btn btn-warning" onclick="status(<?php echo $id; ?>, 'transaction', 'redeem_status','tid')">Pending</button>
-                                                <?php elseif ($platformRedeemStatus == 1) : ?>
-                                                    <button class="btn btn-success">Done</button>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <?php if ($cashOutStatus == 0) : ?>
-                                                    <button class="btn btn-warning" onclick="cashapp(<?php echo $id; ?>, 'transaction', 'redeem_status','tid')">Pending</button>
-                                                <?php elseif ($cashOutStatus == 1) : ?>
-                                                    <button class="btn btn-success">Done</button>
-                                                <?php endif; ?>
-                                            </td>
+                                            <td><?= htmlspecialchars($row['username']) ?></td>
+                                            <td><?= htmlspecialchars($row['redeem']) ?></td>
+                                            <td><?= htmlspecialchars($row['platform']) ?></td>
+                                            <td><?= htmlspecialchars($row['page']) ?></td>
 
+                                            <?php if ($role == 'Admin') : ?>
+                                                <td><?= htmlspecialchars($row['approved_by']) ?></td>
+                                                <td>
+                                                    <?php if ($row['approval_status'] == 0) : ?>
+                                                        <button class="btn btn-warning">Pending</button>
+                                                    <?php elseif ($row['approval_status'] == 1) : ?>
+                                                        <button class="btn btn-success">Approved</button>
+                                                    <?php endif; ?>
+                                                </td>
+                                            <?php endif; ?>
+
+                                            <?php if ($role == 'Admin' || $role == 'Manager' || $role == 'Supervisor') : ?>
+                                                <td><?= htmlspecialchars($row['platform_redeem']) ?></td>
+                                                <td><?= htmlspecialchars($row['redeem_by']) ?></td>
+                                                <td>
+                                                    <button class="btn btn-<?= $row['redeem_status'] == 0 ? 'warning' : 'success' ?>" onclick="status(<?= $id; ?>, 'transaction', 'redeem_status', 'tid')">
+                                                        <?= $row['redeem_status'] == 0 ? 'Pending' : 'Done' ?>
+                                                    </button>
+                                                </td>
+                                                <td><?= htmlspecialchars($row['cashout_by']) ?></td>
+                                                <td>
+                                                    <button class="btn btn-<?= $row['cashout_status'] == 0 ? 'warning' : 'success' ?>" onclick="cashapp(<?= $id; ?>, 'transaction', 'cashout_status', 'tid')">
+                                                        <?= $row['cashout_status'] == 0 ? 'Pending' : 'Done' ?>
+                                                    </button>
+                                                </td>
+                                            <?php elseif ($role == 'Agent') : ?>
+                                                <td>
+                                                    <button class="btn btn-primary" onclick="approve(<?= $id; ?>)">Approve</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-danger" onclick="reject(<?= $id; ?>)">Reject</button>
+                                                </td>
+                                            <?php endif; ?>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+
 
                         <?php
                     }
