@@ -162,7 +162,7 @@
                                                         <?= $row['cashout_status'] == 0 ? 'Pending' : 'Done' ?>
                                                     </button>
                                                 </td>
-                                                <td><?= htmlspecialchars($row['Reject_msg']) ?></td>
+                                                <td><?= !empty($row['Reject_msg']) ? htmlspecialchars($row['Reject_msg']) : 'Not mentioned' ?></td>
 
                                             <?php elseif ($role == 'Agent') : ?>
                                                 <td>
