@@ -45,7 +45,7 @@
     <div id="loading">
         <div class="loader simple-loader">
             <div class="loader-body ">
-                <img src="../assets/images/CustCountFinal.png" style="height: 25%;" alt="loader" class="image-loader img-fluid ">
+                <img src="<?php echo $settings['logo']; ?>" style="height: 25%;" alt="loader" class="image-loader img-fluid ">
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
                                 <div class="logo-normal">
                                     <img src="../assets/images/CustCountFinal.png" style="height: 100px; " alt="">
                                 </div>
-                                <h1 style="font-family: 'Times New Roman', Times, serif; color:#2fe082; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0">Sweepstrack</h1>
+                                <h1 style="font-family: 'Times New Roman', Times, serif; color:#2fe082; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
 
                                 <h5 style=" text-decoration:double; position: relative; right: 180px; top: 40px; color: #ffbb00; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;" class="logo-title ms-3 mb-0"></h5>
 
@@ -112,7 +112,7 @@
                                                     </ul>
                                                 </div>
                                                 <p class="mt-3 text-center">
-                                                    <button onclick="window.location.href='https://storage.appilix.com/uploads/app-apk-660a6ec0b839b-1711959744.apk'" class="btn btn-primary">Download for Android</button>
+                                                    <button onclick="window.location.href='<?php echo $settings['AndroiLink']; ?>'" class="btn btn-primary">Download for Android</button>
 
 <!-- For iOS -->
 <button onclick="window.location.href='https://warehouse.appilix.com/uploads/app-ipa-660a6f91c5ea7-1711959953.ipa'" class="btn btn-primary">Download for iOS</button>
