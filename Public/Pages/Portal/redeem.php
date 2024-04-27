@@ -315,7 +315,7 @@
                 xhr.send(data);
             }
         }
-        function Reject(id, table, field, id) {
+        function Reject(tid, table, field, id) {
             const msg = prompt("Enter the Reason to Reject");
 
             if (confirm("Are you sure you want to Reject?")) {
@@ -326,7 +326,7 @@
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                 // Include additional parameters in the data sent to the server
-                const data = "id=" + id + "&table=" + table + "&field=" + field + "&cid=" + id + "&msg=" + msg;
+                const data = "id=" + tid + "&table=" + table + "&field=" + field + "&cid=" + id + "&msg=" + msg;
 
                 // Log the data being sent
                 console.log("Data sent to server:", data);
