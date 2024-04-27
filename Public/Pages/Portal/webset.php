@@ -65,12 +65,12 @@
             $settings = [
                 'name' => $_POST['name'] ?? '',
                 'slogan' => $_POST['slogan'] ?? '',
-                'themeColor' => $_POST['themeColor'] ?? '#ffffff',
+                'color' => $_POST['themeColor'] ?? '#ffffff',
                 'logo' => isset($_FILES['logo']) ? saveUploadedFile($_FILES['logo'], ['jpg', 'png', 'gif']) : null,
                 'icon' => isset($_FILES['icon']) ? saveUploadedFile($_FILES['icon'], ['jpg', 'png', 'gif']) : null,
                 'loader' => isset($_FILES['loader']) ? saveUploadedFile($_FILES['loader'], ['gif']) : null,
-                'iosApp' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['iab']) : null,
-                'androidApp' => isset($_FILES['androidApp']) ? saveUploadedFile($_FILES['androidApp'], ['apk']) : null
+                'ioslink' => isset($_FILES['iosApp']) ? saveUploadedFile($_FILES['iosApp'], ['iab']) : null,
+                'androidlink' => isset($_FILES['androidApp']) ? saveUploadedFile($_FILES['androidApp'], ['apk']) : null
             ];
 
             foreach ($settings as $key => $value) {
