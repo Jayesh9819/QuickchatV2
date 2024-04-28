@@ -237,11 +237,18 @@
 			/* Ensure the container takes all available space */
 		}
 	</style>
+	<script type="text/javascript">
+        function autoReload() {
+            setTimeout(function() {
+                location.reload();  // This will refresh the page.
+            }, 1000); // 1000 milliseconds = 1 second
+        }
+    </script>
 
 
 </head>
 
-<body class="  ">
+<body onload="autoReload();">
 	<!-- loader Start -->
 	<?php
 	// include("./Public/Pages/Common/loader.php");
