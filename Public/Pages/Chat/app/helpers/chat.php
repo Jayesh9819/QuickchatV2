@@ -18,7 +18,7 @@ function getChats($id_1, $id_2, $conn)
                 LEFT JOIN user AS sender ON chats.from_id = sender.id
                 LEFT JOIN user AS receiver ON chats.to_id = receiver.id
                 WHERE (chats.from_id = ? OR chats.to_id = ?)
-                ORDER BY chats.chat_id ASC";
+                ORDER BY chats.chat_id DESC";
         $params = [$id_2, $id_2];
 
     // } else {
