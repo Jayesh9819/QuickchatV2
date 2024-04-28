@@ -53,6 +53,17 @@
 			# Getting User conversations
 			$conversations = getConversation($user['id'], $conn);
 		}
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			// This is an AJAX request
+			if (isset($_SESSION['user_id'])) {
+				$user_id = $_SESSION['user_id'];
+				$conversations1 = getConversation($user_id, $conn);
+				echo json_encode($conversations1);  // Return data in JSON format
+			} else {
+				echo json_encode([]); // No user session, return empty array
+			}
+			exit; // Prevent further execution
+		}
 	}
 
 
@@ -237,13 +248,7 @@
 			/* Ensure the container takes all available space */
 		}
 	</style>
-	<script type="text/javascript">
-		function autoReload() {
-			setTimeout(function() {
-				location.reload(); // This will refresh the page.
-			}, 1000); // 1000 milliseconds = 1 second
-		}
-	</script>
+
 
 
 </head>
@@ -268,7 +273,7 @@
 		?>
 
 
-		<div class="content-inner container-fluid pb-0" id="page_layout dynamic-content">
+		<div class="content-inner container-fluid pb-0" id="page_layout">
 			<div class="p-2 w-100
                 rounded shadow">
 				<?php if ($_SESSION['role'] == 'User') { ?>
@@ -388,8 +393,11 @@
 											<h6 style="color: #010011; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></h6>
 										</div>
 										<?php if ($hasUnread) { ?>
-											<span class="badge badge-primary" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;"><?= $conversation['unread_messages']; ?></span>
+											<span class="badge badge-primary unread-badge" data-conversation-id="<?= $conversation['id']; ?>" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;">
+												<?= $conversation['unread_messages']; ?>
+											</span>
 										<?php } ?>
+
 										<?= $statusDot; ?>
 									</a>
 								</li>
@@ -407,16 +415,48 @@
 
 
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 			<script>
-				function redrawDiv() {
-					var div = document.getElementById('dynamic-content');
-					var divParent = div.parentNode;
-					divParent.removeChild(div);
-					divParent.appendChild(div);
+				function fetchConversations() {
+					$.ajax({
+						url: 'index.php', // Making an AJAX request to the same file
+						type: 'GET',
+						dataType: 'json',
+						success: function(data) {
+							console.log(data); // Process and display the conversations
+							// Update the HTML based on returned data
+							var html = '';
+							data.forEach(function(conv) {
+								html += '<div>' + conv.username + ' - Unread messages: ' + conv.unread_messages + '</div>';
+							});
+							document.getElementById('conversation-list').innerHTML = html;
+						},
+						error: function() {
+							console.error('Error fetching conversations.');
+						}
+					});
 				}
 
-				setInterval(redrawDiv, 1000); // Redraw every 1 second
+				// Fetch conversations every 5 seconds
+				setInterval(fetchConversations, 1000);
+				// Also fetch them immediately on page load
+				fetchConversations();
+			</script>
+			<script>
+				function updateDivContent() {
+					$.ajax({
+						url: 'path/to/your/update_script.php', // URL to the server-side script
+						type: 'GET', // GET or POST, depending on your requirements
+						success: function(data) {
+							$('#dynamic-content').html(data); // Update the content of the div
+						},
+						error: function() {
+							console.error('Failed to fetch updated data.');
+						}
+					});
+				}
+
+				setInterval(updateDivContent, 1000); // Update the div every second
+
 
 				$(document).ready(function() {
 
