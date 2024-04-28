@@ -10,7 +10,7 @@ function getChats($id_1, $id_2, $conn)
 
 
     // Define the initial SQL query and parameters based on the user role
-    if ($role == 'User' && $roleu!='User') {
+    if ($role != 'User' && $roleu=='User') {
         $sql = "SELECT chats.*, 
                 sender.username AS sender_username, 
                 receiver.username AS receiver_username
