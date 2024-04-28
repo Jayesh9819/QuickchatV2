@@ -238,12 +238,12 @@
 		}
 	</style>
 	<script type="text/javascript">
-        function autoReload() {
-            setTimeout(function() {
-                location.reload();  // This will refresh the page.
-            }, 1000); // 1000 milliseconds = 1 second
-        }
-    </script>
+		function autoReload() {
+			setTimeout(function() {
+				location.reload(); // This will refresh the page.
+			}, 1000); // 1000 milliseconds = 1 second
+		}
+	</script>
 
 
 </head>
@@ -268,7 +268,7 @@
 		?>
 
 
-		<div class="content-inner container-fluid pb-0" id="page_layout">
+		<div class="content-inner container-fluid pb-0" id="page_layout dynamic-content">
 			<div class="p-2 w-100
                 rounded shadow">
 				<?php if ($_SESSION['role'] == 'User') { ?>
@@ -409,6 +409,15 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 			<script>
+				function redrawDiv() {
+					var div = document.getElementById('dynamic-content');
+					var divParent = div.parentNode;
+					divParent.removeChild(div);
+					divParent.appendChild(div);
+				}
+
+				setInterval(redrawDiv, 1000); // Redraw every 1 second
+
 				$(document).ready(function() {
 
 					// Search
