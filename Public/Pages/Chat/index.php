@@ -248,7 +248,7 @@
 
 </head>
 
-<body onload="autoReload();">
+<body >
 	<!-- loader Start -->
 	<?php
 	// include("./Public/Pages/Common/loader.php");
@@ -268,7 +268,7 @@
 		?>
 
 
-		<div class="content-inner container-fluid pb-0" id="page_layout">
+		<div onload="autoReload();" class="content-inner container-fluid pb-0" id="page_layout">
 			<div class="p-2 w-100
                 rounded shadow">
 				<?php if ($_SESSION['role'] == 'User') { ?>
