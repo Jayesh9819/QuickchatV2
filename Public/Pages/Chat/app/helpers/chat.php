@@ -10,7 +10,7 @@ function getChats($id_1, $id_2, $conn)
 
 
     // Define the initial SQL query and parameters based on the user role
-    // if ($role != 'User' && $roleu=='User') {
+    if ($role == 'User' && $roleu!='User') {
         $sql = "SELECT chats.*, 
                 sender.username AS sender_username, 
                 receiver.username AS receiver_username
@@ -19,15 +19,15 @@ function getChats($id_1, $id_2, $conn)
                 LEFT JOIN user AS receiver ON chats.to_id = receiver.id
                 WHERE (chats.from_id = ? OR chats.to_id = ?)
                 ORDER BY chats.chat_id ASC";
-        $params = [$id_1, $id_1];
+        $params = [$id_2, $id_2];
 
-    // } else {
-    //     $sql = "SELECT * FROM chats
-    //             WHERE (from_id = ? AND to_id = ?)
-    //             OR    (to_id = ? AND from_id = ?)
-    //             ORDER BY chat_id ASC";
-    //     $params = [$id_1, $id_2, $id_1, $id_2];
-    // }
+    } else {
+        $sql = "SELECT * FROM chats
+                WHERE (from_id = ? AND to_id = ?)
+                OR    (to_id = ? AND from_id = ?)
+                ORDER BY chat_id ASC";
+        $params = [$id_1, $id_2, $id_1, $id_2];
+    }
     // Prepare and execute SQL statement
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
