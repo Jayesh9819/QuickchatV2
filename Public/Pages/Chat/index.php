@@ -248,7 +248,7 @@
 
 </head>
 
-<body onload="autoReload();">
+<body>
 	<!-- loader Start -->
 	<?php
 	// include("./Public/Pages/Common/loader.php");
