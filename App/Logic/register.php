@@ -16,7 +16,7 @@ $redirectTo = '../../index.php/Register_to_CustCount';
 $action = $_GET['action'];
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
-    // print_r($_POST);
+     print_r($_POST);
     // Retrieve and sanitize form data
     $fullname = trim($_POST['fullname']);
     $username = trim($_POST['username']);
@@ -31,15 +31,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
 
     // Additional fields
     $fbLink = isset($_POST['fb_link']) ? $_POST['fb_link'] : null;
-    $pageId = isset($_POST['page']) ? $_POST['page'] : null;
+    $selectedPages = isset($_POST['selectedPages']) ? $_POST['selectedPages'] : [];
+    $pageId = serialize($selectedPages);
+    print_r($pageId);
+    exit();
+
     // $branchname = trim($_POST['branchname']);
     $by_u = $_SESSION['username'];
     $branchId = "";
-    if (isset($_POST['branchname']) && $_POST['branchname'] !== '') {
-        // If branchname is provided, sanitize and set the branchId
-        $branchId = $_POST['branchname'];
+    if (isset($_POST['branch']) && $_POST['branch'] !== '') {
+        $branchId = $_POST['branch'];
     } else {
-        // If branchname is not provided, fetch the branchId based on pageId
         $creationInstance = new Creation($conn);
         $branchId = $creationInstance->getBranchNameByPageName($pageId, $conn);
     }
