@@ -474,243 +474,244 @@
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
 
 			</div>
-			<div class="button-container" style="padding-left: 15px;">
-				<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
-				<a name="" id="" class="btn btn-primary" href="#" role="button">Recharge Button</a>
-			</div>
-			<script src="timezone_detect.js"></script>
+		</div>
 
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<div class="button-container" style="padding-left: 15px;">
+			<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
+			<a name="" id="" class="btn btn-primary" href="#" role="button">Recharge Button</a>
+		</div>
+		<script src="timezone_detect.js"></script>
 
-			<script>
-				// function onNewMessageReceived() {
-				// 	var chatSound = document.getElementById('chatNotificationSound');
-				// 	chatSound.play();
-				// }
-				document.addEventListener("visibilitychange", function() {
-					if (!document.hidden) {
-						// The user has switched back to the tab, fetch new messages immediately
-						fetchMessages();
-					}
-				});
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-				$(document).ready(function() {
-					// Your existing $(document).ready setup
-					// Including the setInterval for fetchMessages
+		<script>
+			// function onNewMessageReceived() {
+			// 	var chatSound = document.getElementById('chatNotificationSound');
+			// 	chatSound.play();
+			// }
+			document.addEventListener("visibilitychange", function() {
+				if (!document.hidden) {
+					// The user has switched back to the tab, fetch new messages immediately
+					fetchMessages();
+				}
+			});
 
-					// Example: Request permission for Notifications
-					if ("Notification" in window) {
-						Notification.requestPermission();
-					}
-				});
+			$(document).ready(function() {
+				// Your existing $(document).ready setup
+				// Including the setInterval for fetchMessages
 
-				function onNewMessageReceived() {
-					var chatSound = document.getElementById('chatNotificationSound');
-					chatSound.play();
+				// Example: Request permission for Notifications
+				if ("Notification" in window) {
+					Notification.requestPermission();
+				}
+			});
 
-					// Show a notification if the tab is not active
-					if (document.hidden && Notification.permission === "granted") {
-						new Notification("New message", {
-							body: "You have received a new message.",
-							// icon: "/path/to/an/icon.png", // Optional: Add an icon
-						});
-					}
+			function onNewMessageReceived() {
+				var chatSound = document.getElementById('chatNotificationSound');
+				chatSound.play();
+
+				// Show a notification if the tab is not active
+				if (document.hidden && Notification.permission === "granted") {
+					new Notification("New message", {
+						body: "You have received a new message.",
+						// icon: "/path/to/an/icon.png", // Optional: Add an icon
+					});
+				}
+			}
+
+			// Modify your fetchMessages function or its success callback to call onNewMessageReceived appropriately
+
+
+			document.getElementById('attachmentBtn').addEventListener('click', function() {
+				document.getElementById('fileInput').click(); // Simulate click on the file input when attachment button is clicked
+			});
+
+			document.getElementById('fileInput').addEventListener('change', function() {
+				sendMessage(); // Trigger message send when a file is selected
+			});
+
+			function sendMessage() {
+				const message = document.getElementById('message').value.trim();
+				const fileInput = document.getElementById('fileInput');
+				const formData = new FormData();
+
+				formData.append('message', message);
+				if (fileInput.files[0]) {
+					formData.append('attachment', fileInput.files[0]);
 				}
 
-				// Modify your fetchMessages function or its success callback to call onNewMessageReceived appropriately
+				formData.append('to_id', <?= json_encode($chatWith['id']) ?>); // Adjust to ensure correct variable handling
 
-
-				document.getElementById('attachmentBtn').addEventListener('click', function() {
-					document.getElementById('fileInput').click(); // Simulate click on the file input when attachment button is clicked
+				// Make the AJAX call using formData
+				$.ajax({
+					url: "../Public/Pages/Chat/app/ajax/insert.php",
+					type: "POST",
+					data: formData,
+					processData: false, // Prevent jQuery from automatically transforming the data into a query string
+					contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+					success: function(data) {
+						document.getElementById('message').value = ""; // Clear the message input field
+						document.getElementById('fileInput').value = ""; // Reset the file input
+						$("#chatBox").append(data); // Assuming you want to append the message to the chat box
+						scrollDown(); // Ensure the chat box scrolls to the latest message
+					}
 				});
+			}
 
-				document.getElementById('fileInput').addEventListener('change', function() {
-					sendMessage(); // Trigger message send when a file is selected
-				});
+			document.addEventListener('DOMContentLoaded', function() {
+				const textarea = document.getElementById('message');
+				const sendBtn = document.getElementById('sendBtn'); // Reference to the send button
 
+				// Function to send the message
 				function sendMessage() {
-					const message = document.getElementById('message').value.trim();
-					const fileInput = document.getElementById('fileInput');
-					const formData = new FormData();
-
-					formData.append('message', message);
-					if (fileInput.files[0]) {
-						formData.append('attachment', fileInput.files[0]);
-					}
-
-					formData.append('to_id', <?= json_encode($chatWith['id']) ?>); // Adjust to ensure correct variable handling
-
-					// Make the AJAX call using formData
-					$.ajax({
-						url: "../Public/Pages/Chat/app/ajax/insert.php",
-						type: "POST",
-						data: formData,
-						processData: false, // Prevent jQuery from automatically transforming the data into a query string
-						contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-						success: function(data) {
-							document.getElementById('message').value = ""; // Clear the message input field
-							document.getElementById('fileInput').value = ""; // Reset the file input
-							$("#chatBox").append(data); // Assuming you want to append the message to the chat box
-							scrollDown(); // Ensure the chat box scrolls to the latest message
-						}
-					});
-				}
-
-				document.addEventListener('DOMContentLoaded', function() {
-					const textarea = document.getElementById('message');
-					const sendBtn = document.getElementById('sendBtn'); // Reference to the send button
-
-					// Function to send the message
-					function sendMessage() {
-						const message = textarea.value.trim();
-						console.log(message);
-						if (message !== '') {
-							// Perform AJAX call to insert.php
-							$.post("../Public/Pages/Chat/app/ajax/insert.php", {
-									message: message,
-									to_id: <?= json_encode($chatWith['id']) ?> // Ensure PHP variable is correctly encoded for JavaScript
-								},
-								function(data, status) {
-									$("#message").val(""); // Clear the textarea after sending
-									$("#chatBox").append(data); // Assuming you want to append the message to the chat box
-									scrollDown(); // Ensure the chat box scrolls to the latest message
-								});
-						}
-					}
-
-					// Event listener for the send button
-					sendBtn.addEventListener('click', function() {
-						sendMessage();
-					});
-
-					// Event listener for the Enter key in the textarea
-					textarea.addEventListener('keydown', function(event) {
-						if (event.key === "Enter" && !event.shiftKey) {
-							event.preventDefault(); // Prevent new line
-							sendMessage(); // Send the message
-						}
-					});
-				});
-
-				var scrollDown = function() {
-					let chatBox = document.getElementById('chatBox');
-					chatBox.scrollTop = chatBox.scrollHeight;
-				}
-
-				scrollDown();
-
-				$(document).ready(function() {
-
-					// 	$("#sendBtn").on('click', function() {
-					// 		message = $("#message").val();
-					// 		if (message == "") return;
-
-					// 		$.post("../Public/Pages/Chat/app/ajax/insert.php", {
-					// 				message: message,
-					// 				to_id: <?= $chatWith['id'] ?>
-					// 			},
-					// 			function(data, status) {
-					// 				$("#message").val("");
-					// 				$("#chatBox").append(data);
-					// 				scrollDown();
-					// 			});
-					// 	});
-
-					/** 
-					auto update last seen 
-					for logged in user
-					**/
-					let lastSeenUpdate = function() {
-						$.get("../Public/Pages/Chat/app/ajax/update_last_seen.php");
-					}
-					lastSeenUpdate();
-					/** 
-					auto update last seen 
-					every 10 sec
-					**/
-					setInterval(lastSeenUpdate, 10000);
-
-
-
-					// auto refresh / reload
-					let fechData = function() {
-						$.post("../Public/Pages/Chat/app/ajax/getMessage.php", {
-								id_2: <?= $chatWith['id'] ?>
+					const message = textarea.value.trim();
+					console.log(message);
+					if (message !== '') {
+						// Perform AJAX call to insert.php
+						$.post("../Public/Pages/Chat/app/ajax/insert.php", {
+								message: message,
+								to_id: <?= json_encode($chatWith['id']) ?> // Ensure PHP variable is correctly encoded for JavaScript
 							},
 							function(data, status) {
-								$("#chatBox").append(data);
-								if (data != "") scrollDown();
-								if (data != "") onNewMessageReceived();
-
+								$("#message").val(""); // Clear the textarea after sending
+								$("#chatBox").append(data); // Assuming you want to append the message to the chat box
+								scrollDown(); // Ensure the chat box scrolls to the latest message
 							});
 					}
+				}
 
-					fechData();
-					/** 
-					auto update last seen 
-					every 0.5 sec
-					**/
-					setInterval(fechData, 500);
-
+				// Event listener for the send button
+				sendBtn.addEventListener('click', function() {
+					sendMessage();
 				});
-				document.addEventListener('DOMContentLoaded', function() {
-					const emojiPicker = document.getElementById('emojiPicker');
-					const toggleButton = document.querySelector('.emoji-picker-button');
-					const textarea = document.getElementById('message');
 
-					// Emoji list example, add more as needed
-					const emojis = ['👍', '👎', '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎', '😍', '😘', '🥰', '😗', '😙', '😚', '🙂', '🤗', '🤩', '😇', '🥳', '😏', '😌', '😒', '😞', '😔', '😟', '😕', '🙃', '🤔', '🤨', '😳', '😬', '🥺', '😠', '😡', '🤯', '😭', '😱', '😤', '😪', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '😴', '😈', '👿', '👹', '👺', '💀', '👻', '👽', '🤖', '💩', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🙈', '🙉', '🙊', '💋', '💌', '💘', '💝', '💖', '💗', '💓', '💞', '💕', '💟', '❣️', '💔', '❤️', '🧡', '💛', '💚', '💙', '💜', '🤎', '🖤', '🤍'];
-
-					// Populate the emoji picker
-					emojis.forEach(emoji => {
-						const button = document.createElement('button');
-						button.textContent = emoji;
-						button.style.border = 'none';
-						button.style.background = 'transparent';
-						button.style.cursor = 'pointer';
-						button.onclick = function() {
-							textarea.value += emoji;
-							// emojiPicker.style.display = 'none'; // Hide picker after selection
-						};
-						emojiPicker.appendChild(button);
-					});
-
-					// Toggle emoji picker display
-					toggleButton.addEventListener('click', function() {
-						const isDisplayed = window.getComputedStyle(emojiPicker).display !== 'none';
-						emojiPicker.style.display = isDisplayed ? 'none' : 'block';
-					});
-
-					// Hide emoji picker when clicking outside
-					document.addEventListener('click', function(event) {
-						if (!emojiPicker.contains(event.target) && event.target !== toggleButton) {
-							emojiPicker.style.display = 'none';
-						}
-					});
-
-					// Send message on Enter key press
-					textarea.addEventListener('keypress', function(event) {
-						if (event.key === "Enter" && !event.shiftKey) {
-							event.preventDefault(); // Prevent new line in textarea
-							sendMessage();
-						}
-					});
-
-					// Function to send the message
-					function sendMessage() {
-						const message = textarea.value.trim();
-						if (message !== '') {
-							console.log('Message sent:', message);
-							textarea.value = ''; // Clear the textarea after sending
-						}
+				// Event listener for the Enter key in the textarea
+				textarea.addEventListener('keydown', function(event) {
+					if (event.key === "Enter" && !event.shiftKey) {
+						event.preventDefault(); // Prevent new line
+						sendMessage(); // Send the message
 					}
 				});
-			</script>
+			});
+
+			var scrollDown = function() {
+				let chatBox = document.getElementById('chatBox');
+				chatBox.scrollTop = chatBox.scrollHeight;
+			}
+
+			scrollDown();
+
+			$(document).ready(function() {
+
+				// 	$("#sendBtn").on('click', function() {
+				// 		message = $("#message").val();
+				// 		if (message == "") return;
+
+				// 		$.post("../Public/Pages/Chat/app/ajax/insert.php", {
+				// 				message: message,
+				// 				to_id: <?= $chatWith['id'] ?>
+				// 			},
+				// 			function(data, status) {
+				// 				$("#message").val("");
+				// 				$("#chatBox").append(data);
+				// 				scrollDown();
+				// 			});
+				// 	});
+
+				/** 
+				auto update last seen 
+				for logged in user
+				**/
+				let lastSeenUpdate = function() {
+					$.get("../Public/Pages/Chat/app/ajax/update_last_seen.php");
+				}
+				lastSeenUpdate();
+				/** 
+				auto update last seen 
+				every 10 sec
+				**/
+				setInterval(lastSeenUpdate, 10000);
+
+
+
+				// auto refresh / reload
+				let fechData = function() {
+					$.post("../Public/Pages/Chat/app/ajax/getMessage.php", {
+							id_2: <?= $chatWith['id'] ?>
+						},
+						function(data, status) {
+							$("#chatBox").append(data);
+							if (data != "") scrollDown();
+							if (data != "") onNewMessageReceived();
+
+						});
+				}
+
+				fechData();
+				/** 
+				auto update last seen 
+				every 0.5 sec
+				**/
+				setInterval(fechData, 500);
+
+			});
+			document.addEventListener('DOMContentLoaded', function() {
+				const emojiPicker = document.getElementById('emojiPicker');
+				const toggleButton = document.querySelector('.emoji-picker-button');
+				const textarea = document.getElementById('message');
+
+				// Emoji list example, add more as needed
+				const emojis = ['👍', '👎', '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎', '😍', '😘', '🥰', '😗', '😙', '😚', '🙂', '🤗', '🤩', '😇', '🥳', '😏', '😌', '😒', '😞', '😔', '😟', '😕', '🙃', '🤔', '🤨', '😳', '😬', '🥺', '😠', '😡', '🤯', '😭', '😱', '😤', '😪', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '😴', '😈', '👿', '👹', '👺', '💀', '👻', '👽', '🤖', '💩', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🙈', '🙉', '🙊', '💋', '💌', '💘', '💝', '💖', '💗', '💓', '💞', '💕', '💟', '❣️', '💔', '❤️', '🧡', '💛', '💚', '💙', '💜', '🤎', '🖤', '🤍'];
+
+				// Populate the emoji picker
+				emojis.forEach(emoji => {
+					const button = document.createElement('button');
+					button.textContent = emoji;
+					button.style.border = 'none';
+					button.style.background = 'transparent';
+					button.style.cursor = 'pointer';
+					button.onclick = function() {
+						textarea.value += emoji;
+						// emojiPicker.style.display = 'none'; // Hide picker after selection
+					};
+					emojiPicker.appendChild(button);
+				});
+
+				// Toggle emoji picker display
+				toggleButton.addEventListener('click', function() {
+					const isDisplayed = window.getComputedStyle(emojiPicker).display !== 'none';
+					emojiPicker.style.display = isDisplayed ? 'none' : 'block';
+				});
+
+				// Hide emoji picker when clicking outside
+				document.addEventListener('click', function(event) {
+					if (!emojiPicker.contains(event.target) && event.target !== toggleButton) {
+						emojiPicker.style.display = 'none';
+					}
+				});
+
+				// Send message on Enter key press
+				textarea.addEventListener('keypress', function(event) {
+					if (event.key === "Enter" && !event.shiftKey) {
+						event.preventDefault(); // Prevent new line in textarea
+						sendMessage();
+					}
+				});
+
+				// Function to send the message
+				function sendMessage() {
+					const message = textarea.value.trim();
+					if (message !== '') {
+						console.log('Message sent:', message);
+						textarea.value = ''; // Clear the textarea after sending
+					}
+				}
+			});
+		</script>
 
 
 
 
-		</div>
 
 
 
