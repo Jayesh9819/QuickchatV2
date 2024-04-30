@@ -3,7 +3,7 @@
 
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 	<?php
 	ob_start();
@@ -63,9 +63,10 @@
 	?>
 
 	<style>
-		.chat-header{
-			background-color:#8c44d9;
+		.chat-header {
+			background-color: #8c44d9;
 		}
+
 		.vh-100 {
 			min-height: 100vh;
 		}
@@ -115,7 +116,7 @@
 		.chat-box {
 			overflow-y: auto;
 			overflow-x: hidden;
-			
+
 		}
 
 		.rtext {
@@ -160,7 +161,7 @@
 			background-image: url("../uploads/chat-5.avif");
 			height: 80%;
 			width: 100%;
-			
+
 			/* Limit the height of the chat box */
 			overflow-y: auto;
 			/* Enable vertical scrolling */
@@ -212,29 +213,32 @@
 
 
 		.emoji-picker {
-    position: relative;
-	top: -265px;
-	left: 20px;
-    border: 1px solid #ddd;
-    padding: 5px;
-    background-color: white;
-    width: 300px; /* Adjust width based on your design needs, might reduce for mobile */
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 5px;
-    overflow-y: auto;
-    max-height: 200px; /* Adjusted for a reasonable height */
-    z-index: 1000; /* Ensure it sits on top of other elements */
-	border-radius: 20px;
-}
+			position: relative;
+			top: -265px;
+			left: 20px;
+			border: 1px solid #ddd;
+			padding: 5px;
+			background-color: white;
+			width: 300px;
+			/* Adjust width based on your design needs, might reduce for mobile */
+			display: grid;
+			grid-template-columns: repeat(8, 1fr);
+			gap: 5px;
+			overflow-y: auto;
+			max-height: 200px;
+			/* Adjusted for a reasonable height */
+			z-index: 1000;
+			/* Ensure it sits on top of other elements */
+			border-radius: 20px;
+		}
 
-.emoji-picker button {
-    font-size: 2rem;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 5px;
-}
+		.emoji-picker button {
+			font-size: 2rem;
+			cursor: pointer;
+			background: none;
+			border: none;
+			padding: 5px;
+		}
 
 		/* Base styles */
 		.chat-box {
@@ -248,14 +252,15 @@
 				/* Full width */
 			}
 
-			
+
 
 			.fs-sm,
 			.display-4 {
 				font-size: 1rem;
 				/* Adjust font size */
 			}
-			.emoji-picker{
+
+			.emoji-picker {
 				grid-template-columns: repeat(4, 1fr);
 			}
 
@@ -273,9 +278,9 @@
 				/* Full width 
 			} */
 
-			
-		
-			
+
+
+
 
 			.fs-big,
 			.fs-xs,
@@ -331,37 +336,36 @@
 
 			<div class="w-800 shadow p-4 rounded" style="height:90vh;">
 
-			<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
+				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
 
-    <a href="./Chat_l" class="" style="color: white; margin-right: 10px; font-size: 30px; text-decoration: none;">←</a> 
+					<a href="./Chat_l" class="" style="color: white; margin-right: 10px; font-size: 30px; text-decoration: none;">←</a>
 
-    <img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="rounded-circle" style="width: 50px; height: 50px; margin-right: 10px;">
+					<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="rounded-circle" style="width: 50px; height: 50px; margin-right: 10px;">
 
-    <div style="flex-grow: 1;">
-        <h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-            <?= $chatWith['username'] ?>
-        </h1>
-		<?php 
-		if($chatWith['role']=='User'){
-			echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-            '.$chatWith['pagename'].'
+					<div style="flex-grow: 1;">
+						<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+							<?= $chatWith['username'] ?>
+						</h1>
+						<?php
+						if ($chatWith['role'] == 'User') {
+							echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+            ' . $chatWith['pagename'] . '
         </h1>';
+						}
+						?>
 
-		}
-		?>
-
-        <div title="online">
-            <?php if (last_seen($chatWith['last_seen']) == "Active") { ?>
-                <div style="width: 10px; height: 10px; background-color: lime; border-radius: 50%; margin-right: 5px;"></div>
-                <p style="color: white;">Online</p>
-            <?php } else { ?>
-                <p style="color: white;">
-                    Last seen: <?= last_seen($chatWith['last_seen']) ?>
-			</p>
-            <?php } ?>
-        </div>
-    </div>
-</div>
+						<div title="online">
+							<?php if (last_seen($chatWith['last_seen']) == "Active") { ?>
+								<div style="width: 10px; height: 10px; background-color: lime; border-radius: 50%; margin-right: 5px;"></div>
+								<p style="color: white;">Online</p>
+							<?php } else { ?>
+								<p style="color: white;">
+									Last seen: <?= last_seen($chatWith['last_seen']) ?>
+								</p>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
 
 
 
@@ -374,76 +378,83 @@
 				?>
 
 
-				<div class="shadow p-4  d-flex flex-column  chat-box" id="chatBox" >
-					
-					
-				<div class="chat-messages" style="padding: 20px;">
+				<div class="shadow p-4  d-flex flex-column  chat-box" id="chatBox">
 
-<?php if (!empty($chats)) : foreach ($chats as $chat) : ?>
-	<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>;">
-		<div class="message-box" style="display: inline-block; background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
-			<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
 
-			<?php
-			$attachmentHTML = '';
-			if (!empty($chat['attachment'])) {
-				$file = "../uploads/" . $chat['attachment'];
-				$fileInfo = pathinfo($file);
-				$fileExtension = strtolower($fileInfo['extension']);
+					<div class="chat-messages" style="padding: 20px;">
 
-				switch ($fileExtension) {
-					case 'jpg':
-					case 'jpeg':
-					case 'png':
-					case 'gif':
-						$attachmentHTML = "<div><a href='{$file}' target='_blank'><img src='{$file}' alt='Image' style='max-width: 100%; max-height: 200px; display: block;'></a></div>";
-						$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
-						break;
-					case 'mp4':
-						$attachmentHTML = "<div><video controls style='max-width: 100%; max-height: 200px;'><source src='{$file}' type='video/mp4'>Your browser does not support the video tag.</video></div>";
-						$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
-						break;
-					case 'pdf':
-						$attachmentHTML = "<a href='{$file}' target='_blank' class='btn btn-link' style='text-decoration: none; color: #333;'>Open PDF</a>";
-						$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
-						break;
-					default:
-						$attachmentHTML = "<p>Unsupported file format</p>";
-						break;
-				}
-			}
-			echo $attachmentHTML;
-			?>
+						<?php if (!empty($chats)) : foreach ($chats as $chat) : ?>
 
-			<small style="display: block; color: #666; font-size: smaller;"><?= date('M d, Y h:i A', strtotime($chat['created_at'])) ?></small>
-			<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
-				<small style="display: block; color: #666; font-size: smaller;">By <?= htmlspecialchars($chat['sender_username']) ?></small>
-			<?php endif; ?>
-		</div>
-	</div>
-<?php endforeach; else : ?>
-	<div class="alert alert-info text-center">
-		<i class="fa fa-comments d-block fs-big"></i>
-		No messages yet.
-	</div>
-<?php endif; ?>
-</div>
+								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>;">
+
+									<div class="message-box" style="display: inline-block; background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
+										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
+											<h3 style="display: block; color: #666; font-size: smaller;"><?= htmlspecialchars($chat['sender_username']) ?></h3>
+										<?php endif; ?>
+
+										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
+
+										<?php
+										$attachmentHTML = '';
+										if (!empty($chat['attachment'])) {
+											$file = "../uploads/" . $chat['attachment'];
+											$fileInfo = pathinfo($file);
+											$fileExtension = strtolower($fileInfo['extension']);
+
+											switch ($fileExtension) {
+												case 'jpg':
+												case 'jpeg':
+												case 'png':
+												case 'gif':
+													$attachmentHTML = "<div><a href='{$file}' target='_blank'><img src='{$file}' alt='Image' style='max-width: 100%; max-height: 200px; display: block;'></a></div>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
+													break;
+												case 'mp4':
+													$attachmentHTML = "<div><video controls style='max-width: 100%; max-height: 200px;'><source src='{$file}' type='video/mp4'>Your browser does not support the video tag.</video></div>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
+													break;
+												case 'pdf':
+													$attachmentHTML = "<a href='{$file}' target='_blank' class='btn btn-link' style='text-decoration: none; color: #333;'>Open PDF</a>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
+													break;
+												default:
+													$attachmentHTML = "<p>Unsupported file format</p>";
+													break;
+											}
+										}
+										echo $attachmentHTML;
+										?>
+
+										<small style="display: block; color: #666; font-size: smaller;"><?= date('M d, Y h:i A', strtotime($chat['created_at'])) ?></small>
+										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
+											<small style="display: block; color: #666; font-size: smaller;">By <?= htmlspecialchars($chat['sender_username']) ?></small>
+										<?php endif; ?>
+									</div>
+								</div>
+							<?php endforeach;
+						else : ?>
+							<div class="alert alert-info text-center">
+								<i class="fa fa-comments d-block fs-big"></i>
+								No messages yet.
+							</div>
+						<?php endif; ?>
+					</div>
 
 				</div>
 				<!-- Remove the previous emoji-picker element -->
 				<div class="input-group mb-3" style="display: flex; align-items: center; width: 100%; height: 50px; background-color: #f8f9fa; border-radius: 25px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-    <button class="btn btn-outline-secondary" type="button" id="attachmentBtn" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">
-        <img src="../uploads/pin.png" alt="Attachment" style="width: 20px; height: 20px;">
-    </button>
-    <input type="file" id="fileInput" style="display: none;">
+					<button class="btn btn-outline-secondary" type="button" id="attachmentBtn" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">
+						<img src="../uploads/pin.png" alt="Attachment" style="width: 20px; height: 20px;">
+					</button>
+					<input type="file" id="fileInput" style="display: none;">
 
-    <button class="btn btn-outline-secondary emoji-picker-button" type="button" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">😊</button>
-    <textarea id="message" class="form-control" style="flex-grow: 1; height: 100%; resize: none; padding: 8px; border-radius: 25px; margin-right: 5px; background-color: white; border: 1px solid #ced4da;" rows="1"></textarea>
-    <button class="btn btn-primary" id="sendBtn" style="margin-left: 10px; position:relative;top:2px ;flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #007bff; color: white;">
-        <i class="fas fa-paper-plane" style="width: 20px; height: 20px;"></i>
-    </button>
-</div>
-<div id="emojiPicker" class="emoji-picker" style="display: none;"></div>
+					<button class="btn btn-outline-secondary emoji-picker-button" type="button" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">😊</button>
+					<textarea id="message" class="form-control" style="flex-grow: 1; height: 100%; resize: none; padding: 8px; border-radius: 25px; margin-right: 5px; background-color: white; border: 1px solid #ced4da;" rows="1"></textarea>
+					<button class="btn btn-primary" id="sendBtn" style="margin-left: 10px; position:relative;top:2px ;flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #007bff; color: white;">
+						<i class="fas fa-paper-plane" style="width: 20px; height: 20px;"></i>
+					</button>
+				</div>
+				<div id="emojiPicker" class="emoji-picker" style="display: none;"></div>
 
 
 
@@ -457,8 +468,6 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 			<script>
-		
-
 				// function onNewMessageReceived() {
 				// 	var chatSound = document.getElementById('chatNotificationSound');
 				// 	chatSound.play();
