@@ -349,8 +349,8 @@
 						<?php
 						if ($chatWith['role'] == 'User') {
 							echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-            ' . $chatWith['pagename'] . '
-        </h1>';
+            				Page Name:- ' . $chatWith['pagename'] . '
+       								 </h1>';
 						}
 						?>
 
@@ -385,7 +385,7 @@
 
 						<?php if (!empty($chats)) : foreach ($chats as $chat) : ?>
 
-								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>;">
+								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id'])  ? 'right' : 'left'; ?>;">
 
 									<div class="message-box" style="display: inline-block; background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
