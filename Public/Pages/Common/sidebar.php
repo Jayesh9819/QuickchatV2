@@ -1,4 +1,3 @@
-
 <aside class="sidebar sidebar-base sidebar-white sidebar-default navs-rounded-all " id="first-tour" data-toggle="main-sidebar" data-sidebar="responsive">
     <div class="sidebar-header d-flex align-items-center justify-content-start">
         <a href="../index.php/Portal" class="navbar-brand">
@@ -35,17 +34,6 @@
             ?>
 
             <nav class="navbar">
-                <ul>
-
-
-                    <!-- Item 2: Accessible by Agent and above -->
-
-                    <!-- Item 3: Accessible by Supervisor and above -->
-
-
-                    <!-- Item 4: Accessible by Manager and above -->
-
-                </ul>
             </nav>
 
             <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
@@ -507,14 +495,16 @@
                             <span class="item-name">Logout</span>
                         </a>
                     </li>
+                    <li></li>
+                    <br>
+                    <br>
+                    <br>
+
+                    <li></li>
+                    <li></li>
+
                 <?php endif; ?>
-
-
-                <!-- Sidebar Menu End -->
         </div>
-        <br>
-        <br>
-        <br>
 
     </div>
     <div class="sidebar-footer"></div>
