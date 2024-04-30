@@ -240,6 +240,14 @@
 			padding: 5px;
 		}
 
+		.button-container {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			/* Aligns items to the left */
+		}
+
+
 		/* Base styles */
 		.chat-box {
 			overflow-y: auto;
@@ -266,12 +274,6 @@
 
 		}
 
-		.button-container {
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			/* Aligns items to the left */
-		}
 
 
 		/* Small devices (phones, 600px and down) */
