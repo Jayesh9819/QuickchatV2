@@ -233,10 +233,10 @@ if (isset($action)) {
 
         // echo field("page ID", "text", "fbid", "Enter the Facebook ID");
         $platformOptions = "<option value=''>Select Platform</option>";
-        $result = $conn->query("SELECT name FROM platform where status=1 And branch='$gbranch'");
+        $result = $conn->query("SELECT platfromname FROM Platformuser where username='$depositID'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $platformOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
+                $platformOptions .= "<option value='" . htmlspecialchars($row['platfromname']) . "'>" . htmlspecialchars($row['platfromname']) . "</option>";
             }
         }
         $platformOptions .= "<option value='other'>Other</option>";
