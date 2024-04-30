@@ -266,6 +266,14 @@
 
 		}
 
+		.button-container {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			/* Aligns items to the left */
+		}
+
+
 		/* Small devices (phones, 600px and down) */
 		@media (max-width: 600px) {
 
@@ -296,6 +304,7 @@
 				grid-template-columns: repeat(4, 1fr);
 				/* Less columns */
 			}
+
 		}
 	</style>
 
@@ -463,10 +472,9 @@
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
 
 			</div>
-			<div >
-				<a name="" id="" class="btn btn-primary" href="#" role="button"> Redeem Button</a>
-				<a name="" id="" class="btn btn-primary" href="#" role="button"> Recharge Button</a>
-
+			<div class="button-container" style="padding-left: 15px;">
+				<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
+				<a name="" id="" class="btn btn-primary" href="#" role="button">Recharge Button</a>
 			</div>
 			<script src="timezone_detect.js"></script>
 
