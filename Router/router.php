@@ -79,6 +79,7 @@ if ($uri == $firstparam || $uri == $secondparam) {
         $prefix . $root . '/Edit_User'                         => './Public/Pages/Portal/temp.php',
         $prefix . $root . '/Edit_Cashapp'                         => './Public/Pages/Portal/temp.php',
         $prefix . $root . '/Edit_Branch'                         => './Public/Pages/Portal/temp.php',
+        $prefix . $root . '/Show_profile'                         => './Public/Pages/Portal/show_profile.php',
 
 
         $prefix . $root . '/See_Reports'                          => './Public/Pages/Portal/temp.php',
