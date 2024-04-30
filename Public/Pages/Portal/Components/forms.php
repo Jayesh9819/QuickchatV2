@@ -57,30 +57,27 @@ if (isset($action)) {
             $row = $result->fetch_assoc();
             $r = isset($row['role']);
 
-            $branchOptions = []; // Initialize an empty string for options
-            $branchQuery = "SELECT name FROM page where status=1";
-            $branchResult = $conn->query($branchQuery);
-            while ($branchRow = $branchResult->fetch_assoc()) {
-                $branchOptions[$branchRow['name']] = $branchRow['name'];
-                // $branchOptions .= "<option value='{$branchRow['name']}'>{$branchRow['name']}</option>";
-            }
-            // echo select("Sub Section", "condtion", "condtion", $branchOptions, isset($_POST['condtion']) ? $_POST['condtion'] : '');
-
             echo $name = field("Name", "text", "fullname", "Enter Your Name", isset($row['name']) ? $row['name'] : '');
             echo $username = field("Username", "text", "username", "Enter Your Username", isset($row['username']) ? $row['username'] : '', 'required', 'readonly');
             echo $password = field("Password", "password", "password", "Enter Your Password", isset($row['password']) ? $row['password'] : '');
             echo '<input type="hidden" name="role" value="' . (isset($row['role']) ? $row['role'] : '') . '" >';
             if (isset($row['role'])) {
                 if ($row['role'] == 'User') {
-
-                    // Additionl fields for 'EDIT_USER'
                     echo $fbLink = field("Facebook Link", "text", "fb_link", "Enter Your Facebook Link", isset($row['Fb-link']) ? $row['Fb-link'] : '');
                 }
             }
             if (isset($row['role'])) {
 
                 if ($row['role'] == 'User' || $row['role'] == 'Agent') {
-                    echo selectMult("Page name", "page", "page", $pageopt, isset($row['pagename']) ? $row['pagename'] : '');
+                    // if
+                    if ($role == 'Admin') {
+                        echo select("Branch name", "branch", "branch", $branchOpt, isset($row['branchname']) ? $row['branchname'] : '');
+                        echo '<div id="checkboxContainer"></div>';
+                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page,$row['pagename']);
+
+                    } else {
+                        echo selectMult("Page name", "page", "page", $pageopt, isset($row['pagename']) ? $row['pagename'] : '');
+                    }
                 } elseif ($row['role'] == 'Manager' || $row['role'] == 'Supervisor') {
                     echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
                 } elseif ($row['role'] == 'Admin') {
@@ -92,38 +89,24 @@ if (isset($action)) {
                 }
             }
         } else {
-
-
             echo $name = field("Name", "text", "fullname", "Enter Your Name", isset($_POST['name']) ? $_POST['name'] : '');
             echo $username = field("Username", "text", "username", "Enter Your Username", isset($_POST['username']) ? $_POST['username'] : '');
             echo $password = field("Password", "password", "password", "Enter Your Password", isset($_POST['password']) ? $_POST['password'] : '');
             echo '<input type="hidden" name="role" value="' . (isset($_POST['role']) ? $_POST['role'] : '') . '" >';
-
-            // Additional fields for 'EDIT_USER'
-
-
+exit();
             if (isset($_POST['role'])) {
                 if ($_POST['role'] == 'Supervisor' || $_POST['role'] == 'Agent') {
                     if ($role == 'Admin') {
-                        echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
-                        // echo generateCheckboxes($pageopt,"Page Select");
-                        // echo selectMult("Page name", "page", "page", $pageopt, isset($row['pagename']) ? $row['pagename'] : '');
-                       echo '<div id="checkboxContainer"></div>';
-                       echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page);
-
-                        // echo generateDynamicDropdownScript('branch', 'page', $page);
+                        echo select("Branch name", "branch", "branch", $branchOpt);
+                        echo '<div id="checkboxContainer"></div>';
+                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page);
                     } else {
 
                         echo selectMult("Page TRname", "pageSelect", "page_name", $pageopt, $selectedOptions);
                     }
                 } elseif ($_POST['role'] == 'Manager') {
-
                     echo '<label for="pagename">Branch Name</label>';
                     echo '<select class="form-select" id="branchname" name="branchname" onchange="showOtherField(this, \'cashAppname-other\')">' . $branchopt . '</select>';
-                } elseif ($row['role'] == 'Admin') {
-                    echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
-                    echo selectMult("Page name", "page", "page", $pageopt, isset($row['pagename']) ? $row['pagename'] : '');
-                    echo generateDynamicDropdownScript('branch', 'page', $page);
                 } elseif ($_POST['role'] == 'User') {
                     echo $fbLink = field("Facebook Link", "text", "fb_link", "Enter Your Facebook Link", isset($_POST['fb_link']) ? $_POST['fb_link'] : '');
                     echo '<label for="pagename">Page Name</label>';

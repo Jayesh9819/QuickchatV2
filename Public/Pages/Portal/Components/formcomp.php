@@ -34,8 +34,8 @@ function select($label, $id, $name, $options, $selectedOption = null)
                 <select class="form-select" id="' . $id . '" name="' . $name . '">';
 
     foreach ($options as $option) {
-        $selected = ($option == $selectedOption) ? 'selected' : '';
-        $html .= '<option value=' . $option . ' >' . $option . '</option>';
+        $selected = ($option == $selectedOption) ? 'selected="selected"' : ''; // Check if option is selected
+        $html .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
     }
 
     $html .= '</select>
@@ -43,6 +43,7 @@ function select($label, $id, $name, $options, $selectedOption = null)
 
     return $html;
 }
+
 function selectMult($label, $id, $name, $options, $selectedOptions = [])
 {
     // Starting the HTML for the multi-select dropdown
@@ -106,11 +107,15 @@ function generateCheckboxes($values, $name) {
         echo '</label><br>';
     }
 }
-function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, $pagesData) {
+function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, $pagesData, $serializedSelectedValues) {
+    // Unserialize the selected values
+    // $selectedValues = unserialize($serializedSelectedValues);
+
     $script = "<script>
         const branchSelect = document.getElementById('$branchDropdownId');
         const checkboxContainer = document.getElementById('$checkboxContainerId');
         const pagesData = " . json_encode($pagesData) . ";
+        const selectedValues = " . json_encode($serializedSelectedValues) . ";
 
         // Function to update checkbox options based on selected branch
         function updateCheckboxOptions() {
@@ -128,6 +133,10 @@ function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, 
                     const label = document.createElement('label');
                     label.textContent = page.name;
                     label.setAttribute('for', page.name); // Associating label with checkbox
+                    // Check if page name is in selected values array
+                    if (selectedValues.includes(page.name)) {
+                        checkbox.checked = true;
+                    }
                     checkboxContainer.appendChild(checkbox);
                     checkboxContainer.appendChild(label);
                     checkboxContainer.appendChild(document.createElement('br'));
