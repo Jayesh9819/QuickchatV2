@@ -334,7 +334,7 @@
 
 
 
-			<div class="w-800 shadow p-4 rounded" style="height:90vh;">
+			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
 
 				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
 
@@ -347,7 +347,7 @@
 							<?= $chatWith['username'] ?>
 						</h1>
 						<?php
-						if ($chatWith['role'] == 'User') {
+						if ($chatWith['role'] == 'User' || $chatWith['role'] == 'Agent') {
 							echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             				Page Name:- ' . $chatWith['pagename'] . '
        								 </h1>';
@@ -461,6 +461,11 @@
 
 
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
+
+			</div>
+			<div >
+				<a name="" id="" class="btn btn-primary" href="#" role="button"> Redeem Button</a>
+				<a name="" id="" class="btn btn-primary" href="#" role="button"> Recharge Button</a>
 
 			</div>
 			<script src="timezone_detect.js"></script>
