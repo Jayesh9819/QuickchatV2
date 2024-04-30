@@ -240,12 +240,6 @@
 			padding: 5px;
 		}
 
-		.button-container {
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			/* Aligns items to the left */
-		}
 
 
 		/* Base styles */
