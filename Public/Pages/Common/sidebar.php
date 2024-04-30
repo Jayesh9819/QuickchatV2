@@ -28,8 +28,6 @@
         <div class="sidebar-list">
             <!-- Sidebar Menu Start -->
             <?php
-            // Start the session
-            // session_start();
             $role = $_SESSION['role']; // Assuming role is stored in session
             ?>
 

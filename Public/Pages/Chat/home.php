@@ -347,7 +347,7 @@
 							echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             				Page Name:- ' . $chatWith['pagename'] . '
        								 </h1>';
-								echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u='. $chatWith['id'].'" role="button">Show Profile</a>';
+							echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
 						}
 						?>
 
@@ -383,6 +383,7 @@
 						<?php if (!empty($chats)) : foreach ($chats as $chat) : ?>
 
 								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id'])  ? 'right' : 'left'; ?>;">
+									<button onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">Reply</button>
 
 									<div class="message-box" style="display: inline-block; background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
@@ -427,6 +428,7 @@
 											<small style="display: block; color: #666; font-size: smaller;">By <?= htmlspecialchars($chat['sender_username']) ?></small>
 										<?php endif; ?>
 									</div>
+
 								</div>
 							<?php endforeach;
 						else : ?>
@@ -438,6 +440,11 @@
 					</div>
 
 				</div>
+				<div id="replyIndicator" style="display: none; background-color: #f0f0f0; padding: 5px; border-radius: 5px; margin-bottom: 5px;">
+					<!-- Reply message will be inserted here -->
+					<button onclick="clearReply()" style="float: right;">&times;</button>
+				</div>
+
 				<!-- Remove the previous emoji-picker element -->
 				<div class="input-group mb-3" style="display: flex; align-items: center; width: 100%; height: 50px; background-color: #f8f9fa; border-radius: 25px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
 					<button class="btn btn-outline-secondary" type="button" id="attachmentBtn" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">
@@ -516,7 +523,24 @@
 			document.getElementById('fileInput').addEventListener('change', function() {
 				sendMessage(); // Trigger message send when a file is selected
 			});
+			var replyToId = null; // Global variable to track the ID of the message being replied to
 
+
+			function setReplyTo(messageId, messageText) {
+				replyToId = messageId;
+				const replyIndicator = document.getElementById('replyIndicator');
+				replyIndicator.innerHTML = `Replying to: "${messageText}"`; // Show reply reference
+				replyIndicator.style.display = 'block'; // Make the reply indicator visible
+				document.getElementById('message').focus(); // Focus the text area
+			}
+
+			function clearReply() {
+				replyToId = null;
+				document.getElementById('replyIndicator').style.display = 'none'; // Hide the reply indicator
+				document.getElementById('message').value = ""; // Clear the text area
+			}
+
+			// Modify the sendMessage function to send the replyToId
 			function sendMessage() {
 				const message = document.getElementById('message').value.trim();
 				const fileInput = document.getElementById('fileInput');
@@ -528,22 +552,55 @@
 				}
 
 				formData.append('to_id', <?= json_encode($chatWith['id']) ?>); // Adjust to ensure correct variable handling
+				if (replyToId !== null) {
+					formData.append('reply_to_id', replyToId); // Include the reply_to_id if set
+				}
 
-				// Make the AJAX call using formData
+				// AJAX call to send the message
 				$.ajax({
 					url: "../Public/Pages/Chat/app/ajax/insert.php",
 					type: "POST",
 					data: formData,
-					processData: false, // Prevent jQuery from automatically transforming the data into a query string
-					contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+					processData: false,
+					contentType: false,
 					success: function(data) {
 						document.getElementById('message').value = ""; // Clear the message input field
 						document.getElementById('fileInput').value = ""; // Reset the file input
+						replyToId = null; // Reset the replyToId
 						$("#chatBox").append(data); // Assuming you want to append the message to the chat box
 						scrollDown(); // Ensure the chat box scrolls to the latest message
 					}
 				});
 			}
+
+
+			// function sendMessage() {
+			// 	const message = document.getElementById('message').value.trim();
+			// 	const fileInput = document.getElementById('fileInput');
+			// 	const formData = new FormData();
+
+			// 	formData.append('message', message);
+			// 	if (fileInput.files[0]) {
+			// 		formData.append('attachment', fileInput.files[0]);
+			// 	}
+
+			// 	formData.append('to_id', <?= json_encode($chatWith['id']) ?>); // Adjust to ensure correct variable handling
+
+			// 	// Make the AJAX call using formData
+			// 	$.ajax({
+			// 		url: "../Public/Pages/Chat/app/ajax/insert.php",
+			// 		type: "POST",
+			// 		data: formData,
+			// 		processData: false, // Prevent jQuery from automatically transforming the data into a query string
+			// 		contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			// 		success: function(data) {
+			// 			document.getElementById('message').value = ""; // Clear the message input field
+			// 			document.getElementById('fileInput').value = ""; // Reset the file input
+			// 			$("#chatBox").append(data); // Assuming you want to append the message to the chat box
+			// 			scrollDown(); // Ensure the chat box scrolls to the latest message
+			// 		}
+			// 	});
+			// }
 
 			document.addEventListener('DOMContentLoaded', function() {
 				const textarea = document.getElementById('message');
