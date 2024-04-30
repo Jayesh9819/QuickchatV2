@@ -74,6 +74,9 @@
 		.w-400 {
 			width: 800px;
 		}
+		.w-300 {
+			width: 800px;
+		}
 
 		.fs-xs {
 			font-size: 1rem;
@@ -268,9 +271,6 @@
 			}
 
 		}
-
-
-
 		/* Small devices (phones, 600px and down) */
 		@media (max-width: 600px) {
 
@@ -459,7 +459,7 @@
 			</div>
 		</div>
 
-		<div class="button-container" style="padding-left: 15px;">
+		<div class="w-300" style="padding-left: 15px;">
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
 			<br>
 			<br>
