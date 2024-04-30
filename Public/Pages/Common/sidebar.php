@@ -512,6 +512,10 @@
 
                 <!-- Sidebar Menu End -->
         </div>
+        <br>
+        <br>
+        <br>
+
     </div>
     <div class="sidebar-footer"></div>
 </aside>
