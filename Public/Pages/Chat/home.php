@@ -461,8 +461,8 @@
 			<br>
 
 			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
-			<a name="" id="" class="btn btn-primary" href="./cash_out?u=<?php $chatWith['username']?>" role="button">Redeem Button</a>
-			<a name="" id="" class="btn btn-primary" href="./deposit?u=<?php $chatWith['username']?>" role="button">Recharge Button</a>
+			<a name="" id="" class="btn btn-primary" href="./cash_out?u=<?= $chatWith['username'] ?>" role="button">Redeem Button</a>
+			<a name="" id="" class="btn btn-primary" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
 		</div>
 
 		</div>
