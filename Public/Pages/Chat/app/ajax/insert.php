@@ -52,8 +52,8 @@ if (isset($_SESSION['username'])) {
 
 
 		$sql = "INSERT INTO 
-	       chats (from_id, to_id, message,attachment,reply) 
-	       VALUES (?, ?, ?,?.?,?)";
+	       chats (from_id, to_id, message,attachment,reply_id) 
+	       VALUES (?, ?, ?,?,?)";
 		$stmt = $conn->prepare($sql);
 		$res  = $stmt->execute([$from_id, $to_id, $message, $attachmentPath,$reply]);
 
