@@ -200,6 +200,7 @@
 			font-size: larger;
 		}
 
+
 		.rtext {
 			font-family: serif;
 			word-break: break-all;
@@ -326,19 +327,7 @@
 		<?php
 		// include("./Public/Pages/Common/main_content.php");
 		?>
-
-
-
-
-
-
-
 		<div class="content-inner container-fluid pb-0" id="page_layout">
-
-
-
-
-
 			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
 
 				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
@@ -472,6 +461,8 @@
 
 		<div class="button-container" style="padding-left: 15px;">
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
+			<br>
+			<br>
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Recharge Button</a>
 		</div>
 		<script src="timezone_detect.js"></script>
@@ -479,10 +470,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 		<script>
-			// function onNewMessageReceived() {
-			// 	var chatSound = document.getElementById('chatNotificationSound');
-			// 	chatSound.play();
-			// }
 			document.addEventListener("visibilitychange", function() {
 				if (!document.hidden) {
 					// The user has switched back to the tab, fetch new messages immediately
