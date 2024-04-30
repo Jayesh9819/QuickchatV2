@@ -74,6 +74,7 @@
 		.w-400 {
 			width: 800px;
 		}
+
 		.w-300 {
 			width: 800px;
 		}
@@ -271,6 +272,7 @@
 			}
 
 		}
+
 		/* Small devices (phones, 600px and down) */
 		@media (max-width: 600px) {
 
@@ -328,7 +330,7 @@
 		// include("./Public/Pages/Common/main_content.php");
 		?>
 		<div class="content-inner container-fluid pb-0" id="page_layout">
-			<div class="w-300 shadow p-4 rounded" style="height:90vh;">
+			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
 
 				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
 
@@ -345,6 +347,7 @@
 							echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             				Page Name:- ' . $chatWith['pagename'] . '
        								 </h1>';
+								echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u='. $chatWith['id'].'" role="button">Show Profile</a>';
 						}
 						?>
 
@@ -461,9 +464,10 @@
 			<br>
 
 			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
-			<a name="" id="" class="btn btn-primary" href="./cash_out?u=<?= $chatWith['username'] ?>" role="button">Redeem Button</a>
-			<a name="" id="" class="btn btn-primary" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
-		</div>
+				<a name="" id="" class="btn btn-primary" href="./cash_out?u=<?= $chatWith['username'] ?>" role="button">Redeem Button</a>
+				<a name="" id="" class="btn btn-primary" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
+
+			</div>
 
 		</div>
 
