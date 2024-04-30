@@ -457,6 +457,9 @@
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
 
 			</div>
+			<br>
+			<br>
+
 			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Recharge Button</a>
