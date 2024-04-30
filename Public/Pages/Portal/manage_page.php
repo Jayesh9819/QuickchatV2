@@ -76,9 +76,6 @@ if (in_array($role, ['Agent', 'Supervisor', 'Manager', 'Admin'])) {
         // $sql = "SELECT * FROM page ";
 
         $result = $conn->query($sql);
-
-        // Check if there are results
-
         if ($result->num_rows > 0) {
 
         ?>
