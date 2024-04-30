@@ -14,6 +14,7 @@ if (isset($action)) {
     $heading = "Fill the details";
     $role = $_SESSION['role'];
     $gbranch = $_SESSION['branch1'];
+    $username=$_SESSION['username'];
     // echo $role;
     // Assuming you have defined or included your functions like fhead, field, select, etc.
     // ...
@@ -39,6 +40,8 @@ if (isset($action)) {
         $pageopt = []; // Array to hold page options
         if ($role == 'Admin') {
             $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE page.status = 1");
+        } else if ($role == 'Agent') {
+            $resultPage = $conn->query("SELECT pagename  as name from user where username='$username'");
         } else {
             $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE branch.name = '$gbranch' AND page.status = 1");
         }
@@ -73,17 +76,12 @@ if (isset($action)) {
                     if ($role == 'Admin') {
                         echo select("Branch name", "branch", "branch", $branchOpt, isset($row['branchname']) ? $row['branchname'] : '');
                         echo '<div id="checkboxContainer"></div>';
-                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page,$row['pagename']);
-
+                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page, $row['pagename']);
                     } else {
                         echo selectMult("Page name", "page", "page", $pageopt, isset($row['pagename']) ? $row['pagename'] : '');
                     }
                 } elseif ($row['role'] == 'Manager' || $row['role'] == 'Supervisor') {
                     echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
-                } elseif ($row['role'] == 'Admin') {
-                    echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
-                    echo selectMult("Page name", "page", "page", $pageopt, isset($row['pagename']) ? $row['pagename'] : '');
-                    echo generateDynamicDropdownScript('branch', 'page', $pageopt);
                 } else {
                     echo "Invalid attempt";
                 }
@@ -93,30 +91,30 @@ if (isset($action)) {
             echo $username = field("Username", "text", "username", "Enter Your Username", isset($_POST['username']) ? $_POST['username'] : '');
             echo $password = field("Password", "password", "password", "Enter Your Password", isset($_POST['password']) ? $_POST['password'] : '');
             echo '<input type="hidden" name="role" value="' . (isset($_POST['role']) ? $_POST['role'] : '') . '" >';
-exit();
             if (isset($_POST['role'])) {
                 if ($_POST['role'] == 'Supervisor' || $_POST['role'] == 'Agent') {
                     if ($role == 'Admin') {
                         echo select("Branch name", "branch", "branch", $branchOpt);
                         echo '<div id="checkboxContainer"></div>';
-                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page);
+                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page, '');
                     } else {
-
-                        echo selectMult("Page TRname", "pageSelect", "page_name", $pageopt, $selectedOptions);
+                        echo generateCheckboxes($pageopt, 'selectedPages');
                     }
                 } elseif ($_POST['role'] == 'Manager') {
-                    echo '<label for="pagename">Branch Name</label>';
-                    echo '<select class="form-select" id="branchname" name="branchname" onchange="showOtherField(this, \'cashAppname-other\')">' . $branchopt . '</select>';
+                    echo select("Branch name", "branch", "branch", $branchOpt);
                 } elseif ($_POST['role'] == 'User') {
+
                     echo $fbLink = field("Facebook Link", "text", "fb_link", "Enter Your Facebook Link", isset($_POST['fb_link']) ? $_POST['fb_link'] : '');
-                    echo '<label for="pagename">Page Name</label>';
-                    echo '<select class="form-select" id="pagename" name="page" onchange="showOtherField(this, \'cashAppname-other\')">' . $pageopt . '</select>';
+                    $array=$pageopt[0];
+                    $pages = explode(", ",$array);
+
+                    echo generateRadioButtons($pages, 'selectedPages');
                 }
             }
 
 
-            echo '<div id="useradd" style="display:none;">';
-            echo '</div>';
+            // echo '<div id="useradd" style="display:none;">';
+            // echo '</div>';
         }
         echo '<br>';
 

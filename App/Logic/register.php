@@ -32,20 +32,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
     // Additional fields
     $fbLink = isset($_POST['fb_link']) ? $_POST['fb_link'] : null;
     $selectedPages = isset($_POST['selectedPages']) ? $_POST['selectedPages'] : [];
+    // Check if $selectedPages is not an array
+    if (!is_array($selectedPages)) {
+        // Convert it to an array with the single element
+        $selectedPages = [$selectedPages];
+    }
+    
+    print_r($selectedPages);
     $serialized = serialize($selectedPages);
     $array = unserialize($serialized);
-    $pageId = implode(", ", $array);
-    // echo $string;
+    $pageId = implode(", ", $array);    // echo $string;
 
-    // $branchname = trim($_POST['branchname']);
     $by_u = $_SESSION['username'];
     $branchId = "";
     if (isset($_POST['branch']) && $_POST['branch'] !== '') {
         $branchId = $_POST['branch'];
     } else {
         $creationInstance = new Creation($conn);
-        $branchId = $creationInstance->getBranchNameByPageName($pageId, $conn);
+        if (is_array($array) && !empty($array)) {
+            $firstPageId = reset($array);
+            echo $firstPageId;
+            $branchId = $creationInstance->getBranchNameByPageName($firstPageId, $conn);
+        } else {
+            $branchId = $creationInstance->getBranchNameByPageName($pageId, $conn);
+            echo 'this is executed ';
+        }
+        // $branchId = $branchId ?? 'default_page_id';
     }
+    echo 'this is an branch '. $branchId;
     $ipAddress = $_SERVER['REMOTE_ADDR'];
 
     // Validate inputs are not empty
@@ -126,14 +140,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
     $pageId = implode(", ", $array);
 
     if (isset($_POST['branch']) && $_POST['branch'] !== '') {
-        // If branchname is provided, sanitize and set the branchId
         $branchId = $_POST['branch'];
     } else {
-        // If branchname is not provided, fetch the branchId based on pageId
         $creationInstance = new Creation($conn);
-        $branchId = $creationInstance->getBranchNameByPageName($pageId, $conn);
+        if (is_array($pageId) && !empty($pageId)) {
+            $firstPageId = reset($pageId);
+            $branchId = $creationInstance->getBranchNameByPageName($firstPageId, $conn);
+        } else {
+            $branchId = $creationInstance->getBranchNameByPageName($pageId, $conn);
+        }
+        $branchId = $branchId ?? 'default_page_id';
     }
-    // Get the user's IP address
     $ipAddress = $_SERVER['REMOTE_ADDR'];
     $condition_value = $username;
 

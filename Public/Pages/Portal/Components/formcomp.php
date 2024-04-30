@@ -107,6 +107,15 @@ function generateCheckboxes($values, $name) {
         echo '</label><br>';
     }
 }
+function generateRadioButtons($values, $name) {
+    foreach ($values as $value) {
+        echo '<label>';
+        echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '">';
+        echo htmlspecialchars($value);
+        echo '</label><br>';
+    }
+}
+
 function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, $pagesData, $serializedSelectedValues) {
     // Unserialize the selected values
     // $selectedValues = unserialize($serializedSelectedValues);

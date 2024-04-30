@@ -36,11 +36,17 @@
 		include 'app/helpers/timeAgo.php';
 		include 'app/helpers/last_chat.php';
 		if ($_SESSION['role'] == 'User') {
+			$page = $_SESSION['page1'];
+
 			// Fetch online agents in the same page
-			$pagename = $_SESSION['page'];
-			$sql = "SELECT * FROM user WHERE role = 'Agent' AND last_seen(last_seen) COLLATE utf8mb4_unicode_ci  = 'Active' AND pagename = ? COLLATE utf8mb4_unicode_ci";
+			$sql = "SELECT * FROM user WHERE role = 'Agent' AND last_seen = 'Active' AND pagename IN (";
+
+			$pagesArray = explode(", ", $page);
+			$placeholders = implode(",", array_fill(0, count($pagesArray), "?"));
+			$sql .= $placeholders . ")";
+
 			$stmt = $conn->prepare($sql);
-			$stmt->execute([$pagename]);
+			$stmt->execute($pagesArray); // Execute with array of page names
 			$agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			$user = getUser($_SESSION['username'], $conn);
