@@ -23,6 +23,7 @@ if (isset($_SESSION['username'])) {
 		# get data from XHR request and store them in var
 		$message = $_POST['message'];
 		$to_id = $_POST['to_id'];
+		$reply=$_POST['reply_to_id'];
 
 		# get the logged in user's username from the SESSION
 		$from_id = $_SESSION['user_id'];
@@ -51,10 +52,10 @@ if (isset($_SESSION['username'])) {
 
 
 		$sql = "INSERT INTO 
-	       chats (from_id, to_id, message,attachment) 
-	       VALUES (?, ?, ?,?)";
+	       chats (from_id, to_id, message,attachment,reply) 
+	       VALUES (?, ?, ?,?.?,?)";
 		$stmt = $conn->prepare($sql);
-		$res  = $stmt->execute([$from_id, $to_id, $message, $attachmentPath]);
+		$res  = $stmt->execute([$from_id, $to_id, $message, $attachmentPath,$reply]);
 
 		# if the message inserted
 		if ($res) {
