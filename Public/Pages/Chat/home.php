@@ -341,6 +341,15 @@
         <h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             <?= $chatWith['username'] ?>
         </h1>
+		<?php 
+		if($chatWith['role']=='User'){
+			echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+            '.$chatWith['pagename'].'
+        </h1>';
+
+		}
+		?>
+
         <div title="online">
             <?php if (last_seen($chatWith['last_seen']) == "Active") { ?>
                 <div style="width: 10px; height: 10px; background-color: lime; border-radius: 50%; margin-right: 5px;"></div>
