@@ -457,14 +457,15 @@
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
 
 			</div>
-		</div>
-
-		<div class="w-300" style="padding-left: 15px;">
+			<div class="w-300" style="padding-left: 15px;">
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Redeem Button</a>
 			<br>
 			<br>
 			<a name="" id="" class="btn btn-primary" href="#" role="button">Recharge Button</a>
 		</div>
+
+		</div>
+
 		<script src="timezone_detect.js"></script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
