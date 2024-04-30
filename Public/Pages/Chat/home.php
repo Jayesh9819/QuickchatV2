@@ -525,19 +525,30 @@
 			});
 			var replyToId = null; // Global variable to track the ID of the message being replied to
 
-
 			function setReplyTo(messageId, messageText) {
-				replyToId = messageId;
+				replyToId = messageId; // Set the reply ID
+				console.log("Replying to Message ID:", replyToId); // Debug: Output the reply ID
+
 				const replyIndicator = document.getElementById('replyIndicator');
 				replyIndicator.innerHTML = `Replying to: "${messageText}"`; // Show reply reference
+				console.log("Message text set for reply:", messageText); // Debug: Output the message text being replied to
+
 				replyIndicator.style.display = 'block'; // Make the reply indicator visible
 				document.getElementById('message').focus(); // Focus the text area
 			}
 
 			function clearReply() {
-				replyToId = null;
-				document.getElementById('replyIndicator').style.display = 'none'; // Hide the reply indicator
-				document.getElementById('message').value = ""; // Clear the text area
+				console.log("Clearing reply from Message ID:", replyToId); // Debug: Output the ID being cleared
+				replyToId = null; // Clear the reply ID
+
+				const replyIndicator = document.getElementById('replyIndicator');
+				replyIndicator.style.display = 'none'; // Hide the reply indicator
+				replyIndicator.innerHTML = ""; // Also clear the inner HTML
+
+				const messageInput = document.getElementById('message');
+				messageInput.value = ""; // Clear the text area
+				messageInput.focus(); // Optional: Focus the text area again after clearing
+				console.log("Reply cleared and message input reset."); // Debug: Confirmation of reset
 			}
 
 			// Modify the sendMessage function to send the replyToId
@@ -547,13 +558,20 @@
 				const formData = new FormData();
 
 				formData.append('message', message);
+				console.log("Message content:", message); // Debug: Log the message content
+
 				if (fileInput.files[0]) {
 					formData.append('attachment', fileInput.files[0]);
+					console.log("Attachment added:", fileInput.files[0].name); // Debug: Log the file name of the attachment
 				}
 
-				formData.append('to_id', <?= json_encode($chatWith['id']) ?>); // Adjust to ensure correct variable handling
+				const toId = <?= json_encode($chatWith['id']) ?>;
+				formData.append('to_id', toId); // Adjust to ensure correct variable handling
+				console.log("Sending message to user ID:", toId); // Debug: Log the recipient user ID
+
 				if (replyToId !== null) {
 					formData.append('reply_to_id', replyToId); // Include the reply_to_id if set
+					console.log("Replying to message ID:", replyToId); // Debug: Log the reply to message ID
 				}
 
 				// AJAX call to send the message
@@ -561,19 +579,21 @@
 					url: "../Public/Pages/Chat/app/ajax/insert.php",
 					type: "POST",
 					data: formData,
-					processData: false,
-					contentType: false,
+					processData: false, // Prevent jQuery from automatically transforming the data into a query string
+					contentType: false, // Set content type to false as jQuery will tell the server its a query string request
 					success: function(data) {
+						console.log("Message sent successfully, server response:", data); // Debug: Log server response
 						document.getElementById('message').value = ""; // Clear the message input field
 						document.getElementById('fileInput').value = ""; // Reset the file input
 						replyToId = null; // Reset the replyToId
 						$("#chatBox").append(data); // Assuming you want to append the message to the chat box
 						scrollDown(); // Ensure the chat box scrolls to the latest message
+					},
+					error: function(xhr, status, error) {
+						console.error("Error sending message:", xhr.responseText); // Debug: Log AJAX error
 					}
 				});
 			}
-
-
 			// function sendMessage() {
 			// 	const message = document.getElementById('message').value.trim();
 			// 	const fileInput = document.getElementById('fileInput');
