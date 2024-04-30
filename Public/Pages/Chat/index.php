@@ -36,19 +36,14 @@
 		include 'app/helpers/timeAgo.php';
 		include 'app/helpers/last_chat.php';
 		if ($_SESSION['role'] == 'User') {
-			$page = $_SESSION['page1'];
-
 			// Fetch online agents in the same page
-			$sql = "SELECT * FROM user WHERE role = 'Agent' AND last_seen = 'Active' AND pagename IN (";
-
-			$pagesArray = explode(", ", $page);
-			$placeholders = implode(",", array_fill(0, count($pagesArray), "?"));
-			$sql .= $placeholders . ")";
+			$pagename = $_SESSION['page'];
+			$sql = "SELECT * FROM user WHERE role = 'Agent' AND last_seen(last_seen) COLLATE utf8mb4_unicode_ci  = 'Active' AND pagename LIKE '%$pagename%' ";
+			echo $sql;
 
 			$stmt = $conn->prepare($sql);
-			$stmt->execute($pagesArray); // Execute with array of page names
+			$stmt->execute();
 			$agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 			$user = getUser($_SESSION['username'], $conn);
 
 			// Getting User conversations
@@ -295,15 +290,9 @@
 										<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="w-15 rounded-circle">
 										<h3 class="fs-xs m-2">
 											<?= $agent['username'] ?><br>
-											<small>
-
-												<?php
-												// echo lastChat($_SESSION['user_id'], $conversation['id'], $conn);
-												?>
-											</small>
 										</h3>
 									</div>
-
+									</li>
 								<?php } ?>
 						</ul>
 					</div>
@@ -448,22 +437,6 @@
 				fetchConversations();
 			</script>
 			<script>
-				function updateDivContent() {
-					$.ajax({
-						url: 'path/to/your/update_script.php', // URL to the server-side script
-						type: 'GET', // GET or POST, depending on your requirements
-						success: function(data) {
-							$('#dynamic-content').html(data); // Update the content of the div
-						},
-						error: function() {
-							console.error('Failed to fetch updated data.');
-						}
-					});
-				}
-
-				setInterval(updateDivContent, 1000); // Update the div every second
-
-
 				$(document).ready(function() {
 
 					// Search
@@ -489,6 +462,8 @@
 								$("#chatList").html(data);
 							});
 					});
+
+
 
 
 					/** 
