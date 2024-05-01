@@ -115,6 +115,52 @@ function generateRadioButtons($values, $name) {
         echo '</label><br>';
     }
 }
+function generateHorizontalRadioButtons($values, $name, $heading) {
+    echo '<p>' . htmlspecialchars($heading) . '</p>';
+    echo '<div class="horizontal-radio-buttons">';
+    foreach ($values as $value) {
+        echo '<label class="horizontal-radio-label">';
+        echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '">';
+        echo htmlspecialchars($value);
+        echo '</label>';
+    }
+    echo '</div>';
+}
+function generateHorizontalRadioButtonsWithOther($values, $name, $heading) {
+    echo '<p>' . htmlspecialchars($heading) . '</p>';
+    echo '<div class="horizontal-radio-buttons">';
+
+    // Add 'other' option to the values array
+    $values[] = 'Other';
+
+    foreach ($values as $value) {
+        echo '<label class="horizontal-radio-label">';
+        if ($value === 'Other') {
+            echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '" onchange="toggleOtherTextbox(this)">';
+            echo htmlspecialchars($value);
+            echo '<input type="text" name="' . $name . '_other" style="display:none;">';
+        } else {
+            echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '">';
+            echo htmlspecialchars($value);
+        }
+        echo '</label>';
+    }
+    echo '</div>';
+
+    // JavaScript function to toggle other textbox
+    echo '<script>';
+    echo 'function toggleOtherTextbox(radio) {';
+    echo '    var otherTextbox = radio.parentElement.querySelector(\'input[type="text"]\');';
+    echo '    if (radio.value === \'Other\') {';
+    echo '        otherTextbox.style.display = \'inline-block\';';
+    echo '    } else {';
+    echo '        otherTextbox.style.display = \'none\';';
+    echo '    }';
+    echo '}';
+    echo '</script>';
+}
+
+
 
 function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, $pagesData, $serializedSelectedValues) {
     // Unserialize the selected values

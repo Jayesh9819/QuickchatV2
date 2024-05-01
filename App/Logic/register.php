@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
     $ipAddress = $_SERVER['REMOTE_ADDR'];
 
     // Validate inputs are not empty
-    if (empty($fullname) || empty($username) || empty($role)) {
+    if (empty($fullname) || empty($username) || empty($role) || empty($selectedPages)) {
         // Set error message and retain form values
         setToast('error', 'Please fill in all required fields and accept the terms.');
         $_SESSION['form_values'] = $_POST;

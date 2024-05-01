@@ -176,30 +176,29 @@ if (isset($action)) {
         }
 
         echo field("Excess Amount", "number", "excessamount", "Enter the Excess Amount");
-        $platformOptions = "<option value=''>Select Platform</option>";
-        $result = $conn->query("SELECT name FROM platform where status =1 And branch='$gbranch'");
+        $platformNames = array(); // Initialize an empty array to store platform names
+        $result = $conn->query("SELECT platfromname FROM Platformuser WHERE username='$depositID'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $platformOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
+                $platformNames[] = $row['platfromname']; // Add each platform name to the array
             }
         }
-        $platformOptions .= "<option value='other'>Other</option>";
-        echo '<label for="platformname">Platform Name</label>';
-        echo '<select class="form-select" id="platformname" name="platformname" onchange="showOtherField(this, \'platformname-other\')">' . $platformOptions . '</select>';
-        echo '<input type="text" id="platformname-other" name="platformname_other" style="display:none;" placeholder="Enter Platform Name">';
-
-        // echo field("cashApp Name", "text", "cashAppname", "Enter the cashApp Name");
-        $cashAppOptions = "<option value=''>Select cashApp</option>";
-        $result = $conn->query("SELECT * FROM cashapp where status =1 And branch='$gbranch'");
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $cashAppOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
-            }
-        }
-        $cashAppOptions .= "<option value='other'>Other</option>";
-        echo '<label for="cashAppname">cashApp Name</label>';
-        echo '<select class="form-select" id="cashAppname" name="cashAppname" onchange="showOtherField(this, \'cashAppname-other\')">' . $cashAppOptions . '</select>';
-        echo '<input type="text" id="cashAppname-other" name="cashAppname_other" style="display:none;" placeholder="Enter cashApp Name">';
+        
+        // Call the function to generate radio buttons
+        generateHorizontalRadioButtonsWithOther($platformNames, 'platformname', 'Platform Name');
+        
+       
+         $cashAppOptions = [];
+         $result = $conn->query("SELECT * FROM cashapp where status=1 And branch='$gbranch'");
+         if ($result->num_rows > 0) {
+             while ($row = $result->fetch_assoc()) {
+                 $cashAppOptions[] = htmlspecialchars($row['name']);
+             }
+         }
+         
+         // Generate horizontal radio buttons with 'Other' option
+         generateHorizontalRadioButtonsWithOther($cashAppOptions, 'cashAppname', 'cashApp Name');
+         
         echo field("Tip", "number", "tip", "Enter the Tip Amount");
         echo field("Remark", "text", "remark", "Enter the Remark ", "", "");
 
@@ -232,31 +231,29 @@ if (isset($action)) {
         // echo '<input type="text" id="platformname-other" name="platformname_other" style="display:none;" placeholder="Enter Platform Name">';
 
         // echo field("page ID", "text", "fbid", "Enter the Facebook ID");
-        $platformOptions = "<option value=''>Select Platform</option>";
-        $result = $conn->query("SELECT platfromname FROM Platformuser where username='$depositID'");
+        $platformNames = array(); // Initialize an empty array to store platform names
+        $result = $conn->query("SELECT platfromname FROM Platformuser WHERE username='$depositID'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $platformOptions .= "<option value='" . htmlspecialchars($row['platfromname']) . "'>" . htmlspecialchars($row['platfromname']) . "</option>";
+                $platformNames[] = $row['platfromname']; // Add each platform name to the array
             }
         }
-        $platformOptions .= "<option value='other'>Other</option>";
-        echo '<label for="platformname">Platform Name</label>';
-        echo '<select required class="form-select" id="platformname" name="platformname" onchange="showOtherField(this, \'platformname-other\')">' . $platformOptions . '</select>';
-        echo '<input type="text" id="platformname-other" name="platformname_other" style="display:none;" placeholder="Enter Platform Name">';
-
+        
+        // Call the function to generate radio buttons
+        generateHorizontalRadioButtonsWithOther($platformNames, 'platformname', 'Platform Name');
+        
         // echo field("cashApp Name", "text", "cashAppname", "Enter the cashApp Name");
-        $cashAppOptions = "<option value=''>Select cashApp</option>";
+        $cashAppOptions = [];
         $result = $conn->query("SELECT * FROM cashapp where status=1 And branch='$gbranch'");
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $cashAppOptions .= "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
+                $cashAppOptions[] = htmlspecialchars($row['name']);
             }
         }
-        $cashAppOptions .= "<option value='other'>Other</option>";
-        echo '<label for="cashAppname">cashApp Name</label>';
-        echo '<select required class="form-select" id="cashAppname" name="cashAppname" onchange="showOtherField(this, \'cashAppname-other\')">' . $cashAppOptions . '</select>';
-        echo '<input type="text" id="cashAppname-other" name="cashAppname_other" style="display:none;" placeholder="Enter cashApp Name">';
-
+        
+        // Generate horizontal radio buttons with 'Other' option
+        generateHorizontalRadioButtonsWithOther($cashAppOptions, 'cashAppname', 'cashApp Name');
+        
         echo field("Bonus Amount", "number", "bonusamount", "Enter the Bonus Amount");
         echo field("Remark", "text", "remark", "Enter the Remark ", "", "");
 
