@@ -55,18 +55,20 @@ if (isset($_POST['message'], $_POST['to_id'])) {
 
 	// Generate the HTML content for the chat message
 	$messageHtml = '<div class="message sent" id="msg_' . $chat_id . '" style="text-align: right; padding-right: 21px;">';
+	$messageHtml .= '<button onclick="setReplyTo(' . $chat_id . ', \'' . addslashes(htmlspecialchars($message)) . '\')">Reply</button>';
+	
+
 	$messageHtml .= '<div class="message-box" style="display: inline-block; background-color: #dcf8c6; padding: 10px; border-radius: 10px; margin: 5px;">';
+	if ($reply_id) {
+		$repliedMessage = getMessageById($reply_id, $conn); // Fetching the replied message
+		$messageHtml .= '<div class="replied-message" onclick="activateOriginalMessage(\'msg_' . $repliedMessage['chat_id'] . '\');"><em>Replied to: ' . htmlspecialchars($repliedMessage['message']) . '</em></div>';
+	}
 	if ($attachmentPath) {
 		$messageHtml .= '<img src="../uploads/' . htmlspecialchars($attachmentPath) . '" alt="Attachment" style="max-width:100%;display:block;">';
 	}
 
 	$messageHtml .= '<p style="margin: 0;">' . linkify($message);
 	// Corrected Button Code Inside PHP Block
-	$messageHtml .= '<button onclick="setReplyTo(' . $chat_id . ', \'' . addslashes(htmlspecialchars($message)) . '\')">Reply</button>';
-	if ($reply_id) {
-		$repliedMessage = getMessageById($reply_id, $conn); // Fetching the replied message
-		$messageHtml .= '<div class="replied-message" onclick="activateOriginalMessage(\'msg_' . $repliedMessage['chat_id'] . '\');"><em>Replied to: ' . htmlspecialchars($repliedMessage['message']) . '</em></div>';
-	}
 	$messageHtml .= '</p>';
 	$messageHtml .= '<small style="display: block; color: #666; font-size: smaller;">' . date("h:i:s a") . '</small>';
 	$messageHtml .= '</div>';
