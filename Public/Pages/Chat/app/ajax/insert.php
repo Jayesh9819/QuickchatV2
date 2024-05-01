@@ -43,7 +43,11 @@ if (isset($_POST['message'], $_POST['to_id'])) {
         echo json_encode(['status' => 'error', 'message' => 'Failed to insert message']);
         exit;
     }
-
+	$formattedMessage = [
+        'html' => linkify($message),
+        'attachment' => $attachmentPath ? "<img src='../uploads/" . htmlspecialchars($attachmentPath) . "' alt='Attachment' style='max-width:100%;display:block;'>" : "",
+        'timestamp' => date("h:i:s a")
+    ];
     // Generate the HTML content for the chat message
     $messageHtml = '<div class="message sent" style="text-align: right; padding-right: 21px;">';
     $messageHtml .= '<div class="message-box" style="display: inline-block; background-color: #dcf8c6; padding: 10px; border-radius: 10px; margin: 5px;">';
@@ -57,7 +61,7 @@ if (isset($_POST['message'], $_POST['to_id'])) {
     $messageHtml .= '</div>';
 
     // Return JSON including the generated HTML
-    echo json_encode(['status' => 'success', 'message' => 'Message sent successfully', 'html' => $messageHtml]);
+    echo json_encode(['status' => 'success', 'message' => 'Message sent successfully', 'html' => $messageHtml,'data' => $formattedMessage]);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Required fields are missing']);
     exit;
