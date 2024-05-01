@@ -402,16 +402,19 @@
 												case 'png':
 												case 'gif':
 													$attachmentHTML = "<div><a href='{$file}' target='_blank'><img src='{$file}' alt='Image' style='max-width: 100%; max-height: 200px; display: block;'></a></div>";
-													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
-													break;
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
+																										break;
 												case 'mp4':
 													$attachmentHTML = "<div><video controls style='max-width: 100%; max-height: 200px;'><source src='{$file}' type='video/mp4'>Your browser does not support the video tag.</video></div>";
-													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
-													break;
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
+																										break;
 												case 'pdf':
 													$attachmentHTML = "<a href='{$file}' target='_blank' class='btn btn-link' style='text-decoration: none; color: #333;'>Open PDF</a>";
-													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: #333;'>Download</a>";
-													break;
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
+																										break;
 												default:
 													$attachmentHTML = "<p>Unsupported file format</p>";
 													break;
