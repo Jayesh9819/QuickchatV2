@@ -245,11 +245,26 @@
 			padding: 5px;
 		}
 
-
+.pageNameheader{
+	position: relative;
+	right: 16px;
+}
+.redeemChatButton{
+	position: absolute;
+	right: 40px;
+	top: 50px;
+	display: none;
+}
 
 		/* Base styles */
 		.chat-box {
 			overflow-y: auto;
+		}
+
+		@media  (min-width: 768px) {
+			.redeemChatButton{
+				display: block;
+			}
 		}
 
 		/* Medium devices (tablets, 768px and up) */
@@ -342,14 +357,7 @@
 						<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
 							<?= $chatWith['username'] ?>
 						</h1>
-						<?php
-						if ($chatWith['role'] == 'User' || $chatWith['role'] == 'Agent') {
-							echo '<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-            				Page Name:- ' . $chatWith['pagename'] . '
-       								 </h1>';
-							echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
-						}
-						?>
+						
 
 						<div title="online">
 							<?php if (last_seen($chatWith['last_seen']) == "Active") { ?>
@@ -362,6 +370,15 @@
 							<?php } ?>
 						</div>
 					</div>
+
+					<?php
+						if ($chatWith['role'] == 'User' || $chatWith['role'] == 'Agent') {
+							echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+            				Page Name:- ' . $chatWith['pagename'] . '
+       								 </h1>';
+							echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
+						}
+						?>
 				</div>
 
 
@@ -440,12 +457,11 @@
 					</div>
 
 				</div>
+				
 				<div id="replyIndicator" style="display: none; background-color: #f0f0f0; padding: 5px; border-radius: 5px; margin-bottom: 5px;">
-					<!-- Reply message will be inserted here -->
 					<button onclick="clearReply()" style="float: right;">&times;</button>
 				</div>
 
-				<!-- Remove the previous emoji-picker element -->
 				<div class="input-group mb-3" style="display: flex; align-items: center; width: 100%; height: 50px; background-color: #f8f9fa; border-radius: 25px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
 					<button class="btn btn-outline-secondary" type="button" id="attachmentBtn" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">
 						<img src="../uploads/pin.png" alt="Attachment" style="width: 20px; height: 20px;">
@@ -467,14 +483,14 @@
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
 
 			</div>
-			<br>
-			<br>
 
-			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
-				<a name="" id="" class="btn btn-primary" href="./cash_out?u=<?= $chatWith['username'] ?>" role="button">Redeem Button</a>
-				<a name="" id="" class="btn btn-primary" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
+			<div class=" shadow p-4 rounded redeemChatButton" style="height:85vh; width:400px; ">
+				<a name="" id="" class="btn btn-secondary" href="./cash_out?u=<?= $chatWith['username'] ?>" role="button">Redeem Button</a>
+				<a name="" id="" class="btn btn-danger" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
 
 			</div>
+			
+			
 
 		</div>
 
