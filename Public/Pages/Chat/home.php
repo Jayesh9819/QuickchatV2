@@ -544,19 +544,7 @@
 				console.log("Reply cleared and message input reset."); // Debug: Confirmation of reset
 			}
 			// Assuming you receive `originalMessage` as part of the AJAX response for replies
-			function appendMessage(data) {
-				let htmlContent = '<div class="message sent" style="text-align: right;">';
-				if (data.replyTo) {
-					htmlContent += `<div class="reply-text">${data.replyTo}</div>`; // Display quoted original message
-				}
-				htmlContent += `<div class="message-box" style="background-color: #dcf8c6; padding: 10px; border-radius: 10px; margin: 5px;">`;
-				htmlContent += `${linkify(data.message)}`;
-				if (data.attachment) {
-					htmlContent += `<img src="../uploads/${data.attachment}" alt="Attachment" style="max-width:100%;display:block;">`;
-				}
-				htmlContent += `</div><small>${data.timestamp}</small></div>`;
-				$('#chatBox').append(htmlContent);
-			}
+			
 
 
 			document.addEventListener('DOMContentLoaded', function() {
