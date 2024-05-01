@@ -380,17 +380,16 @@
 
 						<?php if (!empty($chats)) : foreach ($chats as $chat) : ?>
 
-								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id'])  ? 'right' : 'left'; ?>;">
+								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" id="msg_<?= $chat['id'] ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>">
 									<button onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">Reply</button>
 
 									<div class="message-box" style="display: inline-block; background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
 											<h3 style="display: block; color: #666; font-size: smaller;"><?= htmlspecialchars($chat['sender_username']) ?></h3>
 										<?php endif; ?>
-
 										<?php if (!empty($chat['reply_id'])) : ?>
 											<?php $repliedMessage = getMessageById($chat['reply_id'], $conn); ?>
-											<div class="replied-message" onclick="window.location.href='#msg_<?= $repliedMessage['chat_id'] ?>';">
+											<div class="replied-message" onclick="scrollToMessage('msg_<?= $repliedMessage['id'] ?>');">
 												<em>Replied to: <?= htmlspecialchars($repliedMessage['message']) ?></em>
 											</div>
 										<?php endif; ?>
@@ -503,6 +502,7 @@
 					});
 				}
 			}
+
 
 			function onNewMessageReceived() {
 				var chatSound = document.getElementById('chatNotificationSound');
