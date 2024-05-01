@@ -245,24 +245,25 @@
 			padding: 5px;
 		}
 
-.pageNameheader{
-	position: relative;
-	right: 16px;
-}
-.redeemChatButton{
-	position: absolute;
-	right: 40px;
-	top: 50px;
-	display: none;
-}
+		.pageNameheader {
+			position: relative;
+			right: 16px;
+		}
+
+		.redeemChatButton {
+			position: absolute;
+			right: 40px;
+			top: 50px;
+			display: none;
+		}
 
 		/* Base styles */
 		.chat-box {
 			overflow-y: auto;
 		}
 
-		@media  (min-width: 768px) {
-			.redeemChatButton{
+		@media (min-width: 768px) {
+			.redeemChatButton {
 				display: block;
 			}
 		}
@@ -291,19 +292,6 @@
 		/* Small devices (phones, 600px and down) */
 		@media (max-width: 600px) {
 
-			/* .w-400,
-			.w-10{
-				width: 100%;
-			}
-			.w-15 {
-				width: 50%;
-				/* Full width 
-			} */
-
-
-
-
-
 			.fs-big,
 			.fs-xs,
 			.fs-sm,
@@ -327,14 +315,7 @@
 </head>
 
 <body class="  ">
-	<!-- loader Start -->
-	<?php
-	// include("./Public/Pages/Common/loader.php");
 
-	?>
-	<!-- loader END -->
-
-	<!-- sidebar  -->
 	<?php
 	include("./Public/Pages/Common/sidebar.php");
 
@@ -357,7 +338,7 @@
 						<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
 							<?= $chatWith['username'] ?>
 						</h1>
-						
+
 
 						<div title="online">
 							<?php if (last_seen($chatWith['last_seen']) == "Active") { ?>
@@ -372,13 +353,13 @@
 					</div>
 
 					<?php
-						if ($chatWith['role'] == 'User' || $chatWith['role'] == 'Agent') {
-							echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+					if ($chatWith['role'] == 'User' || $chatWith['role'] == 'Agent') {
+						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             				Page Name:- ' . $chatWith['pagename'] . '
        								 </h1>';
-							echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
-						}
-						?>
+						echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
+					}
+					?>
 				</div>
 
 
@@ -457,7 +438,7 @@
 					</div>
 
 				</div>
-				
+
 				<div id="replyIndicator" style="display: none; background-color: #f0f0f0; padding: 5px; border-radius: 5px; margin-bottom: 5px;">
 					<button onclick="clearReply()" style="float: right;">&times;</button>
 				</div>
@@ -475,11 +456,6 @@
 					</button>
 				</div>
 				<div id="emojiPicker" class="emoji-picker" style="display: none;"></div>
-
-
-
-
-
 				<audio id="chatNotificationSound" src="../uploads/notification.wav" preload="auto"></audio>
 
 			</div>
@@ -489,9 +465,6 @@
 				<a name="" id="" class="btn btn-danger" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
 
 			</div>
-			
-			
-
 		</div>
 
 		<script src="timezone_detect.js"></script>
@@ -567,105 +540,58 @@
 				console.log("Reply cleared and message input reset."); // Debug: Confirmation of reset
 			}
 
-			// Modify the sendMessage function to send the replyToId
-			function sendMessage() {
-				const message = document.getElementById('message').value.trim();
-				const fileInput = document.getElementById('fileInput');
-				const formData = new FormData();
-
-				formData.append('message', message);
-				console.log("Message content:", message); // Debug: Log the message content
-
-				if (fileInput.files[0]) {
-					formData.append('attachment', fileInput.files[0]);
-					console.log("Attachment added:", fileInput.files[0].name); // Debug: Log the file name of the attachment
-				}
-
-				const toId = <?= json_encode($chatWith['id']) ?>;
-				formData.append('to_id', toId); // Adjust to ensure correct variable handling
-				console.log("Sending message to user ID:", toId); // Debug: Log the recipient user ID
-
-				if (replyToId !== null) {
-					formData.append('reply_to_id', replyToId); // Include the reply_to_id if set
-					console.log("Replying to message ID:", replyToId); // Debug: Log the reply to message ID
-				}
-
-				// AJAX call to send the message
-				$.ajax({
-					url: "../Public/Pages/Chat/app/ajax/insert.php",
-					type: "POST",
-					data: formData,
-					processData: false, // Prevent jQuery from automatically transforming the data into a query string
-					contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-					success: function(data) {
-						console.log("Message sent successfully, server response:", data); // Debug: Log server response
-						document.getElementById('message').value = ""; // Clear the message input field
-						document.getElementById('fileInput').value = ""; // Reset the file input
-						replyToId = null; // Reset the replyToId
-						$("#chatBox").append(data); // Assuming you want to append the message to the chat box
-						scrollDown(); // Ensure the chat box scrolls to the latest message
-					},
-					error: function(xhr, status, error) {
-						console.error("Error sending message:", xhr.responseText); // Debug: Log AJAX error
-					}
-				});
-			}
-			// function sendMessage() {
-			// 	const message = document.getElementById('message').value.trim();
-			// 	const fileInput = document.getElementById('fileInput');
-			// 	const formData = new FormData();
-
-			// 	formData.append('message', message);
-			// 	if (fileInput.files[0]) {
-			// 		formData.append('attachment', fileInput.files[0]);
-			// 	}
-
-			// 	formData.append('to_id', <?= json_encode($chatWith['id']) ?>); // Adjust to ensure correct variable handling
-
-			// 	// Make the AJAX call using formData
-			// 	$.ajax({
-			// 		url: "../Public/Pages/Chat/app/ajax/insert.php",
-			// 		type: "POST",
-			// 		data: formData,
-			// 		processData: false, // Prevent jQuery from automatically transforming the data into a query string
-			// 		contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			// 		success: function(data) {
-			// 			document.getElementById('message').value = ""; // Clear the message input field
-			// 			document.getElementById('fileInput').value = ""; // Reset the file input
-			// 			$("#chatBox").append(data); // Assuming you want to append the message to the chat box
-			// 			scrollDown(); // Ensure the chat box scrolls to the latest message
-			// 		}
-			// 	});
-			// }
 
 			document.addEventListener('DOMContentLoaded', function() {
+
 				const textarea = document.getElementById('message');
 				const sendBtn = document.getElementById('sendBtn'); // Reference to the send button
-
-				// Function to send the message
+				// Ensure sendMessage incorporates replyToId
 				function sendMessage() {
-					const message = textarea.value.trim();
-					console.log(message);
-					if (message !== '') {
-						// Perform AJAX call to insert.php
-						$.post("../Public/Pages/Chat/app/ajax/insert.php", {
-								message: message,
-								to_id: <?= json_encode($chatWith['id']) ?> // Ensure PHP variable is correctly encoded for JavaScript
-							},
-							function(data, status) {
-								$("#message").val(""); // Clear the textarea after sending
-								$("#chatBox").append(data); // Assuming you want to append the message to the chat box
-								scrollDown(); // Ensure the chat box scrolls to the latest message
-							});
+					console.log("this is exexcuting");
+					const message = document.getElementById('message').value.trim();
+					const fileInput = document.getElementById('fileInput');
+					const formData = new FormData();
+
+					formData.append('message', message);
+					if (fileInput.files.length > 0) {
+						formData.append('attachment', fileInput.files[0]);
 					}
+
+					formData.append('to_id', <?= json_encode($chatWith['id']) ?>);
+
+					if (replyToId !== null) {
+						formData.append('reply_to_id', replyToId);
+					} 
+
+					$.ajax({
+						url: "../Public/Pages/Chat/app/ajax/insert.php",
+						type: "POST",
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function(response) {
+							const data = JSON.parse(response);
+							if (data.status === "success") {
+								console.log("Message sent successfully:", data.message);
+								$("#chatBox").append(data.data.html); // Assuming the server responds with HTML to append
+								document.getElementById('message').value = "";
+								document.getElementById('fileInput').value = "";
+								replyToId = null;
+								scrollDown();
+							} else {
+								console.error("Error in response:", data.message);
+							}
+						},
+						error: function(xhr, status, error) {
+							console.error("Error sending message:", xhr.responseText);
+						}
+					});
 				}
 
-				// Event listener for the send button
+
 				sendBtn.addEventListener('click', function() {
 					sendMessage();
 				});
-
-				// Event listener for the Enter key in the textarea
 				textarea.addEventListener('keydown', function(event) {
 					if (event.key === "Enter" && !event.shiftKey) {
 						event.preventDefault(); // Prevent new line
@@ -682,39 +608,11 @@
 			scrollDown();
 
 			$(document).ready(function() {
-
-				// 	$("#sendBtn").on('click', function() {
-				// 		message = $("#message").val();
-				// 		if (message == "") return;
-
-				// 		$.post("../Public/Pages/Chat/app/ajax/insert.php", {
-				// 				message: message,
-				// 				to_id: <?= $chatWith['id'] ?>
-				// 			},
-				// 			function(data, status) {
-				// 				$("#message").val("");
-				// 				$("#chatBox").append(data);
-				// 				scrollDown();
-				// 			});
-				// 	});
-
-				/** 
-				auto update last seen 
-				for logged in user
-				**/
 				let lastSeenUpdate = function() {
 					$.get("../Public/Pages/Chat/app/ajax/update_last_seen.php");
 				}
 				lastSeenUpdate();
-				/** 
-				auto update last seen 
-				every 10 sec
-				**/
 				setInterval(lastSeenUpdate, 10000);
-
-
-
-				// auto refresh / reload
 				let fechData = function() {
 					$.post("../Public/Pages/Chat/app/ajax/getMessage.php", {
 							id_2: <?= $chatWith['id'] ?>
@@ -727,11 +625,7 @@
 						});
 				}
 
-				fechData();
-				/** 
-				auto update last seen 
-				every 0.5 sec
-				**/
+
 				setInterval(fechData, 500);
 
 			});
@@ -739,11 +633,7 @@
 				const emojiPicker = document.getElementById('emojiPicker');
 				const toggleButton = document.querySelector('.emoji-picker-button');
 				const textarea = document.getElementById('message');
-
-				// Emoji list example, add more as needed
 				const emojis = ['👍', '👎', '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎', '😍', '😘', '🥰', '😗', '😙', '😚', '🙂', '🤗', '🤩', '😇', '🥳', '😏', '😌', '😒', '😞', '😔', '😟', '😕', '🙃', '🤔', '🤨', '😳', '😬', '🥺', '😠', '😡', '🤯', '😭', '😱', '😤', '😪', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '😴', '😈', '👿', '👹', '👺', '💀', '👻', '👽', '🤖', '💩', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🙈', '🙉', '🙊', '💋', '💌', '💘', '💝', '💖', '💗', '💓', '💞', '💕', '💟', '❣️', '💔', '❤️', '🧡', '💛', '💚', '💙', '💜', '🤎', '🖤', '🤍'];
-
-				// Populate the emoji picker
 				emojis.forEach(emoji => {
 					const button = document.createElement('button');
 					button.textContent = emoji;
@@ -752,12 +642,9 @@
 					button.style.cursor = 'pointer';
 					button.onclick = function() {
 						textarea.value += emoji;
-						// emojiPicker.style.display = 'none'; // Hide picker after selection
 					};
 					emojiPicker.appendChild(button);
 				});
-
-				// Toggle emoji picker display
 				toggleButton.addEventListener('click', function() {
 					const isDisplayed = window.getComputedStyle(emojiPicker).display !== 'none';
 					emojiPicker.style.display = isDisplayed ? 'none' : 'block';
@@ -769,8 +656,6 @@
 						emojiPicker.style.display = 'none';
 					}
 				});
-
-				// Send message on Enter key press
 				textarea.addEventListener('keypress', function(event) {
 					if (event.key === "Enter" && !event.shiftKey) {
 						event.preventDefault(); // Prevent new line in textarea
@@ -778,7 +663,6 @@
 					}
 				});
 
-				// Function to send the message
 				function sendMessage() {
 					const message = textarea.value.trim();
 					if (message !== '') {
@@ -790,27 +674,17 @@
 		</script>
 		<?
 		include("./Public/Pages/Common/footer.php");
-
 		?>
 
 	</main>
-	<!-- Wrapper End-->
-	<!-- Live Customizer start -->
-	<!-- Setting offcanvas start here -->
 	<?php
 	include("./Public/Pages/Common/theme_custom.php");
 
 	?>
-
-	<!-- Settings sidebar end here -->
-
 	<?php
 	include("./Public/Pages/Common/settings_link.php");
 
 	?>
-	<!-- Live Customizer end -->
-
-	<!-- Library Bundle Script -->
 	<?php
 	include("./Public/Pages/Common/scripts.php");
 
