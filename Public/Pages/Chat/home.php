@@ -345,7 +345,22 @@
 						<h1 style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
 							<?= $chatWith['username'] ?>
 						</h1>
+						<?php
+						if ($chatWith['role'] == 'User') {
+							echo '<h1 class="" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+            				Page Name:- ' . $chatWith['pagename'] . '
+       								 </h1>';
+						} elseif ($chatWith['role'] == 'Agent') {
+							echo '<h1 class="" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+						Page Name:- ' . $chatWith['pagename'] . '
+									</h1>';
+						} elseif ($chatWith['role'] == 'Manager' || $chatWith['role'] == 'Supervisor') {
+							echo '<h1 class="" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+						Branch Name:- ' . $chatWith['branchname'] . '
+									</h1>';
+						}
 
+						?>
 
 						<div title="online">
 							<?php if (last_seen($chatWith['last_seen']) == "Active") { ?>
@@ -358,31 +373,15 @@
 							<?php } ?>
 						</div>
 					</div>
-
 					<?php
 					if ($chatWith['role'] == 'User') {
-						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-            				Page Name:- ' . $chatWith['pagename'] . '
-       								 </h1>';
 						echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
 						echo '				<a name="" id="" class="btn btn-secondary" href="./cash_out?u=' . $chatWith['id'] . '" role="button">Redeem </a>
-						<a name="" id="" class="btn btn-danger" href="./deposit?u=' . $chatWith['id'] . '" role="button">Recharge </a>
-		';
-					}elseif ($chatWith['role'] == 'Agent') {
-						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-						Page Name:- ' . $chatWith['pagename'] . '
-									</h1>';
-
-
-					}elseif ($chatWith['role'] == 'Manager' || $chatWith['role'] == 'Supervisor' ) {
-						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
-						Branch Name:- ' . $chatWith['branchname'] . '
-									</h1>';
-
-
+					<a name="" id="" class="btn btn-danger" href="./deposit?u=' . $chatWith['id'] . '" role="button">Recharge </a>';
 					}
-
 					?>
+
+
 				</div>
 
 
@@ -715,10 +714,10 @@
 							const data = JSON.parse(response);
 
 							if (data.status === "success") {
-								if (data.html.trim().length > 0) { 
+								if (data.html.trim().length > 0) {
 									$("#chatBox").append(data.html)
 
-									scrollDown(); 
+									scrollDown();
 								}
 							} else {
 								console.error("Error in response:", data.message);
