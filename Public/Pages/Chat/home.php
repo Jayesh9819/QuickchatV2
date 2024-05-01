@@ -390,7 +390,7 @@
 								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" id="msg_<?= $chat['chat_id'] ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>">
 									<button onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">Reply</button>
 
-									<div class="message-box <?= !empty($chat['reply_id']) ? 'replied-message-box' : '' ?>" style="background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
+									<div class="message-box <?= !empty($chat['reply_id']) ? 'replied-message-box' : '' ?>" style="background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; display: inline-block; border-radius: 10px; margin: 5px;">
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
 											<h3 style="display: block; color: #666; font-size: smaller;"><?= htmlspecialchars($chat['sender_username']) ?></h3>
 										<?php endif; ?>
@@ -564,9 +564,6 @@
 				}
 			}
 
-			// Modify your fetchMessages function or its success callback to call onNewMessageReceived appropriately
-
-
 			document.getElementById('attachmentBtn').addEventListener('click', function() {
 				document.getElementById('fileInput').click(); // Simulate click on the file input when attachment button is clicked
 			});
@@ -637,7 +634,7 @@
 							const data = JSON.parse(response);
 							console.log(data);
 							if (data.status === "success") {
-								console.log("Message sent successfully:", data.message, data.html,data.data);
+								console.log("Message sent successfully:", data.message, data.html, data.data);
 								$("#chatBox").append(data.html); // Assuming the server responds with HTML to append
 
 								document.getElementById('message').value = "";
