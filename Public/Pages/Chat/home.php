@@ -538,11 +538,12 @@
 						behavior: 'smooth',
 						block: 'center'
 					});
+					setTimeout(() => {
+					messageElement.classList.remove('active-message');
+				}, 3000);
 				}
 
-				setTimeout(() => {
-						messageElement.classList.remove('active-message');
-					}, 3000); 
+			
 			}
 
 
