@@ -587,7 +587,7 @@
 							const data = JSON.parse(response);
 							if (data.status === "success") {
 								console.log("Message sent successfully:", data.message, data.data);
-								// $("#chatBox").append(data.html); // Assuming the server responds with HTML to append
+								 $("#chatBox").append(data.html); // Assuming the server responds with HTML to append
 
 								document.getElementById('message').value = "";
 								document.getElementById('fileInput').value = "";
