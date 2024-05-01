@@ -216,6 +216,13 @@
 
 		}
 
+		.active-message {
+			background-color: #ffc107;
+			/* Example: a yellow background for active message */
+			border-color: #ffecb3;
+		}
+
+
 
 		.emoji-picker {
 			position: relative;
@@ -380,18 +387,20 @@
 
 						<?php if (!empty($chats)) : foreach ($chats as $chat) : ?>
 
-								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" id="msg_<?= $chat['id'] ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>">
+								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" id="msg_<?= $chat['chat_id'] ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>">
 									<button onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">Reply</button>
 
-									<div class="message-box" style="display: inline-block; background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
+									<div class="message-box <?= !empty($chat['reply_id']) ? 'replied-message-box' : '' ?>" style="background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; border-radius: 10px; margin: 5px;">
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
 											<h3 style="display: block; color: #666; font-size: smaller;"><?= htmlspecialchars($chat['sender_username']) ?></h3>
 										<?php endif; ?>
+
 										<?php if (!empty($chat['reply_id'])) : ?>
 											<?php $repliedMessage = getMessageById($chat['reply_id'], $conn); ?>
-											<div class="replied-message" onclick="scrollToMessage('msg_<?= $repliedMessage['id'] ?>');">
+											<div class="replied-message" onclick="activateOriginalMessage('msg_<?= $repliedMessage['chat_id'] ?>');">
 												<em>Replied to: <?= htmlspecialchars($repliedMessage['message']) ?></em>
 											</div>
+
 										<?php endif; ?>
 										<?php
 										$attachmentHTML = '';
@@ -492,6 +501,46 @@
 					Notification.requestPermission();
 				}
 			});
+
+			function activateMessage(msgId) {
+				// Remove active class from all messages
+				document.querySelectorAll('.message-box').forEach(box => {
+					box.classList.remove('active-message');
+				});
+
+				// Add active class to the clicked message
+				const messageElement = document.getElementById(msgId);
+				if (messageElement) {
+					messageElement.classList.add('active-message');
+					messageElement.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center'
+					});
+
+					// Optional: Clear active state after a few seconds or on another action
+					setTimeout(() => {
+						messageElement.classList.remove('active-message');
+					}, 3000); // Removes the active class after 3 seconds
+				}
+			}
+
+			function activateOriginalMessage(msgId) {
+				// Remove active class from all messages
+				document.querySelectorAll('.message-box').forEach(box => {
+					box.classList.remove('active-message');
+				});
+
+				// Add active class to the original message
+				const originalMessage = document.getElementById(msgId);
+				if (originalMessage) {
+					originalMessage.classList.add('active-message');
+					originalMessage.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center'
+					});
+				}
+			}
+
 
 			function scrollToMessage(msgId) {
 				const messageElement = document.getElementById(msgId);
