@@ -540,10 +540,10 @@
 					});
 					setTimeout(() => {
 						originalMessage.classList.remove('active-message');
-				}, 3000);
+					}, 3000);
 				}
 
-			
+
 			}
 
 
@@ -678,28 +678,47 @@
 
 			scrollDown();
 
-			$(document).ready(function() {
+			document.addEventListener('DOMContentLoaded', function() {
+				// Function to update last seen status
 				let lastSeenUpdate = function() {
 					$.get("../Public/Pages/Chat/app/ajax/update_last_seen.php");
-				}
-				lastSeenUpdate();
+				};
+				lastSeenUpdate(); // Call immediately when the document is ready
+
+				// Interval for updating last seen status every 10 seconds
 				setInterval(lastSeenUpdate, 10000);
-				let fechData = function() {
-					$.post("../Public/Pages/Chat/app/ajax/getMessage.php", {
-							id_2: <?= $chatWith['id'] ?>
+
+				// Function to fetch new messages
+				let fetchData = function() {
+					let formData = new FormData(); // Initialize FormData object
+					formData.append('id_2', <?= $chatWith['id'] ?>); // Append the user ID with whom the chat is happening
+
+					$.ajax({
+						url: "../Public/Pages/Chat/app/ajax/getMessage.php",
+						type: "POST",
+						data: formData,
+						processData: false, // Prevent jQuery from automatically transforming the data into a query string
+						contentType: false, // Set the content type of the request to false to let the browser set it
+						success: function(response) {
+							const data = JSON.parse(response);
+							console.log(data);
+							if (data.status === "success") {
+								$("#chatBox").append(data.html); // Append the HTML content received from the server
+								scrollDown(); // Function to scroll the chat box to the bottom
+							} else {
+								console.error("Error in response:", data.message);
+							}
 						},
-						function(data, status) {
-							$("#chatBox").append(data);
-							if (data != "") scrollDown();
-							if (data != "") onNewMessageReceived();
+						error: function(xhr, status, error) {
+							console.error("Error sending message:", xhr.responseText);
+						}
+					});
+				};
 
-						});
-				}
-
-
-				setInterval(fechData, 500);
-
+				// Set interval to fetch new data every 500 milliseconds
+				setInterval(fetchData, 500);
 			});
+
 			document.addEventListener('DOMContentLoaded', function() {
 				const emojiPicker = document.getElementById('emojiPicker');
 				const toggleButton = document.querySelector('.emoji-picker-button');
