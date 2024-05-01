@@ -360,12 +360,28 @@
 					</div>
 
 					<?php
-					if ($chatWith['role'] == 'User' || $chatWith['role'] == 'Agent') {
+					if ($chatWith['role'] == 'User') {
 						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             				Page Name:- ' . $chatWith['pagename'] . '
        								 </h1>';
 						echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
+						echo '				<a name="" id="" class="btn btn-secondary" href="./cash_out?u=' . $chatWith['id'] . '" role="button">Redeem Button</a>
+						<a name="" id="" class="btn btn-danger" href="./deposit?u=' . $chatWith['id'] . '" role="button">Recharge Button</a>
+		';
+					}elseif ($chatWith['role'] == 'Agent') {
+						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+						Page Name:- ' . $chatWith['pagename'] . '
+									</h1>';
+
+
+					}elseif ($chatWith['role'] == 'Manager' || $chatWith['role'] == 'Supervisor' ) {
+						echo '<h1 class="pageNameheader" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
+						Branch Name:- ' . $chatWith['branchname'] . '
+									</h1>';
+
+
 					}
+
 					?>
 				</div>
 
