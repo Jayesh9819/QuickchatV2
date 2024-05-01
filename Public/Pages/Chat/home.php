@@ -697,10 +697,13 @@
 						contentType: false, // Set the content type of the request to false to let the browser set it
 						success: function(response) {
 							const data = JSON.parse(response);
-							console.log(data);
+
 							if (data.status === "success") {
-								$("#chatBox").append(data.html); // Append the HTML content received from the server
-								scrollDown(); // Function to scroll the chat box to the bottom
+								if (data.html.trim().length > 0) { 
+									$("#chatBox").append(data.html)
+
+									scrollDown(); 
+								}
 							} else {
 								console.error("Error in response:", data.message);
 							}
