@@ -1,6 +1,7 @@
 <?php
+
 session_start();
-require '../db.conn.php'; // Use require to ensure the script stops if the file is not found.
+require '../db.conn.php'; // Ensures the database connection file is included
 
 function linkify($text) {
     $urlPattern = '/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/i';
@@ -43,16 +44,23 @@ if (isset($_POST['message'], $_POST['to_id'])) {
         exit;
     }
 
-    // Prepare the message data to send back to client
-    $formattedMessage = [
-        'html' => linkify($message),
-        'attachment' => $attachmentPath ? "<img src='../uploads/" . htmlspecialchars($attachmentPath) . "' alt='Attachment' style='max-width:100%;display:block;'>" : "",
-        'timestamp' => date("h:i:s a")
-    ];
+    // Generate the HTML content for the chat message
+    $messageHtml = '<div class="message sent" style="text-align: right; padding-right: 21px;">';
+    $messageHtml .= '<div class="message-box" style="display: inline-block; background-color: #dcf8c6; padding: 10px; border-radius: 10px; margin: 5px;">';
+    $messageHtml .= '<p style="margin: 0;">' . linkify($message);
+    if ($attachmentPath) {
+        $messageHtml .= '<img src="../uploads/' . htmlspecialchars($attachmentPath) . '" alt="Attachment" style="max-width:100%;display:block;">';
+    }
+    $messageHtml .= '</p>';
+    $messageHtml .= '<small style="display: block; color: #666; font-size: smaller;">' . date("h:i:s a") . '</small>';
+    $messageHtml .= '</div>';
+    $messageHtml .= '</div>';
 
-    echo json_encode(['status' => 'success', 'message' => 'Message sent successfully', 'data' => $formattedMessage]);
+    // Return JSON including the generated HTML
+    echo json_encode(['status' => 'success', 'message' => 'Message sent successfully', 'html' => $messageHtml]);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Required fields are missing']);
     exit;
 }
+
 ?>
