@@ -635,8 +635,9 @@
 						contentType: false,
 						success: function(response) {
 							const data = JSON.parse(response);
+							console.log(data);
 							if (data.status === "success") {
-								console.log("Message sent successfully:", data.message, data.data);
+								console.log("Message sent successfully:", data.message, data.html,data.data);
 								$("#chatBox").append(data.html); // Assuming the server responds with HTML to append
 
 								document.getElementById('message').value = "";
@@ -655,7 +656,6 @@
 						}
 					});
 				}
-
 
 				sendBtn.addEventListener('click', function() {
 					sendMessage();
