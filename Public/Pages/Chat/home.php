@@ -402,21 +402,22 @@
 												case 'png':
 												case 'gif':
 													$attachmentHTML = "<div><a href='{$file}' target='_blank'><img src='{$file}' alt='Image' style='max-width: 100%; max-height: 200px; display: block;'></a></div>";
-													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
 													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
-																										break;
+													break;
 												case 'mp4':
 													$attachmentHTML = "<div><video controls style='max-width: 100%; max-height: 200px;'><source src='{$file}' type='video/mp4'>Your browser does not support the video tag.</video></div>";
-													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
 													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
-																										break;
+													break;
 												case 'pdf':
 													$attachmentHTML = "<a href='{$file}' target='_blank' class='btn btn-link' style='text-decoration: none; color: #333;'>Open PDF</a>";
-													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
 													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
-																										break;
+													break;
 												default:
-													$attachmentHTML = "<p>Unsupported file format</p>";
+													$attachmentHTML .= "<a href='{$file}' download class='btn btn-link' style='text-decoration: none; color: white; background-color: #4CAF50; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; transition: background-color 0.3s;'>Download</a>";
+													$attachmentHTML .= "<style>.btn:hover { background-color: #45a049; }</style>";
 													break;
 											}
 										}
@@ -590,7 +591,7 @@
 							const data = JSON.parse(response);
 							if (data.status === "success") {
 								console.log("Message sent successfully:", data.message, data.data);
-								 $("#chatBox").append(data.html); // Assuming the server responds with HTML to append
+								$("#chatBox").append(data.html); // Assuming the server responds with HTML to append
 
 								document.getElementById('message').value = "";
 								document.getElementById('fileInput').value = "";
