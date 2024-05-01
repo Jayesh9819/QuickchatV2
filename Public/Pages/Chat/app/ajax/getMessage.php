@@ -7,6 +7,7 @@ session_start();
 	$text = preg_replace($urlPattern, '<a class="rtext" href="$0" target="_blank">$0</a>', $text);
 	return $text;
 }
+include '../db.conn.php';
 
 # check if the user is logged in
 if (isset($_SESSION['username'])) {
@@ -14,7 +15,6 @@ if (isset($_SESSION['username'])) {
 	if (isset($_POST['id_2'])) {
 	
 	# database connection file
-	include '../db.conn.php';
 
 	$id_1  = $_SESSION['user_id'];
 	$id_2  = $_POST['id_2'];
@@ -68,4 +68,21 @@ if (isset($_SESSION['username'])) {
 }else {
 	header("Location: ../../index.php");
 	exit;
+}
+/**
+ * Fetch a message by its ID.
+ *
+ * @param int $messageId The ID of the message to fetch.
+ * @param PDO $conn Database connection object.
+ * @return array|null Returns the message data as an associative array or null if not found.
+ */
+ function getMessageById($messageId, $conn) {
+    try {
+        $stmt = $conn->prepare("SELECT * FROM chats WHERE chat_id = ?");
+        $stmt->execute([$messageId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);  // Fetch the message as an associative array.
+    } catch (PDOException $e) {
+        error_log("Error fetching message by ID: " . $e->getMessage());
+        return null;  // Return null in case of an error.
+    }
 }

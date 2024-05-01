@@ -388,7 +388,12 @@
 											<h3 style="display: block; color: #666; font-size: smaller;"><?= htmlspecialchars($chat['sender_username']) ?></h3>
 										<?php endif; ?>
 
-
+										<?php if (!empty($chat['reply_id'])) : ?>
+											<?php $repliedMessage = getMessageById($chat['reply_id'], $conn); ?>
+											<div class="replied-message" onclick="window.location.href='#msg_<?= $repliedMessage['chat_id'] ?>';">
+												<em>Replied to: <?= htmlspecialchars($repliedMessage['message']) ?></em>
+											</div>
+										<?php endif; ?>
 										<?php
 										$attachmentHTML = '';
 										if (!empty($chat['attachment'])) {
@@ -423,6 +428,7 @@
 										}
 										echo $attachmentHTML;
 										?>
+
 										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
 
 										<small style="display: block; color: #666; font-size: smaller;"><?= date('M d, Y h:i A', strtotime($chat['created_at'])) ?></small>
@@ -471,7 +477,6 @@
 			</div>
 		</div>
 
-		<script src="timezone_detect.js"></script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -484,20 +489,24 @@
 			});
 
 			$(document).ready(function() {
-				// Your existing $(document).ready setup
-				// Including the setInterval for fetchMessages
-
-				// Example: Request permission for Notifications
 				if ("Notification" in window) {
 					Notification.requestPermission();
 				}
 			});
 
+			function scrollToMessage(msgId) {
+				const messageElement = document.getElementById(msgId);
+				if (messageElement) {
+					messageElement.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center'
+					});
+				}
+			}
+
 			function onNewMessageReceived() {
 				var chatSound = document.getElementById('chatNotificationSound');
 				chatSound.play();
-
-				// Show a notification if the tab is not active
 				if (document.hidden && Notification.permission === "granted") {
 					new Notification("New message", {
 						body: "You have received a new message.",
@@ -544,7 +553,7 @@
 				console.log("Reply cleared and message input reset."); // Debug: Confirmation of reset
 			}
 			// Assuming you receive `originalMessage` as part of the AJAX response for replies
-			
+
 
 
 			document.addEventListener('DOMContentLoaded', function() {
