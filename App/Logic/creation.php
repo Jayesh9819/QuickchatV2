@@ -5,6 +5,8 @@ session_start();
 use function PHPSTORM_META\type;
 
 include "../db/db_connect.php";
+include "../helper/link.php";
+
 class Creation
 {
     private $susername, $srole;
@@ -28,20 +30,7 @@ class Creation
             $managerid = isset($_POST['managerid']) ? $this->sanitizeInput($_POST['managerid']) : null;
             $agentid = isset($_POST['agentid']) ? $this->sanitizeInput($_POST['agentid']) : null;
             $pageId = isset($_POST['pagename']) ? $this->sanitizeInput($_POST['pagename']) : null;
-
-            // Set branchId to null initially
             $branchId = 123;
-
-            // Check if the branchname is provided
-            // if (isset($_POST['branchname']) && $_POST['branchname'] !== '') {
-            //     // If branchname is provided, sanitize and set the branchId
-            //     $branchId = $this->sanitizeInput($_POST['branchname']);
-            // } else {
-            //     // If branchname is not provided, fetch the branchId based on pageId
-            //     $branchId = $this->getBranchNameByPageName($pageId, $this->conn);
-            // }
-
-            // Check if the username is unique
             if ($this->isUsernameUnique($username)) {
                 $query = "INSERT INTO user (name, username, password, role, branchname, pagename) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = mysqli_prepare($this->conn, $query);
