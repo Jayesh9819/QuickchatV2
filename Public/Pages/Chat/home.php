@@ -539,7 +539,7 @@
 						block: 'center'
 					});
 					setTimeout(() => {
-					messageElement.classList.remove('active-message');
+						originalMessage.classList.remove('active-message');
 				}, 3000);
 				}
 
