@@ -388,7 +388,6 @@
 											<h3 style="display: block; color: #666; font-size: smaller;"><?= htmlspecialchars($chat['sender_username']) ?></h3>
 										<?php endif; ?>
 
-										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
 
 										<?php
 										$attachmentHTML = '';
@@ -420,6 +419,7 @@
 										}
 										echo $attachmentHTML;
 										?>
+										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
 
 										<small style="display: block; color: #666; font-size: smaller;"><?= date('M d, Y h:i A', strtotime($chat['created_at'])) ?></small>
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
