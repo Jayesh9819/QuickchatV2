@@ -333,7 +333,7 @@
 		// include("./Public/Pages/Common/main_content.php");
 		?>
 		<div class="content-inner container-fluid pb-0" id="page_layout">
-			<div class="w-400 shadow p-4 rounded" style="height:90vh;">
+			<div class="w-800 shadow p-4 rounded" style="height:90vh;">
 
 				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
 
@@ -478,11 +478,7 @@
 
 			</div>
 
-			<div class=" shadow p-4 rounded redeemChatButton" style="height:85vh; width:400px; ">
-				<a name="" id="" class="btn btn-secondary" href="./cash_out?u=<?= $chatWith['username'] ?>" role="button">Redeem Button</a>
-				<a name="" id="" class="btn btn-danger" href="./deposit?u=<?= $chatWith['username'] ?>" role="button">Recharge Button</a>
 
-			</div>
 		</div>
 
 
