@@ -217,7 +217,7 @@
 		}
 
 		.active-message {
-			background-color: #ffc107;
+			background-color: #059e59;
 			/* Example: a yellow background for active message */
 			border-color: #ffecb3;
 		}
@@ -539,7 +539,13 @@
 						block: 'center'
 					});
 				}
+
+				// Remove the function after 5 seconds
+				setTimeout(() => {
+					delete window.activateOriginalMessage;
+				}, 5000);
 			}
+
 
 
 			function scrollToMessage(msgId) {
