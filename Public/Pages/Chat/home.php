@@ -540,10 +540,9 @@
 					});
 				}
 
-				// Remove the function after 5 seconds
 				setTimeout(() => {
-					delete window.activateOriginalMessage;
-				}, 5000);
+						messageElement.classList.remove('active-message');
+					}, 3000); 
 			}
 
 
