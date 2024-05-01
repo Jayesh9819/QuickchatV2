@@ -82,3 +82,20 @@ function getUserDataByUsername($username, $conn)
     // Return the user data
     return $userData;
 }
+/**
+ * Fetch a message by its ID.
+ *
+ * @param int $messageId The ID of the message to fetch.
+ * @param PDO $conn Database connection object.
+ * @return array|null Returns the message data as an associative array or null if not found.
+ */
+function getMessageById($messageId, $conn) {
+    try {
+        $stmt = $conn->prepare("SELECT * FROM chats WHERE chat_id = ?");
+        $stmt->execute([$messageId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);  // Fetch the message as an associative array.
+    } catch (PDOException $e) {
+        error_log("Error fetching message by ID: " . $e->getMessage());
+        return null;  // Return null in case of an error.
+    }
+}
