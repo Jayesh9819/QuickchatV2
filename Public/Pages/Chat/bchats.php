@@ -45,7 +45,12 @@
 
 		# Getting User data data
 		$chatWith = getPage($_GET['user'], $conn);
-
+		if (isset($_GET['user'])) {
+			echo "User parameter is: " . htmlspecialchars($_GET['user']);
+		} else {
+			echo "User parameter is missing.";
+		}
+		
 		if (empty($chatWith)) {
 			// header("Location: ./Chat_l");
 			exit;
@@ -478,22 +483,8 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 			<script>
-				// function onNewMessageReceived() {
-				// 	var chatSound = document.getElementById('chatNotificationSound');
-				// 	chatSound.play();
-				// }
-				// document.addEventListener("visibilitychange", function() {
-				// 	if (!document.hidden) {
-				// 		// The user has switched back to the tab, fetch new messages immediately
-				// 		fetchMessages();
-				// 	}
-				// });
 
 				$(document).ready(function() {
-					// Your existing $(document).ready setup
-					// Including the setInterval for fetchMessages
-
-					// Example: Request permission for Notifications
 					if ("Notification" in window) {
 						Notification.requestPermission();
 					}
@@ -599,7 +590,7 @@
 					// auto refresh / reload
 					let fechData = function() {
 						$.post("../Public/Pages/Chat/app/ajax/bgetMessage.php", {
-								id_2: <?= $chatWith['name'] ?>
+								id_2: '<?= $chatWith['name'] ?>'
 							},
 							function(data, status) {
 								$("#chatBox").append(data);
