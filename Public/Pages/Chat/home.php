@@ -406,7 +406,7 @@
 
 
 									<button style="background: none; border: none; cursor: pointer;" onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">
-										<img src="../uploads/reply.png" style="width:40px;" alt="Reply" style="display: block;">
+										<img src="../uploads/reply.png" style="width:70px;" alt="Reply" style="display: block;">
 									</button>
 
 
