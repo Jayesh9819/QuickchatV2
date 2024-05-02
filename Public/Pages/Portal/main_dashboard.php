@@ -84,7 +84,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     $role = $_SESSION['role'];
     $username = $_SESSION['username'];
     $page = $_SESSION['page1'];
-    $barnch = $_SESSION['branch1'];
+    $branch = $_SESSION['branch1'];
     $timezone = $_SESSION['timezone'];
     date_default_timezone_set($timezone); // Adjust to your timezone
 
