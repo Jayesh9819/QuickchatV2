@@ -293,6 +293,9 @@
 			.emoji-picker {
 				grid-template-columns: repeat(4, 1fr);
 			}
+			.shprofile{
+				display: none;
+			}
 
 		}
 
@@ -375,7 +378,7 @@
 					</div>
 					<?php
 					if ($chatWith['role'] == 'User') {
-						echo '<a name="" id="" class="btn btn-primary" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
+						echo '<a name="" id="" class="btn btn-primary shprofile" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
 						echo '				<a name="" id="" class="btn btn-secondary" href="./cash_out?u=' . $chatWith['id'] . '" role="button">Redeem </a>
 					<a name="" id="" class="btn btn-danger" href="./deposit?u=' . $chatWith['id'] . '" role="button">Recharge </a>';
 					}
