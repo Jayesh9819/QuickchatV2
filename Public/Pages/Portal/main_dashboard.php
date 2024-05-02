@@ -119,7 +119,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     } else {
         $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND by_u='$username'  AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
         $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND by_u='$username' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
-        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND by='$username'";
+        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND 'by'='$username'";
     }
     // ... Add more queries as needed
     // Execute the queries and fetch the results
