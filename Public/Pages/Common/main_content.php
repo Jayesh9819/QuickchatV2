@@ -31,7 +31,7 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
                <div class="offcanvas-body">
                   <ul class="iq-nav-menu list-unstyled">
                      <li class="nav-item ">
-                        <a class="nav-link menu-arrow justify-content-start active" data-bs-toggle="colapse" href="<?php echo htmlspecialchars($previousUrl); ?>" target="" role="button" aria-expanded="false" aria-controls="homeData">
+                        <a class="nav-link menu-arrow justify-content-start active" data-bs-toggle="colapse" href="?return=1" target="" role="button" aria-expanded="false" aria-controls="homeData">
                            <svg fill="currentColor" height="20px" width="20px" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 219.151 219.151" xml:space="preserve">
                               <g>
                                  <path d="M109.576,219.151c60.419,0,109.573-49.156,109.573-109.576C219.149,49.156,169.995,0,109.576,0S0.002,49.156,0.002,109.575
