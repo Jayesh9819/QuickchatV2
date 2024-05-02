@@ -56,7 +56,7 @@
             <div class="row no-gutters align-items-center bg-white">
                 <div class="col-md-12 col-lg-6 align-self-center">
                     <div class="row justify-content-center">
-                        <div style="position: relative ; left: 100px;" class="col-md-12 col-lg-6 align-self-center">
+                        <div style="position: relative ; left: 10px;" class="col-md-12 col-lg-6 align-self-center">
                             <a href="#" class="navbar-brand d-flex align-items-center mb-3 justify-content-center text-primary">
                                 <div class="logo-normal">
                                     <img src="<?php echo $settings['logo']; ?>" style="height: 100px; " alt="">
