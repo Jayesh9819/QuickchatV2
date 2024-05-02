@@ -297,7 +297,7 @@
 			}
 			.replyButtonsss{
 				position: relative;
-				top: 5px;
+				top: 1px;
 			}
 
 		}
