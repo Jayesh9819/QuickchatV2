@@ -86,15 +86,12 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     $page = $_SESSION['page1'];
     $branch = $_SESSION['branch1'];
     $timezone = $_SESSION['timezone'];
-    date_default_timezone_set($timezone); // Adjust to your timezone
-
-    // Determine current shift time frame
     $currentHour = date('H'); // 24-hour format of an hour (00 to 23)
 
     if ($currentHour >= 9 && $currentHour < 21) {
         // Day shift: 9 AM to 9 PM
-        $shiftStart = "09:00:00";
-        $shiftEnd = "21:00:00";
+        $shiftStart = date('Y-m-d') . " 09:00:00";
+        $shiftEnd = date('Y-m-d') . " 21:00:00";
     } else {
         // Night shift: 9 PM to 9 AM
         if ($currentHour >= 21) {
@@ -107,7 +104,6 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
             $shiftEnd = date('Y-m-d') . " 09:00:00";
         }
     }
-
     if ($role == 'Admin') {
         $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit'  AND  created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
         $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
@@ -125,9 +121,8 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
         $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND by_u='$username' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
         $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND by='$username'";
     }
-    
+    echo $rechargeQuery;
     // ... Add more queries as needed
- echo $rechargeQuery;
     // Execute the queries and fetch the results
     $rechargeResult = $conn->query($rechargeQuery);
     $redeemResult = $conn->query($redeemQuery);
@@ -306,6 +301,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                         <span class="button-82-edge"></span>
                         <span class="button-82-front text">
                             Chat With Us 24x7
+
                         </span>
                     </button>
                 </a>
@@ -425,7 +421,8 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                                 <div class="card text-center">
                                     <div class="card-body">
                                         <!-- Check if $totalRedeem is null, if yes, display 0 -->
-                                        <h2 class="mb-3"><?php echo isset($totalRedeem) ? $totalRedeem : 0; ?></h2>
+                                        <h2 class="mb-3"><?php echo isset($totalRedeem) ? $totalRedeem : 0;
+                                                            print_r($currentHour); ?></h2>
                                         <h5>Today Redeem Amount</h5>
                                     </div>
                                 </div>
