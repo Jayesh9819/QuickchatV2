@@ -485,7 +485,8 @@
 					<button class="btn btn-outline-secondary emoji-picker-button" type="button" style="flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 5px; background-color: white;">😊</button>
 					<textarea id="message" class="form-control" style="flex-grow: 1; height: 100%; resize: none; padding: 8px; border-radius: 25px; margin-right: 5px; background-color: white; border: 1px solid #ced4da;" rows="1"></textarea>
 					<button class="btn btn-primary" id="sendBtn" style="margin-left: 10px; position:relative;top:2px ;flex: 0 0 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #007bff; color: white;">
-						<i class="fas fa-paper-plane" style="width: 20px; height: 20px;"></i>
+						<!-- <i class="fas fa-paper-plane" style="width: 20px; height: 20px;"></i> -->
+						<img src="./uploads/Qbutton.png" alt="">
 					</button>
 				</div>
 				<div id="emojiPicker" class="emoji-picker" style="display: none;"></div>
