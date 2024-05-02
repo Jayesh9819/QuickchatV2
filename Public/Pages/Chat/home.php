@@ -379,8 +379,8 @@
 					<?php
 					if ($chatWith['role'] == 'User') {
 						echo '<a name="" id="" class="btn btn-primary shprofile" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
-						echo '				<a name="" id="" class="btn btn-secondary" href="./cash_out?u=' . $chatWith['id'] . '" role="button">Redeem </a>
-					<a name="" id="" class="btn btn-danger" href="./deposit?u=' . $chatWith['id'] . '" role="button">Recharge </a>';
+						echo '				<a name="" id="" class="btn btn-secondary shprofile" href="./cash_out?u=' . $chatWith['id'] . '" role="button">Redeem </a>
+					<a name="" id="" class="btn btn-danger shprofile" href="./deposit?u=' . $chatWith['id'] . '" role="button">Recharge </a>';
 					}
 					?>
 
