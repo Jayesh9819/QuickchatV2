@@ -15,9 +15,24 @@ if (isset($action)) {
     $role = $_SESSION['role'];
     $gbranch = $_SESSION['branch1'];
     $username=$_SESSION['username'];
-    // echo $role;
-    // Assuming you have defined or included your functions like fhead, field, select, etc.
-    // ...
+
+    // Page List 
+    $page = [];
+    $pageopt = []; // Array to hold page options
+    if ($role == 'Admin') {
+        $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE page.status = 1");
+    } else if ($role == 'Agent') {
+        $resultPage = $conn->query("SELECT pagename  as name from user where username='$username'");
+    } else {
+        $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE branch.name = '$gbranch' AND page.status = 1");
+    }
+    if ($resultPage->num_rows > 0) {
+        while ($row = $resultPage->fetch_assoc()) {
+            $page[] = $row;
+            $pageopt[] = htmlspecialchars($row['name']); // Add each page name to the array
+        }
+    }
+
 
     if ($action == 'ADD_USER' || $action == 'EDIT_USER') {
         if (isset($_POST['role'])) {
@@ -36,29 +51,13 @@ if (isset($action)) {
                 $branchOpt[] = htmlspecialchars($row['name']);
             }
         }
-        $page = [];
-        $pageopt = []; // Array to hold page options
-        if ($role == 'Admin') {
-            $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE page.status = 1");
-        } else if ($role == 'Agent') {
-            $resultPage = $conn->query("SELECT pagename  as name from user where username='$username'");
-        } else {
-            $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE branch.name = '$gbranch' AND page.status = 1");
-        }
-        if ($resultPage->num_rows > 0) {
-            while ($row = $resultPage->fetch_assoc()) {
-                $page[] = $row;
-                $pageopt[] = htmlspecialchars($row['name']); // Add each page name to the array
-            }
-        }
-        $selectedOptions = isset($row['selected_pages']) ? explode(',', $row['selected_pages']) : [];
-
         if ($action == 'EDIT_USER') {
             $username = $_GET['u'];
             $sql = "Select * from user where username='$username'";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $r = isset($row['role']);
+            $selectedOptions = isset($row['pagename']) ? explode(',', $row['pagename']) : [];
 
             echo $name = field("Name", "text", "fullname", "Enter Your Name", isset($row['name']) ? $row['name'] : '');
             echo $username = field("Username", "text", "username", "Enter Your Username", isset($row['username']) ? $row['username'] : '', 'required', 'readonly');
@@ -78,7 +77,7 @@ if (isset($action)) {
                         echo '<div id="checkboxContainer"></div>';
                         echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page, $row['pagename']);
                     } else {
-                        echo generateCheckboxes($pageopt, 'selectedPages');
+                        echo generateCheckboxes($pageopt, 'selectedPages',$selectedOptions);
                     }
                 } elseif ($row['role'] == 'Manager' || $row['role'] == 'Supervisor') {
                     echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
@@ -581,6 +580,64 @@ if (isset($action)) {
         echo $Cancel;
         echo $formend;
     }
+    else if ($action == "LINK_PLATFORM") {
+        $title = "Link Page And Platform";
+        $heading = "";
+        $action = "../App/Logic/creation.php?action=link_platform";
+        $platform=$_GET['u'];
+        $page = []; 
+        $res = $conn->query("SELECT * FROM platform WHERE pid = $platform");
+        if ($res) {
+            $platformData = $res->fetch_assoc();
+            $name = $platformData['name'];
+        } else {
+            // Handle the case where the platform with the given ID does not exist or an error occurred
+            $name = null; // or any other default value or error handling mechanism
+        }
+        $resultPage = $conn->query("SELECT * from linkplatform where platid='$platform'");
+
+        if ($resultPage->num_rows > 0) {
+            while ($row = $resultPage->fetch_assoc()) {
+                $page[] = htmlspecialchars($row['pagename']); // Add each page name to the array
+            }
+        }
+        echo fhead($title, $heading, $action);
+        echo '<input type="text" name="platfrom" hidden value="'.$name.'">';
+        echo '<label>Select the Pages </label> <br>' ;
+        echo generateCheckboxes($pageopt, 'selectedPages',$page);
+        echo $Submit;
+        echo $Cancel;
+        echo $formend;
+    }    else if ($action == "LINK_CASHAPP") {
+        $title = "Link Page And Platform";
+        $heading = "";
+        $action = "../App/Logic/creation.php?action=link_platform";
+        $platform=$_GET['u'];
+        $page = []; 
+        $res = $conn->query("SELECT * FROM cashapp WHERE pid = $platform");
+        if ($res) {
+            $platformData = $res->fetch_assoc();
+            $name = $platformData['name'];
+        } else {
+            // Handle the case where the platform with the given ID does not exist or an error occurred
+            $name = null; // or any other default value or error handling mechanism
+        }
+        $resultPage = $conn->query("SELECT * from linkplatform where platid='$platform'");
+
+        if ($resultPage->num_rows > 0) {
+            while ($row = $resultPage->fetch_assoc()) {
+                $page[] = htmlspecialchars($row['pagename']); // Add each page name to the array
+            }
+        }
+        echo fhead($title, $heading, $action);
+        echo '<input type="text" name="platfrom" hidden value="'.$name.'">';
+        echo '<label>Select the Pages </label> <br>' ;
+        echo generateCheckboxes($pageopt, 'selectedPages',$page);
+        echo $Submit;
+        echo $Cancel;
+        echo $formend;
+    }
+
 }
 
 

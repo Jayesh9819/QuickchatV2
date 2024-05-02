@@ -58,7 +58,7 @@ function selectMult($label, $id, $name, $options, $selectedOptions = [])
 
     // Closing the select element and adding a visible input to display selections
     $html .= '</select>
-              <input name='.$name.' type="text" id="' . $id . '_visible_input" class="form-control mt-2" readonly>
+              <input name=' . $name . ' type="text" id="' . $id . '_visible_input" class="form-control mt-2" readonly>
             </div>';
 
     // Adding the script to handle the select change event
@@ -99,15 +99,28 @@ function selectMult($label, $id, $name, $options, $selectedOptions = [])
 
     return $html;
 }
-function generateCheckboxes($values, $name) {
+function generateCheckboxes($values, $name, $selectedValues = []) {
+    // Ensure $selectedValues is always an array
+    if (!is_array($selectedValues)) {
+        $selectedValues = [$selectedValues];  // Convert single string to an array
+    }
+
+    // Trim all values in $selectedValues to avoid whitespace issues
+    $selectedValues = array_map('trim', $selectedValues);
+
     foreach ($values as $value) {
+        // Trim the current value and check if it should be selected
+        $trimmedValue = trim($value);
+        $checked = in_array($trimmedValue, $selectedValues) ? 'checked' : '';
+        
         echo '<label>';
-        echo '<input type="checkbox" name="' . $name . '[]" value="' . htmlspecialchars($value) . '">';
-        echo htmlspecialchars($value);
+        echo '<input type="checkbox" name="' . $name . '[]" value="' . htmlspecialchars($trimmedValue) . '" ' . $checked . '>';
+        echo htmlspecialchars($trimmedValue);
         echo '</label><br>';
     }
 }
-function generateRadioButtons($values, $name) {
+function generateRadioButtons($values, $name)
+{
     foreach ($values as $value) {
         echo '<label>';
         echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '">';
@@ -115,7 +128,8 @@ function generateRadioButtons($values, $name) {
         echo '</label><br>';
     }
 }
-function generateHorizontalRadioButtons($values, $name, $heading) {
+function generateHorizontalRadioButtons($values, $name, $heading)
+{
     echo '<p>' . htmlspecialchars($heading) . '</p>';
     echo '<div class="horizontal-radio-buttons">';
     foreach ($values as $value) {
@@ -126,7 +140,8 @@ function generateHorizontalRadioButtons($values, $name, $heading) {
     }
     echo '</div>';
 }
-function generateHorizontalRadioButtonsWithOther($values, $name, $heading) {
+function generateHorizontalRadioButtonsWithOther($values, $name, $heading)
+{
     echo '<p>' . htmlspecialchars($heading) . '</p>';
     echo '<div class="horizontal-radio-buttons" style="padding: 10px;">';  // Added padding for the container
     $values[] = 'Other';
@@ -160,7 +175,8 @@ function generateHorizontalRadioButtonsWithOther($values, $name, $heading) {
 
 
 
-function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, $pagesData, $serializedSelectedValues) {
+function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, $pagesData, $serializedSelectedValues)
+{
     // Unserialize the selected values
     // $selectedValues = unserialize($serializedSelectedValues);
 
@@ -208,7 +224,8 @@ function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, 
 }
 
 
-function generateDynamicDropdownScript($branchDropdownId, $pageDropdownId, $pagesData) {
+function generateDynamicDropdownScript($branchDropdownId, $pageDropdownId, $pagesData)
+{
     $script = "<script>
         const branchSelect = document.getElementById('$branchDropdownId');
         const pageSelect = document.getElementById('$pageDropdownId');

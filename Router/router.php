@@ -71,6 +71,8 @@ if ($uri == $firstparam || $uri == $secondparam) {
         $prefix . $root . '/Scripts'                         => './Public/Pages/Portal/scripts.php',
         $prefix . $root . '/Add_User'                         => './Public/Pages/Portal/temp.php',
         $prefix . $root . '/Add_CashApp'                         => './Public/Pages/Portal/temp.php',
+        $prefix . $root . '/Link_Platform'                         => './Public/Pages/Portal/temp.php',
+
         $prefix . $root . '/Add_Refer'                         => './Public/Pages/Portal/add_refer.php',
         $prefix . $root . '/WebSet'                         => './Public/Pages/Portal/webset.php',
 

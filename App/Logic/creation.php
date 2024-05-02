@@ -188,8 +188,8 @@ class Creation
             $email = $this->conn->real_escape_string($_POST['email']);
             $remark = $this->conn->real_escape_string($_POST['remark']);
             $addedBy = $this->susername;
-            $data=$this->getUserDataByUsername($addedBy);
-            $branch=$data['branchname'];
+            $data = $this->getUserDataByUsername($addedBy);
+            $branch = $data['branchname'];
 
 
             $status = isset($_POST['active']) ? 1 : 0;
@@ -197,7 +197,7 @@ class Creation
             $sql = "INSERT INTO cashapp (name, cashtag,start,email, current_balance,remark, status,by_name,branch, created_at, updated_at) VALUES (?, ?,NOW(), ?,?,?, ?,?,?, NOW(), NOW())";
 
             if ($stmt = $this->conn->prepare($sql)) {
-                $stmt->bind_param("sssdsiss", $name, $cashtag, $email, $currentBalance, $remark, $status,$addedBy,$branch);
+                $stmt->bind_param("sssdsiss", $name, $cashtag, $email, $currentBalance, $remark, $status, $addedBy, $branch);
 
                 if ($stmt->execute()) {
                     $this->createRecord("cashappRecord", "name", $name, $currentBalance, "Recharge", $addedBy, "", 0, $currentBalance, $remark);
@@ -296,18 +296,18 @@ class Creation
             $userData = $this->getUserDataByUsername($username);
             $branchId = $userData['branchname'];
             $pagename = $userData['pagename'];
-            if($by_role!='User'){
-                $redstat=1;
-                $cashstat=1;
-            }else{
-                $redstat=0;
-                $cashstat=0;
+            if ($by_role != 'User') {
+                $redstat = 1;
+                $cashstat = 1;
+            } else {
+                $redstat = 0;
+                $cashstat = 0;
             }
 
 
             $sql = "Insert into transaction (username,redeem,redeem_status,cashout_status,page,branch,excess,cashapp,platform,tip,type,remark,by_u,by_role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             if ($stmt = mysqli_prepare($this->conn, $sql)) {
-                mysqli_stmt_bind_param($stmt, "sissssisssssss", $username, $cashoutamount,$redstat,$cashstat, $pagename, $branchId, $accessamount, $cashupName, $platformName, $tip, $type, $remark, $by_username, $by_role);
+                mysqli_stmt_bind_param($stmt, "sissssisssssss", $username, $cashoutamount, $redstat, $cashstat, $pagename, $branchId, $accessamount, $cashupName, $platformName, $tip, $type, $remark, $by_username, $by_role);
                 if ($stmt->execute()) {
                     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Reedem Added Sucessfully '];
                     $this->updateBalances($type, $cashoutamount, $platformName, $cashupName, $username, $by_username);
@@ -342,7 +342,7 @@ class Creation
 
                 $_SESSION['toast'] = ['type' => 'error', 'message' => 'Please fill in all required fields.'];
                 header("Location: " . $_SERVER['REQUEST_URI']);
-                
+
                 exit();
             }
             $username = $this->conn->real_escape_string($_POST['username']);
@@ -384,7 +384,6 @@ class Creation
                     echo "Error adding transaction details: " . $stmt->error . "<br>";
                     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Error adding transaction details: ' . $stmt->error];
                     header("Location: ../../index.php/Portal_User_Management");
-
                 }
                 $stmt->close();
             } else {
@@ -584,7 +583,7 @@ class Creation
             $sql = "INSERT INTO branch (name, status,by_name, created_at, updated_at) VALUES (?, ?, ?,NOW(), NOW())";
 
             if ($stmt = $this->conn->prepare($sql)) {
-                $stmt->bind_param("sis", $name, $status,$addby);
+                $stmt->bind_param("sis", $name, $status, $addby);
 
                 if ($stmt->execute()) {
                     // Success: Redirect or display a success message
@@ -884,10 +883,115 @@ class Creation
         }
     }
 
+    private function getAllPlatformData($platfrom)
+    {
+
+        $query = "SELECT * FROM platform where name='$platfrom'";
+        $result = mysqli_query($this->conn, $query);
+
+        if (!$result) {
+            die("Error retrieving pages data: " . mysqli_error($this->conn));
+        }
+
+        $pagesData = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pagesData = $row;
+        }
+
+        mysqli_free_result($result);
+
+        return $pagesData;
+    }
+    private function getAllPagesData($pagename)
+    {
+
+        $query = "SELECT * FROM page where name='$pagename'";
+        $result = mysqli_query($this->conn, $query);
+
+        if (!$result) {
+            die("Error retrieving pages data: " . mysqli_error($this->conn));
+        }
+
+        $pagesData = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pagesData = $row;
+        }
+
+        mysqli_free_result($result);
+
+        return $pagesData;
+    }
+
+
 
     private function sanitizeInput($input)
     {
         return htmlspecialchars(strip_tags(trim($input)));
+    }
+    public function link_platform()
+    {
+        // Print the $_POST data for debugging
+        print_r($_POST);
+
+        // Check if selectedPages is set in $_POST
+        if (isset($_POST['selectedPages'])) {
+            $platform = $_POST['platfrom'];
+            $user = $this->susername;
+            $platformData = $this->getAllPlatformData($platform);
+            print_r($platformData);
+            $pid = $platformData['pid'];
+
+            // Get the list of selected pages
+            $selectedPages = $_POST['selectedPages'];
+
+            // Escape the platform value to prevent SQL injection
+            $platform = mysqli_real_escape_string($this->conn, $platform);
+
+            // Delete records from linkplatform table that are not in the list of selected pages
+            $sqlDelete = "DELETE FROM linkplatform WHERE platid = $pid AND pagename NOT IN ('" . implode("','", $selectedPages) . "')";
+            if (mysqli_query($this->conn, $sqlDelete)) {
+                echo "Deleted records successfully for unselected pages<br>";
+            } else {
+                echo "Error deleting records for unselected pages - " . mysqli_error($this->conn) . "<br>";
+            }
+
+            foreach ($selectedPages as $selectedPage) {
+                $pageData = $this->getAllPagesData($selectedPage);
+                $pageID = $pageData['pid'];
+
+                // Escape the value to prevent SQL injection
+                $selectedPage = mysqli_real_escape_string($this->conn, $selectedPage);
+
+                // Check if a record with the same platform and page already exists
+                $query = "SELECT * FROM linkplatform WHERE platid = $pid AND pagename = '$selectedPage'";
+                $result = mysqli_query($this->conn, $query);
+
+                if (mysqli_num_rows($result) > 0) {
+                    // Update existing record
+                    $row = mysqli_fetch_assoc($result);
+                    $linkId = $row['id'];
+                    $sqlUpdate = "UPDATE linkplatform SET by_u = '$user', pagid = $pageID WHERE id = $linkId";
+                    if (mysqli_query($this->conn, $sqlUpdate)) {
+                        echo "Record updated successfully for page: $selectedPage<br>";
+                    } else {
+                        echo "Error updating record for page: $selectedPage - " . mysqli_error($this->conn) . "<br>";
+                    }
+                } else {
+                    // Insert new record
+                    $sqlInsert = "INSERT INTO linkplatform (platid, pagename, platform, by_u, pagid) VALUES ($pid, '$selectedPage', '$platform', '$user', $pageID)";
+                    if (mysqli_query($this->conn, $sqlInsert)) {
+                        echo "Record inserted successfully for page: $selectedPage<br>";
+                    } else {
+                        echo "Error inserting record for page: $selectedPage - " . mysqli_error($this->conn) . "<br>";
+                    }
+                }
+            }
+            $_SESSION['toast'] = ['type' => 'success', 'message' => 'Page Linked Sucessfully.'];
+            header("location: ../../index.php/Portal_Platform_Management");
+            exit();
+        } else {
+            echo "No selected pages found in the POST data";
+        }
     }
 }
 
@@ -920,6 +1024,8 @@ if (isset($_GET['action']) && $_GET['action'] == "UserAdd") {
     $creation->EditBranch();
 } else if (isset($_GET['action']) && $_GET['action'] == "Free_Play") {
     $creation->Free_Play();
+} else if (isset($_GET['action']) && $_GET['action'] == "link_platform") {
+    $creation->link_platform();
 }
 
 
