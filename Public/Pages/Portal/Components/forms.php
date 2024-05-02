@@ -14,7 +14,7 @@ if (isset($action)) {
     $heading = "Fill the details";
     $role = $_SESSION['role'];
     $gbranch = $_SESSION['branch1'];
-    $username=$_SESSION['username'];
+    $username = $_SESSION['username'];
 
     // Page List 
     $page = [];
@@ -77,7 +77,7 @@ if (isset($action)) {
                         echo '<div id="checkboxContainer"></div>';
                         echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page, $row['pagename']);
                     } else {
-                        echo generateCheckboxes($pageopt, 'selectedPages',$selectedOptions);
+                        echo generateCheckboxes($pageopt, 'selectedPages', $selectedOptions);
                     }
                 } elseif ($row['role'] == 'Manager' || $row['role'] == 'Supervisor') {
                     echo select("Branch name", "branch", "branch", $branchOpt, isset($row['pagename']) ? $row['pagename'] : '');
@@ -104,8 +104,8 @@ if (isset($action)) {
                 } elseif ($_POST['role'] == 'User') {
 
                     echo $fbLink = field("Facebook Link", "text", "fb_link", "Enter Your Facebook Link", isset($_POST['fb_link']) ? $_POST['fb_link'] : '');
-                    $array=$pageopt[0];
-                    $pages = explode(", ",$array);
+                    $array = $pageopt[0];
+                    $pages = explode(", ", $array);
 
                     echo generateRadioButtons($pages, 'selectedPages');
                 }
@@ -182,22 +182,23 @@ if (isset($action)) {
                 $platformNames[] = $row['platfromname']; // Add each platform name to the array
             }
         }
-        
+
         // Call the function to generate radio buttons
         generateHorizontalRadioButtonsWithOther($platformNames, 'platformname', 'Platform Name');
-        
-       
-         $cashAppOptions = [];
-         $result = $conn->query("SELECT * FROM cashapp where status=1 And branch='$gbranch'");
-         if ($result->num_rows > 0) {
-             while ($row = $result->fetch_assoc()) {
-                 $cashAppOptions[] = htmlspecialchars($row['name']);
-             }
-         }
-         
-         // Generate horizontal radio buttons with 'Other' option
-         generateHorizontalRadioButtonsWithOther($cashAppOptions, 'cashAppname', 'cashApp Name');
-         
+
+
+        $cashAppOptions = [];
+        $result = $conn->query("SELECT * FROM cashapp where status=1 And branch='$gbranch'");
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $cashAppOptions[] = htmlspecialchars($row['name']);
+            }
+        }
+
+        // Generate horizontal radio buttons with 'Other' option
+        generateHorizontalRadioButtonsWithOther($cashAppOptions, 'cashAppname', 'cashApp Name');
+        echo field("Cash Tag", "text", "ctag", "Enter the Cash Tag");
+
         echo field("Tip", "number", "tip", "Enter the Tip Amount");
         echo field("Remark", "text", "remark", "Enter the Remark ", "", "");
 
@@ -237,10 +238,10 @@ if (isset($action)) {
                 $platformNames[] = $row['platfromname']; // Add each platform name to the array
             }
         }
-        
+
         // Call the function to generate radio buttons
         generateHorizontalRadioButtonsWithOther($platformNames, 'platformname', 'Platform Name');
-        
+
         // echo field("cashApp Name", "text", "cashAppname", "Enter the cashApp Name");
         $cashAppOptions = [];
         $result = $conn->query("SELECT * FROM cashapp where status=1 And branch='$gbranch'");
@@ -249,10 +250,10 @@ if (isset($action)) {
                 $cashAppOptions[] = htmlspecialchars($row['name']);
             }
         }
-        
+
         // Generate horizontal radio buttons with 'Other' option
         generateHorizontalRadioButtonsWithOther($cashAppOptions, 'cashAppname', 'cashApp Name');
-        
+
         echo field("Bonus Amount", "number", "bonusamount", "Enter the Bonus Amount");
         echo field("Remark", "text", "remark", "Enter the Remark ", "", "");
 
@@ -542,7 +543,7 @@ if (isset($action)) {
                 $platformNames[] = $row['platfromname']; // Add each platform name to the array
             }
         }
-        
+
         // Call the function to generate radio buttons
         generateHorizontalRadioButtonsWithOther($platformNames, 'platformname', 'Platform Name');
 
@@ -572,6 +573,7 @@ if (isset($action)) {
         echo '<label for="platformname">Platform Name</label>';
         echo '<select class="form-select" id="platformname" name="platformname" onchange="showOtherField(this, \'platformname-other\')">' . $platformOptions . '</select>';
         echo '<input type="text" id="platformname-other" name="platformname_other" style="display:none;" placeholder="Enter Platform Name">';
+        echo field("Cash Tag", "text", "ctag", "Enter the Cash Tag");
         echo select("Tip Type", "ttype", "ttype", $option);
         echo field("Tip", "number", "tip", "Enter the Tip Amount");
         echo field("Remark", "text", "remark", "Enter the Remark ", "", "");
@@ -579,13 +581,12 @@ if (isset($action)) {
         echo $Submit;
         echo $Cancel;
         echo $formend;
-    }
-    else if ($action == "LINK_PLATFORM") {
+    } else if ($action == "LINK_PLATFORM") {
         $title = "Link Page And Platform";
         $heading = "";
         $action = "../App/Logic/creation.php?action=link_platform";
-        $platform=$_GET['u'];
-        $page = []; 
+        $platform = $_GET['u'];
+        $page = [];
         $res = $conn->query("SELECT * FROM platform WHERE pid = $platform");
         if ($res) {
             $platformData = $res->fetch_assoc();
@@ -602,18 +603,18 @@ if (isset($action)) {
             }
         }
         echo fhead($title, $heading, $action);
-        echo '<input type="text" name="platfrom" hidden value="'.$name.'">';
-        echo '<label>Select the Pages </label> <br>' ;
-        echo generateCheckboxes($pageopt, 'selectedPages',$page);
+        echo '<input type="text" name="platfrom" hidden value="' . $name . '">';
+        echo '<label>Select the Pages </label> <br>';
+        echo generateCheckboxes($pageopt, 'selectedPages', $page);
         echo $Submit;
         echo $Cancel;
         echo $formend;
-    }    else if ($action == "LINK_CASHAPP") {
+    } else if ($action == "LINK_CASHAPP") {
         $title = "Link Page And Platform";
         $heading = "";
         $action = "../App/Logic/creation.php?action=link_platform";
-        $platform=$_GET['u'];
-        $page = []; 
+        $platform = $_GET['u'];
+        $page = [];
         $res = $conn->query("SELECT * FROM cashapp WHERE pid = $platform");
         if ($res) {
             $platformData = $res->fetch_assoc();
@@ -630,14 +631,13 @@ if (isset($action)) {
             }
         }
         echo fhead($title, $heading, $action);
-        echo '<input type="text" name="platfrom" hidden value="'.$name.'">';
-        echo '<label>Select the Pages </label> <br>' ;
-        echo generateCheckboxes($pageopt, 'selectedPages',$page);
+        echo '<input type="text" name="platfrom" hidden value="' . $name . '">';
+        echo '<label>Select the Pages </label> <br>';
+        echo generateCheckboxes($pageopt, 'selectedPages', $page);
         echo $Submit;
         echo $Cancel;
         echo $formend;
     }
-
 }
 
 
