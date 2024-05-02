@@ -531,20 +531,22 @@ if (isset($action)) {
         $title = "Free Play";
         $heading = "Fill in the details for Free Play";
         $postUrl = "../App/Logic/creation.php?action=Free_Play";
-        $conditionQuery = "SELECT name FROM platform WHERE status = 1";
-        $conditionResult = $conn->query($conditionQuery);
-        if ($conditionResult) {
-            while ($conditionRow = $conditionResult->fetch_assoc()) {
-                $conditionOptions[] = $conditionRow['name'];
-            }
-            $conditionResult->free(); // Free the result set
-        }
 
         echo fhead($title, $heading, $postUrl);
         $name = $_GET['u'];
         echo field("Username", "text", "username", "", $name, "required", "readonly");
         echo field("Amount", "number", "amount", "Enter Amount for the free play", '');
-        echo select("Platform", "platform", "platform", array_combine($conditionOptions, $conditionOptions));
+        $platformNames = array(); // Initialize an empty array to store platform names
+        $result = $conn->query("SELECT platfromname FROM Platformuser WHERE username='$name'");
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $platformNames[] = $row['platfromname']; // Add each platform name to the array
+            }
+        }
+        
+        // Call the function to generate radio buttons
+        generateHorizontalRadioButtonsWithOther($platformNames, 'platformname', 'Platform Name');
+
         echo field("Remark", "text", "remark", "Enter Remark", "", "");
         echo $Submit;
         echo $Cancel;

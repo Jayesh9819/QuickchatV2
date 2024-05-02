@@ -128,19 +128,17 @@ function generateHorizontalRadioButtons($values, $name, $heading) {
 }
 function generateHorizontalRadioButtonsWithOther($values, $name, $heading) {
     echo '<p>' . htmlspecialchars($heading) . '</p>';
-    echo '<div class="horizontal-radio-buttons">';
-
-    // Add 'other' option to the values array
+    echo '<div class="horizontal-radio-buttons" style="padding: 10px;">';  // Added padding for the container
     $values[] = 'Other';
 
     foreach ($values as $value) {
-        echo '<label class="horizontal-radio-label">';
+        echo '<label class="horizontal-radio-label" style="margin-right: 10px;">'; // Added margin for spacing between buttons
         if ($value === 'Other') {
-            echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '" onchange="toggleOtherTextbox(this)">';
+            echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '" onchange="toggleOtherTextbox(this)" style="transform: scale(1.5); margin-right: 5px;">'; // Enlarged radio button and added space between button and text
             echo htmlspecialchars($value);
             echo '<input type="text" name="' . $name . '_other" style="display:none;">';
         } else {
-            echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '">';
+            echo '<input type="radio" name="' . $name . '" value="' . htmlspecialchars($value) . '" style="transform: scale(1.5); margin-right: 5px;">'; // Enlarged radio button and added space between button and text
             echo htmlspecialchars($value);
         }
         echo '</label>';
