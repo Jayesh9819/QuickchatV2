@@ -411,7 +411,7 @@
                 <?php endif; ?>
 
 
-                <?php if (in_array($role, ['Manager', 'Admin', 'Admin'])) : ?>
+                <?php if (in_array($role, ['Manager', 'Admin', 'Agent'])) : ?>
 
 
                     <li class="nav-item">
