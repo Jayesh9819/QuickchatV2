@@ -55,7 +55,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
 <html lang="en" dir="ltr">
 
 <head>
-    <?php 
+    <?php
 
     include("./Public/Pages/Common/header.php");
     include "./Public/Pages/Common/auth_user.php";
@@ -83,28 +83,51 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     include './App/db/db_connect.php';
     $role = $_SESSION['role'];
     $username = $_SESSION['username'];
-    $page=$_SESSION['page1'];
-    $barnch=$_SESSION['branch1'];
-    if ($role == 'Admin') {
+    $page = $_SESSION['page1'];
+    $barnch = $_SESSION['branch1'];
+    $timezone = $_SESSION['timezone'];
+    date_default_timezone_set($timezone); // Adjust to your timezone
 
-        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND date(created_at) = CURDATE()";
-        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND  date(created_at) = CURDATE()";
-        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1";
-    } else if ($role == 'User') {
-        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND username='$username' AND date(created_at) = CURDATE()";
-        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND username='$username' AND date(created_at) = CURDATE()";
-        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND username='$username'";
-    } else if ($role == 'Manager' || $role == 'Supervisor') {
-        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND branch='$barnch' AND date(created_at) = CURDATE()";
-        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND branch='$barnch' AND date(created_at) = CURDATE()";
-        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND branchname='$barnch'";
+    // Determine current shift time frame
+    $currentHour = date('H'); // 24-hour format of an hour (00 to 23)
+
+    if ($currentHour >= 9 && $currentHour < 21) {
+        // Day shift: 9 AM to 9 PM
+        $shiftStart = "09:00:00";
+        $shiftEnd = "21:00:00";
     } else {
-        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND by_u='$username' AND date(created_at) = CURDATE()";
-        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND by_u='$username' AND date(created_at) = CURDATE()";
-        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND 'by' ='$username' ";
+        // Night shift: 9 PM to 9 AM
+        if ($currentHour >= 21) {
+            // Current time is between 9 PM and Midnight
+            $shiftStart = date('Y-m-d') . " 21:00:00";
+            $shiftEnd = date('Y-m-d', strtotime('+1 day')) . " 09:00:00";
+        } else {
+            // Current time is between Midnight and 9 AM
+            $shiftStart = date('Y-m-d', strtotime('-1 day')) . " 21:00:00";
+            $shiftEnd = date('Y-m-d') . " 09:00:00";
+        }
     }
+
+    if ($role == 'Admin') {
+        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit'  AND  created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1";
+    } elseif ($role == 'User') {
+        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND  username='$username'  AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND username='$username' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND username='$username'";
+    } elseif ($role == 'Manager' || $role == 'Supervisor') {
+        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND branch='$branch'  AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND branch='$branch' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND branchname='$branch'";
+    } else {
+        $rechargeQuery = "SELECT SUM(recharge) AS total_recharge FROM transaction WHERE type='Debit' AND by_u='$username'  AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND by_u='$username' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
+        $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND by='$username'";
+    }
+    
     // ... Add more queries as needed
-// echo $activeUsersQuery;
+ echo $rechargeQuery;
     // Execute the queries and fetch the results
     $rechargeResult = $conn->query($rechargeQuery);
     $redeemResult = $conn->query($redeemQuery);
@@ -256,7 +279,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
 <body class="  ">
     <!-- loader Start -->
     <?php
-     include("./Public/Pages/Common/loader.php");
+    include("./Public/Pages/Common/loader.php");
     ?>
     <!-- loader END -->
 
@@ -392,31 +415,40 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                             <div class="col-lg-3 col-md-6">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <h2 class="mb-3"><?php echo $totalRecharge; ?></h2>
+                                        <!-- Check if $totalRecharge is null, if yes, display 0 -->
+                                        <h2 class="mb-3"><?php echo isset($totalRecharge) ? $totalRecharge : 0; ?></h2>
                                         <h5>Today Recharge Total</h5>
-                                        <!-- You can add logic to calculate percentage changes -->
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <h2 class="mb-3"><?php echo $totalRedeem; ?></h2>
+                                        <!-- Check if $totalRedeem is null, if yes, display 0 -->
+                                        <h2 class="mb-3"><?php echo isset($totalRedeem) ? $totalRedeem : 0; ?></h2>
                                         <h5>Today Redeem Amount</h5>
-                                        <!-- You can add logic to calculate percentage changes -->
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <h2 class="mb-3"><?php echo $activeUsers; ?></h2>
+                                        <!-- Check if $activeUsers is null, if yes, display 0 -->
+                                        <h2 class="mb-3"><?php echo isset($activeUsers) ? $activeUsers : 0; ?></h2>
                                         <h5>Active Users</h5>
-                                        <!-- You can add logic to calculate percentage changes -->
                                     </div>
                                 </div>
                             </div>
-                            <!-- ... Other cards -->
+                            <!-- Optional: Display the difference between recharge and redeem -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <!-- Calculate and display the difference -->
+                                        <h2 class="mb-3"><?php echo abs((isset($totalRecharge) ? $totalRecharge : 0) - (isset($totalRedeem) ? $totalRedeem : 0)); ?></h2>
+                                        <h5>Net Profit (Recharge - Redeem)</h5>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
