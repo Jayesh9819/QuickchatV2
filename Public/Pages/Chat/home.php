@@ -405,7 +405,7 @@
 								<div class="message <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'sent' : 'received' ?>" id="msg_<?= $chat['chat_id'] ?>" style="text-align: <?= ($chat['from_id'] == $_SESSION['user_id']) ? 'right' : 'left'; ?>">
 
 
-									<button style="background: none; border: none; cursor: pointer; position:relative; bottom:40px;" onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">
+									<button style="background: none; border: none; cursor: pointer; position:relative; bottom:30px;" onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">
 										<img src="../uploads/reply.png" style="width:50px;" alt="Reply" style="display: block;">
 									</button>
 
