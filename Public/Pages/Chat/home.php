@@ -406,8 +406,8 @@
 
 
 									<button style="background: none; border: none; cursor: pointer;" onclick="setReplyTo(<?= $chat['chat_id'] ?>, '<?= addslashes(htmlspecialchars($chat['message'])) ?>')">
-    <img src="../uploads/reply.png" style="width:40px;" alt="Reply" style="display: block;">
-</button>
+										<img src="../uploads/reply.png" style="width:40px;" alt="Reply" style="display: block;">
+									</button>
 
 
 									<div class="message-box <?= !empty($chat['reply_id']) ? 'replied-message-box' : '' ?>" style="background-color: <?= ($chat['from_id'] == $_SESSION['user_id']) ? '#dcf8c6' : '#e9e9eb'; ?>; padding: 10px; display: inline-block; border-radius: 10px; margin: 5px;">
