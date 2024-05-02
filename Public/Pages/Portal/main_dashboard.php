@@ -121,7 +121,6 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
         $redeemQuery = "SELECT SUM(redeem) AS total_redeem FROM transaction WHERE type='Credit' AND by_u='$username' AND redeem_status = 1 AND cashout_status = 1 AND created_at BETWEEN '$shiftStart' AND '$shiftEnd'";
         $activeUsersQuery = "SELECT COUNT(*) AS active_users FROM user WHERE role='User' AND status = 1 AND by='$username'";
     }
-    echo $rechargeQuery;
     // ... Add more queries as needed
     // Execute the queries and fetch the results
     $rechargeResult = $conn->query($rechargeQuery);
@@ -422,7 +421,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                                     <div class="card-body">
                                         <!-- Check if $totalRedeem is null, if yes, display 0 -->
                                         <h2 class="mb-3"><?php echo isset($totalRedeem) ? $totalRedeem : 0;
-                                                            print_r($currentHour); ?></h2>
+                                                            ?></h2>
                                         <h5>Today Redeem Amount</h5>
                                     </div>
                                 </div>
