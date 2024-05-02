@@ -88,20 +88,20 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     $timezone = $_SESSION['timezone'];
     $currentHour = date('H'); // 24-hour format of an hour (00 to 23)
 
-    if ($currentHour >= 9 && $currentHour < 21) {
+    if ($currentHour >= 3 && $currentHour < 15) {
         // Day shift: 9 AM to 9 PM
-        $shiftStart = date('Y-m-d') . " 09:00:00";
-        $shiftEnd = date('Y-m-d') . " 21:00:00";
+        $shiftStart = date('Y-m-d') . " 03:00:00";
+        $shiftEnd = date('Y-m-d') . " 15:00:00";
     } else {
         // Night shift: 9 PM to 9 AM
-        if ($currentHour >= 21) {
+        if ($currentHour >= 15) {
             // Current time is between 9 PM and Midnight
-            $shiftStart = date('Y-m-d') . " 21:00:00";
-            $shiftEnd = date('Y-m-d', strtotime('+1 day')) . " 09:00:00";
+            $shiftStart = date('Y-m-d') . " 15:00:00";
+            $shiftEnd = date('Y-m-d', strtotime('+1 day')) . " 03:00:00";
         } else {
             // Current time is between Midnight and 9 AM
-            $shiftStart = date('Y-m-d', strtotime('-1 day')) . " 21:00:00";
-            $shiftEnd = date('Y-m-d') . " 09:00:00";
+            $shiftStart = date('Y-m-d', strtotime('-1 day')) . " 15:00:00";
+            $shiftEnd = date('Y-m-d') . " 03:00:00";
         }
     }
     if ($role == 'Admin') {
