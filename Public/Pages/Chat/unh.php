@@ -339,7 +339,7 @@
 
 				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
 
-					<a href="./Chat_l" class="" style="color: white; margin-right: 10px; font-size: 30px; text-decoration: none;">←</a>
+					<a href="./unkno" class="" style="color: white; margin-right: 10px; font-size: 30px; text-decoration: none;">←</a>
 
 					<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="rounded-circle" style="width: 50px; height: 50px; margin-right: 10px;">
 
