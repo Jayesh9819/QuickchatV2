@@ -853,7 +853,7 @@ class Creation
                 $newCashappBalance = $cashappBalance + $amount;
             } elseif (strtolower($type) === 'credit') {
                 
-                $newPlatformBalance = $platformBalance + $amount+$excess;//200+100=350+40
+                $newPlatformBalance = $platformBalance + $amount+$excess;//200+100=350+40=390
 
                 if($ttype==3){
                     $newPlatformBalance=$newPlatformBalance+$tip;//390+5
