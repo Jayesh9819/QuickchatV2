@@ -854,13 +854,14 @@ class Creation
             } elseif (strtolower($type) === 'credit') {
                 
                 $newPlatformBalance = $platformBalance + $amount;
+                
                 if($ttype==3){
-                    $newPlatformBalance=$newPlatformBalance-$tip;
+                    $newPlatformBalance=$newPlatformBalance-$tip;//
 
                 }
                 $newCashappBalance = $cashappBalance - $amount;
                 if($ttype==2){
-                    $newCashappBalance=$newCashappBalance-$amount;
+                    $newCashappBalance=$newCashappBalance-$tip;//450-100
                 }
 
             } else {
