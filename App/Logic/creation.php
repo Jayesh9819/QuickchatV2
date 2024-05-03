@@ -308,12 +308,12 @@ class Creation
             }
 
 
-            $sql = "Insert into transaction (username,redeem,redeem_status,cashout_status,cashtag,page,branch,excess,cashapp,platform,tip,type,remark,by_u,by_role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "Insert into transaction (username,redeem,redeem_status,tiptype,cashout_status,cashtag,page,branch,excess,cashapp,platform,tip,type,remark,by_u,by_role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             if ($stmt = mysqli_prepare($this->conn, $sql)) {
-                mysqli_stmt_bind_param($stmt, "sisssssisssssss", $username, $cashoutamount,$redstat,$cashstat,$cashtag, $pagename, $branchId, $accessamount, $cashupName, $platformName, $tip, $type, $remark, $by_username, $by_role);
+                mysqli_stmt_bind_param($stmt, "sissssssisssssss", $username, $cashoutamount,$redstat,$ttype,$cashstat,$cashtag, $pagename, $branchId, $accessamount, $cashupName, $platformName, $tip, $type, $remark, $by_username, $by_role);
                 if ($stmt->execute()) {
                     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Reedem Request Sent Sucessfully '];
-                    $this->updateBalances($type, $cashoutamount, $platformName, $cashupName, $username, $by_username,'',$tip,$accessamount);
+                    $this->updateBalances($type, $cashoutamount, $platformName, $cashupName, $username, $by_username,'',$tip,$accessamount,$ttype);
                     echo "Transaction added successfully. Redirecting...<br>";
                     if ($by_role == 'User') {
                         header("Location: ../../index.php");
@@ -379,7 +379,7 @@ class Creation
                 if ($stmt->execute()) {
                     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Recharge Added Sucessfully '];
                     $this->recordReferralAndAffiliateBonus($conn, $username, $recharge);
-                    $this->updateBalances($type, $recharge, $platform, $cashName, $username, $byUsername,$bonus,'','');
+                    $this->updateBalances($type, $recharge, $platform, $cashName, $username, $byUsername,$bonus,'','','');
                     echo "Transaction added successfully. Redirecting...<br>";
                     header("Location: ../../index.php/Portal_User_Management");
                     exit();
@@ -823,7 +823,7 @@ class Creation
 
         return $count == 0; // If count is 0, the username is unique
     }
-    public function updateBalances($type, $amount, $platform, $cashapp, $username, $by_username,$bonus,$tip,$excess)
+    public function updateBalances($type, $amount, $platform, $cashapp, $username, $by_username,$bonus,$tip,$excess,$ttype)
     {
         // Start transaction
         $this->conn->begin_transaction();
@@ -852,8 +852,16 @@ class Creation
                 $newPlatformBalance=$platformBalance-$bonus;
                 $newCashappBalance = $cashappBalance + $amount;
             } elseif (strtolower($type) === 'credit') {
+                
                 $newPlatformBalance = $platformBalance + $amount;
+                if($ttype==3){
+                    $newPlatformBalance=$newPlatformBalance-$tip;
+
+                }
                 $newCashappBalance = $cashappBalance - $amount;
+                if($ttype==2){
+                    $newCashappBalance=$newCashappBalance-$amount;
+                }
 
             } else {
                 throw new Exception('Invalid type specified.');
