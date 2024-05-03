@@ -194,10 +194,12 @@ if (isset($action)) {
                 $cashAppOptions[] = htmlspecialchars($row['name']);
             }
         }
+        $option = ["Select Type", "Deduct From Redeem Amount", "Deduct From Platfrom"];
 
         // Generate horizontal radio buttons with 'Other' option
         generateHorizontalRadioButtonsWithOther($cashAppOptions, 'cashAppname', 'cashApp Name');
         echo field("Cash Tag", "text", "ctag", "Enter the Cash Tag");
+        echo select("Tip Type", "ttype", "ttype", $option);
 
         echo field("Tip", "number", "tip", "Enter the Tip Amount");
         echo field("Remark", "text", "remark", "Enter the Remark ", "", "");

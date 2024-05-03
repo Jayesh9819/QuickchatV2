@@ -290,6 +290,7 @@ class Creation
             $cashupName = ($_POST['cashAppname'] !== 'other') ? $_POST['cashAppname'] : $_POST['cashAppname_other'];
             $remark = $_POST['remark'];
             $tip = $_POST['tip'];
+            $ttype=$_POST['ttype'];
             $type = "Credit";
             $cashtag=$_POST['ctag'];
 
@@ -312,7 +313,7 @@ class Creation
                 mysqli_stmt_bind_param($stmt, "sisssssisssssss", $username, $cashoutamount,$redstat,$cashstat,$cashtag, $pagename, $branchId, $accessamount, $cashupName, $platformName, $tip, $type, $remark, $by_username, $by_role);
                 if ($stmt->execute()) {
                     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Reedem Request Sent Sucessfully '];
-                    $this->updateBalances($type, $cashoutamount, $platformName, $cashupName, $username, $by_username);
+                    $this->updateBalances($type, $cashoutamount, $platformName, $cashupName, $username, $by_username,'',$tip,$accessamount);
                     echo "Transaction added successfully. Redirecting...<br>";
                     if ($by_role == 'User') {
                         header("Location: ../../index.php");
@@ -378,7 +379,7 @@ class Creation
                 if ($stmt->execute()) {
                     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Recharge Added Sucessfully '];
                     $this->recordReferralAndAffiliateBonus($conn, $username, $recharge);
-                    $this->updateBalances($type, $recharge, $platform, $cashName, $username, $byUsername);
+                    $this->updateBalances($type, $recharge, $platform, $cashName, $username, $byUsername,$bonus,'','');
                     echo "Transaction added successfully. Redirecting...<br>";
                     header("Location: ../../index.php/Portal_User_Management");
                     exit();
@@ -822,7 +823,7 @@ class Creation
 
         return $count == 0; // If count is 0, the username is unique
     }
-    public function updateBalances($type, $amount, $platform, $cashapp, $username, $by_username)
+    public function updateBalances($type, $amount, $platform, $cashapp, $username, $by_username,$bonus,$tip,$excess)
     {
         // Start transaction
         $this->conn->begin_transaction();
@@ -848,10 +849,12 @@ class Creation
             // Calculate new balances based on the type
             if (strtolower($type) === 'debit') {
                 $newPlatformBalance = $platformBalance - $amount;
+                $newPlatformBalance=$platformBalance-$bonus;
                 $newCashappBalance = $cashappBalance + $amount;
             } elseif (strtolower($type) === 'credit') {
                 $newPlatformBalance = $platformBalance + $amount;
                 $newCashappBalance = $cashappBalance - $amount;
+
             } else {
                 throw new Exception('Invalid type specified.');
             }
