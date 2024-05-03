@@ -20,7 +20,9 @@ function field($label, $type, $id, $placeholder, $value = "", $required = "requi
 {
     $html = '<div class="form-group">
                 <label class="form-label" for="' . $id . '">' . $label . '</label>
-                <input type="' . $type . '" name="' . $id . '" class="form-control" id="' . $id . '" value="' . htmlspecialchars($value) . '" placeholder="' . $placeholder . '" ' . $required . ' ' . $ftype . '>
+                <input type="' . $type . '" name="' . $id . '" class="form-control" id="' . $id . '"
+                       value="' . htmlspecialchars($value) . '" placeholder="' . $placeholder . '"
+                       ' . $required . ' ' . $ftype . ' autocomplete="off">
             </div>';
 
     return $html;

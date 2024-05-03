@@ -311,7 +311,7 @@
 							<div class="d-flex
     			            align-items-center">
 								<img src="../uploads/profile/<?= !empty($chatWith['p_p']) ? $chatWith['p_p'] : '07.png' ?>" class="w-15 rounded-circle">
-								<h3 class="fs-xs m-2"><?= $user['username'] ?></h3>
+								<h3 class="fs-xs m-2"><?= $user['username'] ?? $_SESSION['username'] ?></h3>
 							</div>
 						</div>
 

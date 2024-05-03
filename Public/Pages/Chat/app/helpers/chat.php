@@ -6,7 +6,8 @@ function getChats($id_1, $id_2, $conn)
     $data = getUserDataByUsername($id_2, $conn);
     $role = $data['role'];
     $data2=getUserDataByUsername($id_1,$conn);
-    $roleu=$data2['role'];
+// Check if 'role' is set in the array and is not empty, otherwise set to 'temp'
+$roleu = !empty($data2['role']) ? $data2['role'] : 'temp';
 
 
     // Define the initial SQL query and parameters based on the user role

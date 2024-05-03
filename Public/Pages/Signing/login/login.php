@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 
     <?php include     "./Public/Pages/Common/header.php";
@@ -36,6 +37,8 @@
         unset($_SESSION['login_error']); // Clear the error message
     }
     ?>
+    <link rel="stylesheet" href="../Public/Pages/Signing/login/style.css">
+
     <title>LOGIN PAGE</title>
 
 </head>
@@ -131,9 +134,26 @@
                     <img src="<?php echo $settings['banner']; ?>" class="img-fluid gradient-main" alt="images" loop autoplay muted></img>
                 </div>
             </div>
+            <div id="chatButton" class="chat-button">
+                Open Chat
+            </div>
+            <div id="userFormModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <form id="userInfoForm">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                        <label for="refercode">Refer Code (Optional):</label>
+                        <input type="text" id="refercode" name="refercode">
+                        <button type="submit">Start Chat</button>
+                    </form>
+                </div>
+            </div>
+
         </section>
     </div>
 
+    <script src="../Public/Pages/Signing/login/script.js"></script>
 
     <?php include "./Public/Pages/Common/scripts.php" ?>
 
