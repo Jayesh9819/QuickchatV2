@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
     <?php include     "./Public/Pages/Common/header.php";
@@ -114,15 +114,15 @@
 
                                                     </ul>
                                                 </div>
-                                                <p class="mt-3 text-center">
-                                                    <button onclick="window.location.href='<?php echo $settings['androidlink']; ?>'" class="btn btn-primary">Download for Android</button>
-
-                                                    <!-- For iOS -->
-                                                    <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
-                                                <p class="mt-3 text-center">
-                                                    For iOS Install using Scarlet or AltStore or similar tools
-                                                </p>
                                             </form>
+                                            <p class="mt-3 text-center">
+                                                <button onclick="window.location.href='<?php echo $settings['androidlink']; ?>'" class="btn btn-primary">Download for Android</button>
+
+                                                <!-- For iOS -->
+                                                <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
+                                            <p class="mt-3 text-center">
+                                                For iOS Install using Scarlet or AltStore or similar tools
+                                            </p>
 
                                     </div>
                                 </div>
