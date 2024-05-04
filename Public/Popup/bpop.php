@@ -29,7 +29,7 @@ if ($result->num_rows > 0) {
 
         echo "data: " . json_encode($notificationMessage) . "\n\n";
         flush(); // Flush the output buffer to send the response immediately
-        sleep(10); // Sleep for 1 second between events (adjust as needed)
+        sleep(1); // Sleep for 1 second between events (adjust as needed)
     }
 } else {
     // Debugging: Log no transactions found
