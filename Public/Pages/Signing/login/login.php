@@ -62,7 +62,7 @@
                         <div style="position: relative ; left: -50px;" class="col-md-12 col-lg-6 align-self-center">
                             <a href="#" class="navbar-brand d-flex align-items-center mb-3 justify-content-center text-primary">
                                 <div class="logo-normal">
-                                    <img src="<?php echo $settings['logo']; ?>" style="position: relative ; left: 50px; height: 100px; " alt="">
+                                    <img src="<?php echo $settings['logo']; ?>"  alt="">
                                 </div>
                                 <h1 style="font-family: 'Times New Roman', Times, serif; color:<?php echo $settings['color']; ?>; font-size: 3em; font-weight: bold; " class="logo-title ms-3 mb-0"><?php echo $settings['name']; ?></h1>
 
