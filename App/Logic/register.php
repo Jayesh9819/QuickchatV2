@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
         // Convert it to an array with the single element
         $selectedPages = [$selectedPages];
     }
-    
+
     print_r($selectedPages);
     $serialized = serialize($selectedPages);
     $array = unserialize($serialized);
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
     $ipAddress = $_SERVER['REMOTE_ADDR'];
 
     // Validate inputs are not empty
-    if (empty($fullname) || empty($username) || empty($role) ) {
+    if (empty($fullname) || empty($username) || empty($role)) {
         // Set error message and retain form values
         setToast('error', 'Please fill in all required fields and accept the terms.');
         $_SESSION['form_values'] = $_POST;
@@ -109,13 +109,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
                 setToast('success', 'New User created successfully.');
                 processReferralCode($conn, $username, $ref);
                 $redirectTo = '../../index.php/Portal_User_Management'; // Success: Redirect to the home page or dashboard
-            }elseif ($role == 'Agent') {
+            } elseif ($role == 'Agent') {
                 setToast('success', 'New Agent created successfully.');
                 $redirectTo = '../../index.php/Portal_Agent_Management'; // Success: Redirect to the home page or dashboard
-            }elseif ($role == 'Manager') {
+            } elseif ($role == 'Manager') {
                 setToast('success', 'New Manager created successfully.');
                 $redirectTo = '../../index.php/Portal_Manager_Management'; // Success: Redirect to the home page or dashboard
-            }elseif ($role == 'Supervisor') {
+            } elseif ($role == 'Supervisor') {
                 setToast('success', 'New Supervisor created successfully.');
                 $redirectTo = '../../index.php/Portal_Supervisor_Management'; // Success: Redirect to the home page or dashboard
             }
@@ -166,9 +166,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
         }
         // $branchId = $branchId ?? 'default_page_id';
     }
+
+    echo $branchId;
     $ipAddress = $_SERVER['REMOTE_ADDR'];
     $condition_value = $username;
-
     // Validate inputs are not empty
 
 
@@ -184,13 +185,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
                 setToast('success', 'New User created successfully.');
                 processReferralCode($conn, $username, $ref);
                 $redirectTo = '../../index.php/Portal_User_Management'; // Success: Redirect to the home page or dashboard
-            }elseif ($role == 'Agent') {
+            } elseif ($role == 'Agent') {
                 setToast('success', 'New Agent created successfully.');
                 $redirectTo = '../../index.php/Portal_Agent_Management'; // Success: Redirect to the home page or dashboard
-            }elseif ($role == 'Manager') {
+            } elseif ($role == 'Manager') {
                 setToast('success', 'New Manager created successfully.');
                 $redirectTo = '../../index.php/Portal_Manager_Management'; // Success: Redirect to the home page or dashboard
-            }elseif ($role == 'Supervisor') {
+            } elseif ($role == 'Supervisor') {
                 setToast('success', 'New Supervisor created successfully.');
                 $redirectTo = '../../index.php/Portal_Supervisor_Management'; // Success: Redirect to the home page or dashboard
             }
