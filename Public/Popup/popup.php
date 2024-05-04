@@ -35,7 +35,7 @@
 
     // Create EventSource to listen for notifications
     console.log("Setting up EventSource for notifications."); // Debugging
-    let eventSource = new EventSource('./bopup.php');
+    let eventSource = new EventSource('../Public/Popup/bpop.php');
 
     // Event listener for receiving notifications
     eventSource.onmessage = function(event) {
