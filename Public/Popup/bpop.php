@@ -55,9 +55,7 @@ if (isset($sql) && $result = $conn->query($sql)) {
             $notificationMessage = "You have a new redeem request from {$row['username']} for amount {$row['redeem']}";
             sendSSEData($notificationMessage, $url, $color);
         }
-    } else {
-        sendSSEData("No new transactions found", "", "blue"); // Default color for informational messages
-    }
+    } 
 } else {
     error_log("SQL error: " . $conn->error);
     sendSSEData("Error querying the database", "", "blue");
@@ -71,9 +69,7 @@ if ($result = $conn->query($sql)) {
             $color = "green"; // Choosing green for new messages
             sendSSEData($notificationMessage, $url, $color);
         }
-    } else {
-        sendSSEData("No new messages", "", "blue"); // Default color for informational messages
-    }
+    } 
 } else {
     error_log("SQL error: " . $conn->error);
     sendSSEData("Error querying the database for new messages", "", "blue");
