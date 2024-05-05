@@ -281,7 +281,7 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
                     notificationHtml += `
                         <a href="#" class="iq-sub-card">
                             <div class="d-flex align-items-center">
-                                <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/01.png" alt="" loading="lazy">
+                                <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/03.png" alt="" loading="lazy">
                                 <div class="ms-3 w-100">
                                     <h6 class="mb-0">${notification.content}</h6>
                                     <div class="d-flex justify-content-between align-items-center">
