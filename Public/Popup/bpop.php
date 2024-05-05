@@ -1,60 +1,87 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 // Set appropriate headers for SSE
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 header('Access-Control-Allow-Origin: *'); // Enable CORS if needed
 
-// Database connection
-include '../../App/db/db_connect.php';
+require_once '../../App/db/db_connect.php';
 
-// Debugging: Log that the script has started
-error_log("Started SSE script");
+function sendSSEData($message, $url, $color) {
+    $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
+    echo "data: {$data}\n\n";
+    flush();
+    sleep(1); // Consider adjusting or removing sleep for performance
+}
 
-// Fetch transactions with created_at in the last minute
+if (empty($_SESSION['role']) || empty($_SESSION['user_id'])) {
+    error_log("Session variables 'role' or 'user_id' not set");
+    exit;
+}
+
 $role = $_SESSION['role'];
-$branch = $_SESSION['branch1'];
-$page = $_SESSION['page1'];
-if ($role != 'User') {
+$userid = $_SESSION['user_id'];
+$whereClause = '';
 
+if ($role === 'Agent') {
+    if (!empty($_SESSION['page1'])) {
+        $pagesArray = explode(", ", $_SESSION['page1']);
+        $quotedPages = array_map(function($page) use ($conn) {
+            return "'" . mysqli_real_escape_string($conn, $page) . "'";
+        }, $pagesArray);
 
-    if ($role == 'Agent') {
-        $pagesArray = explode(", ", $page);
-        $quotedPages = [];
-        foreach ($pagesArray as $pageName) {
-            $quotedPages[] = "'" . mysqli_real_escape_string($conn, $pageName) . "'";
-        }
-        $whereClause = "page IN (" . implode(", ", $quotedPages) . ")";
-
-        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND $whereClause AND approval_status=0  AND created_at >= NOW() - INTERVAL 5 SECOND";
-    } elseif ($role == 'Manager' || $role == 'Supervisor') {
-        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND branch='$branch' AND approval_status=1 AND updated_at >= NOW() - INTERVAL 5 SECOND";
-    } elseif ($role == 'Admin') {
-        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0)  AND updated_at >= NOW() - INTERVAL 5 SECOND";
+        $whereClause = "AND page IN (" . implode(", ", $quotedPages) . ")";
     }
-    $result = $conn->query($sql);
+    $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL $whereClause AND approval_status = 0 AND created_at >= NOW() - INTERVAL 5 SECOND";
+    $url = "./See_Redeem_Request"; // Example URL for viewing redeem requests
+    $color = "red"; // High priority notifications in red
+} elseif ($role === 'Manager' || $role === 'Supervisor') {
+    $branch = $_SESSION['branch1'] ?? '';
+    $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND branch = '$branch' AND approval_status = 1 AND updated_at >= NOW() - INTERVAL 5 SECOND";
+    $url = "./See_Redeem_Request"; // Example URL for viewing redeem requests
+    $color = "red"; // High priority notifications in red
+} elseif ($role === 'Admin') {
+    $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND updated_at >= NOW() - INTERVAL 5 SECOND";
+    $url = "./See_Redeem_Request"; // Example URL for viewing redeem requests
+    $color = "red"; // High priority notifications in red
+}
 
+if (isset($sql) && $result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
-        // Debugging: Log the number of rows fetched
-        error_log("Fetched " . $result->num_rows . " rows");
-
-        // Generate notification message for each transaction
         while ($row = $result->fetch_assoc()) {
-            $username = $row['username'];
-            $redeemAmount = $row['redeem'];
-            $notificationMessage = "You have a new redeem request from $username for amount $redeemAmount";
-
-            // Debugging: Log each notification being sent
-            error_log("Sending notification: " . $notificationMessage);
-
-            echo "data: " . json_encode($notificationMessage) . "\n\n";
-            flush(); // Flush the output buffer to send the response immediately
-            sleep(3); // Sleep for 1 second between events (adjust as needed)
+            $notificationMessage = "You have a new redeem request from {$row['username']} for amount {$row['redeem']}";
+            sendSSEData($notificationMessage, $url, $color);
         }
     } else {
-        // Debugging: Log no transactions found
-        error_log("No new transactions found");
+        sendSSEData("No new transactions found", "", "blue"); // Default color for informational messages
     }
-    $conn->close();
+} else {
+    error_log("SQL error: " . $conn->error);
+    sendSSEData("Error querying the database", "", "blue");
 }
+$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid";
+if ($result = $conn->query($sql)) {
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $notificationMessage = "You have a new message. Please check your inbox.";
+            $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
+            $color = "green"; // Choosing green for new messages
+            sendSSEData($notificationMessage, $url, $color);
+        }
+    } else {
+        sendSSEData("No new messages", "", "blue"); // Default color for informational messages
+    }
+} else {
+    error_log("SQL error: " . $conn->error);
+    sendSSEData("Error querying the database for new messages", "", "blue");
+}
+
+$conn->close();
+?>
+
+
+$conn->close();
+?>
