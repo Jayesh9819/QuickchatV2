@@ -242,6 +242,8 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
          $.ajax({
             url: '../App/helper/notification.php',
             type: 'GET',
+            dataType: 'json', // Ensure the returned data is treated as JSON
+
             success: function(data) {
                let notifications = JSON.parse(data);
                let notificationHtml = '';
