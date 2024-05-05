@@ -237,38 +237,72 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
    <!--Nav End-->
 </div>
 <script>
+   // $(document).ready(function() {
+   //    function fetchNotifications() {
+   //       $.ajax({
+   //          url: '../App/helper/notification.php',
+   //          type: 'GET',
+   //          dataType: 'json', // Ensure the returned data is treated as JSON
+
+   //          success: function(data) {
+   //             let notifications = JSON.parse(data);
+   //             let notificationHtml = '';
+   //             notifications.forEach(function(notification) {
+   //                notificationHtml += `
+   //                      <a href="#" class="iq-sub-card">
+   //                          <div class="d-flex align-items-center">
+   //                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/01.png" alt="" loading="lazy">
+   //                              <div class="ms-3 w-100">
+   //                                  <h6 class="mb-0 ">${notification.content}</h6>
+   //                                  <div class="d-flex justify-content-between align-items-center">
+   //                                      <p class="mb-0">Just Now</p>
+   //                                  </div>
+   //                              </div>
+   //                          </div>
+   //                      </a>`;
+   //             });
+   //             $('.all-notification').html(notificationHtml);
+   //          }
+   //       });
+   //    }
+
+   //    // Fetch notifications every second (1000 milliseconds)
+   //    setInterval(fetchNotifications, 1000);
+   // });
    $(document).ready(function() {
-      function fetchNotifications() {
-         $.ajax({
+    function fetchNotifications() {
+        $.ajax({
             url: '../App/helper/notification.php',
             type: 'GET',
-            dataType: 'json', // Ensure the returned data is treated as JSON
-
-            success: function(data) {
-               let notifications = JSON.parse(data);
-               let notificationHtml = '';
-               notifications.forEach(function(notification) {
-                  notificationHtml += `
+            dataType: 'json', // Ensures the response is parsed as JSON automatically
+            success: function(notifications) {
+                let notificationHtml = '';
+                notifications.forEach(function(notification) {
+                    notificationHtml += `
                         <a href="#" class="iq-sub-card">
                             <div class="d-flex align-items-center">
                                 <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/01.png" alt="" loading="lazy">
                                 <div class="ms-3 w-100">
-                                    <h6 class="mb-0 ">${notification.content}</h6>
+                                    <h6 class="mb-0">${notification.content}</h6>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">Just Now</p>
+                                        <p class="mb-0">Received on: ${new Date(notification.created_at).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </div>
                         </a>`;
-               });
-               $('.all-notification').html(notificationHtml);
+                });
+                $('.all-notification').html(notificationHtml);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching notifications: " + error);
             }
-         });
-      }
+        });
+    }
 
-      // Fetch notifications every second (1000 milliseconds)
-      setInterval(fetchNotifications, 1000);
-   });
+    // Fetch notifications every second (1000 milliseconds)
+    setInterval(fetchNotifications, 1000);
+});
+
 </script>
 <!-- Footer Section Start -->
 
