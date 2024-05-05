@@ -569,9 +569,6 @@
 
 
 			}
-
-
-
 			function scrollToMessage(msgId) {
 				const messageElement = document.getElementById(msgId);
 				if (messageElement) {

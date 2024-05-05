@@ -336,6 +336,11 @@
 										</div>
 										<div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
 											<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= htmlspecialchars($conversation['username']); ?></h5>
+											<?php 
+											if($conversation['role']=='User'){
+												echo '											<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;">Page Name:-'.htmlspecialchars($conversation['pagename']).'</h5>';
+											}
+											?>
 											<h6 style="color: #010011; font-size: 14px; display: block;"><?= lastChat($_SESSION['user_id'], $conversation['id'], $conn); ?></h6>
 										</div>
 										<?php if ($hasUnread) { ?>
