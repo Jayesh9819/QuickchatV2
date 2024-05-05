@@ -35,6 +35,7 @@
             opacity: 0.8;
         }
         #closeAll {
+            display: none; /* Initially hide the close all button */
             position: fixed;
             top: 20px;
             right: 20px;
@@ -59,8 +60,9 @@
         }
 
         let eventSource = new EventSource('../Public/Popup/bpop.php');
-
         let popupContainer = document.createElement('div');
+        let notificationCount = 0; // Initialize notification count
+
         popupContainer.style.position = 'fixed';
         popupContainer.style.top = '50px';
         popupContainer.style.left = '50%';
@@ -70,9 +72,7 @@
 
         eventSource.onmessage = function(event) {
             let notification = event.data.trim(); // Trim any extra whitespace
-            console.log("Received notification:", notification); // Log the trimmed notification
 
-            // Check the notification text case-insensitively
             if (notification.toLowerCase() !== "no new transactions") {
                 let popup = document.createElement('div');
                 popup.classList.add('popup');
@@ -82,12 +82,14 @@
                 closeButton.textContent = 'Close';
                 closeButton.addEventListener('click', function() {
                     popupContainer.removeChild(popup);
+                    notificationCount--; // Decrement count
+                    updateCloseAllVisibility();
                 });
 
                 let viewButton = document.createElement('button');
                 viewButton.textContent = 'View';
                 viewButton.addEventListener('click', function() {
-                    // Handle view button click
+                    window.location.href = "./See_Redeem_Request";
                 });
 
                 let buttonContainer = document.createElement('div');
@@ -97,9 +99,9 @@
 
                 popup.appendChild(buttonContainer);
                 popupContainer.appendChild(popup);
+                notificationCount++; // Increment count
+                updateCloseAllVisibility();
                 playNotificationSound();
-            } else {
-                console.log("Filtered out message: 'No new transactions'");
             }
         };
 
@@ -111,7 +113,14 @@
             while (popupContainer.firstChild) {
                 popupContainer.removeChild(popupContainer.firstChild);
             }
+            notificationCount = 0; // Reset count
+            updateCloseAllVisibility();
         });
+
+        function updateCloseAllVisibility() {
+            const closeAllButton = document.getElementById('closeAll');
+            closeAllButton.style.display = notificationCount > 2 ? 'block' : 'none';
+        }
     </script>
 </body>
 </html>
