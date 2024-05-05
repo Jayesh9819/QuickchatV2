@@ -240,7 +240,7 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
    $(document).ready(function() {
       function fetchNotifications() {
          $.ajax({
-            url: './App/helper/notification.php',
+            url: '../App/helper/notification.php',
             type: 'GET',
             success: function(data) {
                let notifications = JSON.parse(data);
