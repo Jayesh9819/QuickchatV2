@@ -27,11 +27,11 @@ if ($role != 'User') {
         }
         $whereClause = "page IN (" . implode(", ", $quotedPages) . ")";
 
-        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND $whereClause AND approval_status=0  AND created_at >= NOW() - INTERVAL 1 MINUTE";
+        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND $whereClause AND approval_status=0  AND created_at >= NOW() - INTERVAL 5 SECOND";
     } elseif ($role == 'Manager' || $role == 'Supervisor') {
-        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND branch='$branch' AND approval_status=1 AND updated_at >= NOW() - INTERVAL 1 MINUTE";
+        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND branch='$branch' AND approval_status=1 AND updated_at >= NOW() - INTERVAL 5 SECOND";
     } elseif ($role == 'Admin') {
-        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0)  AND updated_at >= NOW() - INTERVAL 1 MINUTE";
+        $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0)  AND updated_at >= NOW() - INTERVAL 5 SECOND";
     }
     $result = $conn->query($sql);
 
@@ -50,7 +50,7 @@ if ($role != 'User') {
 
             echo "data: " . json_encode($notificationMessage) . "\n\n";
             flush(); // Flush the output buffer to send the response immediately
-            sleep(1); // Sleep for 1 second between events (adjust as needed)
+            sleep(3); // Sleep for 1 second between events (adjust as needed)
         }
     } else {
         // Debugging: Log no transactions found
