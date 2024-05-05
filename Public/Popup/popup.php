@@ -51,11 +51,9 @@
 </head>
 <body>
     <button id="closeAll">Close All</button>
-    <!-- Your website content -->
-
     <script>
         function playNotificationSound() {
-            let audio = new Audio('notification_sound.mp3');
+            let audio = new Audio('noti.wav');
             audio.play();
         }
 
