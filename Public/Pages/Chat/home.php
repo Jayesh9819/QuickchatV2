@@ -339,7 +339,7 @@
 		<?php
 		// include("./Public/Pages/Common/main_content.php");
 		?>
-		<div class="content-inner container-fluid pb-0" id="page_layout">
+		<div class="" id="page_layout">
 			<div class=" rounded" style="height:95vh;">
 
 				<div class="chat-header" style=" width: 100%; padding: 10px; display: flex; align-items: center;">
