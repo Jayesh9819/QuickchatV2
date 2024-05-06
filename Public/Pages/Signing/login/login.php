@@ -140,7 +140,7 @@
             <div id="userFormModal" class="modal">
                 <div class="modal-content">
                     <span class="close-button">&times;</span>
-                    <form id="userInfoForm">
+                    <form id="userInfoForm" action="../App/helper/saveUserData.php" method="POST">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" required>
                         <label for="refercode">Refer Code (Optional):</label>
