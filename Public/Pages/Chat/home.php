@@ -393,9 +393,6 @@
 
 
 				</div>
-
-
-
 				<?php function linkify($text)
 				{
 					$urlPattern = '/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/i';
