@@ -143,7 +143,7 @@
                     }
                 })
                 .catch(error => console.error('Failed to fetch periodic data:', error));
-        }, 600000); // 600,000 ms is 10 minutes
+        }, 600); // 600,000 ms is 10 minutes
     </script>
 
 </body>
