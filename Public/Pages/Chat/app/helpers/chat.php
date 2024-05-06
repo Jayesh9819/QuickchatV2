@@ -26,7 +26,7 @@ function getChats($id_1, $id_2, $conn)
         sender.username AS sender_username, 
         receiver.username AS receiver_username
         FROM chats
-        LEFT JOIN user AS sender ON chats.from_id = sender.id
+        LEFT JOIN unknown_users AS sender ON chats.from_id = sender.id
         LEFT JOIN user AS receiver ON chats.to_id = receiver.id
         WHERE (chats.from_id = ? OR chats.to_id = ?)
         ORDER BY chats.chat_id ASC";
@@ -36,7 +36,7 @@ function getChats($id_1, $id_2, $conn)
         sender.username AS sender_username, 
         receiver.username AS receiver_username
         FROM chats
-        LEFT JOIN user AS sender ON chats.from_id = sender.id
+        LEFT JOIN unknown_users AS sender ON chats.from_id = sender.id
         LEFT JOIN user AS receiver ON chats.to_id = receiver.id
         WHERE (chats.from_id = ? OR chats.to_id = ?)
         ORDER BY chats.chat_id ASC";
