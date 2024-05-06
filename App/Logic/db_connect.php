@@ -1,7 +1,7 @@
 <?php
 ob_start();
 
-$servername = "localhost"; // or your server name
+$servername = "66.45.252.210"; // or your server name
 $username = "QC";
 $password = "12345678";
 $dbname = "quickchat";
