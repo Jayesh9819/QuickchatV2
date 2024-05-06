@@ -2,7 +2,10 @@
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 // Assuming you already have a connection to your database
-include '../db/db_connect.php'; // Ensure you have this file with proper DB connection
+
+include '../db/db_connect.php'; 
+include './App/db/db_connect.php';
+
 if ($_POST) {
     $name = $_POST['name'];
     $referCode = $_POST['refercode'] ?? null; // Using null coalescing operator for optional field
