@@ -59,6 +59,7 @@
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 			$onlineAgents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			// $pending = getUnreadMessagesWithUserDetails();
 			
 		}
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {

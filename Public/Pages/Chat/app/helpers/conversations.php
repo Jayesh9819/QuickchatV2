@@ -1,6 +1,7 @@
 <?php
 
-function getConversation($user_id, $conn) {
+function getConversation($user_id, $conn)
+{
   // SQL query to get all conversations for the current user, including the unread message count
   $sql = "SELECT user_1, user_2, MAX(created_at) as last_message_time, 
                  SUM(CASE WHEN to_id = ? AND opened = 0 THEN 1 ELSE 0 END) as unread_messages
@@ -24,16 +25,16 @@ function getConversation($user_id, $conn) {
     foreach ($conversations as $conversation) {
       // Determine the other user's ID in the conversation
       $other_user_id = ($conversation['user_1'] == $user_id) ? $conversation['user_2'] : $conversation['user_1'];
-      
+
       // Fetch the other user's details
       if (substr($other_user_id, 0, 2) === 'UT') {
         $sql2 = "SELECT * FROM unknown_users WHERE id = ?";
-    } else {
+      } else {
         $sql2 = "SELECT * FROM user WHERE id = ?";
-    }
-          $stmt2 = $conn->prepare($sql2);
+      }
+      $stmt2 = $conn->prepare($sql2);
       $stmt2->execute([$other_user_id]);
-      
+
       if ($stmt2->rowCount() > 0) {
         $otherUserDetails = $stmt2->fetch(); // Assuming you need just one row per user
         $otherUserDetails['unread_messages'] = $conversation['unread_messages'];
@@ -47,7 +48,8 @@ function getConversation($user_id, $conn) {
 }
 
 
-function getUnreadMessagesWithUserDetails($user_id, $conn) {
+function getUnreadMessagesWithUserDetails($user_id, $conn)
+{
   // SQL query to get all unread messages for the current user, including details of the user who sent the messages
   $sql = "SELECT u.id, u.name, u.email, COUNT(m.id) AS unread_messages
           FROM user u
@@ -66,5 +68,3 @@ function getUnreadMessagesWithUserDetails($user_id, $conn) {
     return []; // No unread messages found
   }
 }
-
-?>
