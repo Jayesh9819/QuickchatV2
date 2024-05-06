@@ -143,6 +143,8 @@
                     <form id="userInfoFor" action="../App/helper/saveUserData.php" method="POST">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" required>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
                         <label for="refercode">Refer Code (Optional):</label>
                         <input type="text" id="refercode" name="refercode">
                         <button type="submit">Start Chat</button>

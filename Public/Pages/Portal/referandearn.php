@@ -185,6 +185,10 @@
                                     <label for="referredName">Name of Friend:</label>
                                     <input type="text" class="form-control" id="referredName" placeholder="Enter your friend's name">
                                 </div>
+                                <div class="form-group">
+                                    <label for="referredName">Email of Friend:</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your friend's Email">
+                                </div>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" value="" id="referralLinkInput" readonly>
                                     <div class="input-group-append">
@@ -317,45 +321,38 @@
     include("./Public/Pages/Common/scripts.php");
 
     ?>
-    <script>
-        function generateLink() {
-            var name = document.getElementById('referredName').value;
-            var link = '<?php echo $referralLink; ?>' + encodeURIComponent(name) + "&refer=<?php echo $userId; ?>";
-            document.getElementById('referralLinkInput').value = link;
-        }
+  <script>
+    function generateLink() {
+        var name = document.getElementById('referredName').value;
+        var email = document.getElementById('email').value; // Get the email from the input
+        var link = '<?php echo $referralLink; ?>' + encodeURIComponent(name) + "&refer=<?php echo $userId; ?>&email=" + encodeURIComponent(email);
+        document.getElementById('referralLinkInput').value = link;
+    }
 
-        function copyReferralLink() {
-            var copyText = document.getElementById("referralLinkInput");
-            copyText.select();
-            document.execCommand("copy");
-            alert("Copied the link: " + copyText.value);
-        }
+    function copyReferralLink() {
+        var copyText = document.getElementById("referralLinkInput");
+        copyText.select(); // Select the text field
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+        navigator.clipboard.writeText(copyText.value); // Copy the text inside the text field
+        alert("Copied the link: " + copyText.value); // Alert the copied text
+    }
 
-        // Function to copy referral link to clipboard
-        function copyReferralLink() {
-            var copyText = document.getElementById("referralLinkInput");
-            copyText.select(); // Select the text field
-            copyText.setSelectionRange(0, 99999); // For mobile devices
-            navigator.clipboard.writeText(copyText.value); // Copy the text inside the text field
-            alert("Copied the link: " + copyText.value); // Alert the copied text
+    function shareReferralLink() {
+        var shareUrl = document.getElementById("referralLinkInput").value;
+        if (navigator.share) {
+            navigator.share({
+                    title: 'Join me on QuickChat',
+                    url: shareUrl
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                })
+                .catch(console.error);
+        } else {
+            copyReferralLink();
+            alert("Link copied to clipboard. Please paste it to share.");
         }
-
-        function shareReferralLink() {
-            var shareUrl = document.getElementById("referralLinkInput").value;
-            if (navigator.share) {
-                navigator.share({
-                        title: 'Join me on CustCount',
-                        url: shareUrl
-                    }).then(() => {
-                        console.log('Thanks for sharing!');
-                    })
-                    .catch(console.error);
-            } else {
-                copyReferralLink();
-                alert("Link copied to clipboard. Please paste it to share.");
-            }
-        }
-    </script>
+    }
+</script>
 
 </body>
 
