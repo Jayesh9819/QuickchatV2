@@ -131,18 +131,19 @@
             closeAllButton.style.display = notificationCount > 2 ? 'block' : 'none';
         }
         setInterval(() => {
-            fetch('../Public/Popup/bpop.php')
+            fetch('../Public/Popup/bpop.php') // Adjust path as needed
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.countmsg) {
+                    if (data.message) { // Ensure there's a message to display
                         createPopup({
-                            message: data.countmsg,
-                            color: data.color
+                            message: data.message,
+                            color: data.color,
+                            url:data.url
                         });
                     }
                 })
                 .catch(error => console.error('Failed to fetch periodic data:', error));
-        }, 600); // 600000 milliseconds = 10 minutes
+        }, 600); // 600,000 ms is 10 minutes
     </script>
 
 </body>
