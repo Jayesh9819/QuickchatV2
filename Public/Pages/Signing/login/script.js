@@ -25,7 +25,7 @@ document.getElementById('userInfoForm').addEventListener('submit', function(even
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.href = './unkno'; // Redirect
+            window.location.href = '../../index.php/unkno'; // Redirect
             document.getElementById('userFormModal').style.display = 'none';
         } else {
             alert('Error saving data.');
