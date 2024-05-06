@@ -23,7 +23,8 @@ $row = $result->fetch_assoc();
 if ($row['unread_count'] > 0) {
     $data = [
         'message' => "You have {$row['unread_count']} new unread messages.",
-        'color' => 'blue' // You can dynamically set this based on conditions
+        'color' => 'blue',
+        'url'=>'./Chat_l'
     ];
     echo json_encode($data);
 } else {
