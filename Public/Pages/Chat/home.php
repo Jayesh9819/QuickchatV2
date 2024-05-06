@@ -383,6 +383,10 @@
 						</div>
 					</div>
 					<?php
+					if ($_SESSION['role'] == 'User') {
+						echo '<a name="" id="" class="btn btn-secondary shprofile" href="./Redeem_Request" role="button">Redeem </a>';
+					}
+
 					if ($chatWith['role'] == 'User') {
 						echo '<a name="" id="" class="btn btn-primary shprofile" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
 						echo '				<a name="" id="" class="btn btn-secondary shprofile" href="./cash_out?u=' . $chatWith['username'] . '" role="button">Redeem </a>
