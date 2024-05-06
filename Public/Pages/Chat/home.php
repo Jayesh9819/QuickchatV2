@@ -162,7 +162,7 @@
 		/* Custom CSS styles */
 		.chat-box {
 			background-image: url("../uploads/chat-5.avif");
-			height: 80%;
+			height: 90%;
 			width: 100%;
 
 			/* Limit the height of the chat box */
