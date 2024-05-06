@@ -170,7 +170,7 @@
             $stmt->close();
 
             // Generate the referral link
-            $domain = "https://quickchat.biz/referchar"; // Replace with your domain
+            $domain = "https://quickchat.biz/index.php/referchar"; // Replace with your domain
             $referralLink = $domain . "?user="; // Later appended via JavaScript
             ?>
 

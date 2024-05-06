@@ -292,10 +292,12 @@
 			.emoji-picker {
 				grid-template-columns: repeat(4, 1fr);
 			}
-			.shprofile{
+
+			.shprofile {
 				display: none;
 			}
-			.replyButtonsss{
+
+			.replyButtonsss {
 				position: relative;
 				top: -10px;
 			}
