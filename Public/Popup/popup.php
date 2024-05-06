@@ -134,7 +134,7 @@
             fetch('../Public/Popup/delay.php') // Adjust path as needed
                 .then(response => response.json())
                 .then(data => {
-                    if (data.message) { // Ensure there's a message to display
+                    if (data.message) { 
                         createPopup({
                             message: data.message,
                             color: data.color,

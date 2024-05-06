@@ -14,7 +14,8 @@ function sendSSEData($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
-    flush(); // Ensure the data is sent in real time
+    flush(); 
+    sleep(2);
 }
 function sendSSEDataCust($msgname,$message, $url, $color)
 {
@@ -129,17 +130,6 @@ if ($result->num_rows > 0) {
     }
 } else {
     error_log("SQL error: " . $conn->error);
-}
-$userid = $_SESSION['user_id'];
-$sql = "SELECT COUNT(*) AS unread_count FROM chats WHERE opened = 0 AND to_id = $userid";
-$result = $conn->query($sql);
-
-if ($result) {
-    $row = $result->fetch_assoc();
-    sendSSEDataCust('countmsg',$row['unread_count'],'./Chat_l','high');
-    // echo json_encode(['unread_count' => $row['unread_count']]);
-} else {
-    echo json_encode(['error' => $conn->error]);
 }
 
 $conn->close();
