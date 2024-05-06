@@ -24,6 +24,7 @@ if (empty($_SESSION['role']) || empty($_SESSION['user_id'])) {
 
 $role = $_SESSION['role'];
 $userid = $_SESSION['user_id'];
+$branch=$_SESSION['branch1'];
 $whereClause = '';
 
 if ($role === 'Agent') {
@@ -77,7 +78,7 @@ $userIDs = [];
 // Fetch user, agent, and manager/supervisor IDs
 $stmtUser = $conn->prepare("SELECT id FROM user WHERE username = ?");
 $stmtAgent = $conn->prepare("SELECT id FROM user WHERE username = ?");
-$stmtManSup = $conn->prepare("SELECT id FROM user WHERE branch = ? AND (role = 'Manager' OR role = 'Supervisor')");
+$stmtManSup = $conn->prepare("SELECT id FROM user WHERE branchname = ? AND (role = 'Manager' OR role = 'Supervisor')");
 
 $sql = "SELECT * FROM transaction WHERE approval_status = 1 AND cashout_status = 1 AND redeem_status = 1 AND branch = '$branch' AND updated_at >= NOW() - INTERVAL 10 SECOND";
 $result = $conn->query($sql);
