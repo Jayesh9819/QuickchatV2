@@ -56,6 +56,9 @@
 
 		$chats = getChats($_SESSION['id'], $chatWith['id'], $conn);
 		opened($chatWith['id'], $conn, $chats);
+	}else{
+		header('Location: ../index.php/Login_to_CustCount'); // Redirect to the login page
+
 	}
 
 

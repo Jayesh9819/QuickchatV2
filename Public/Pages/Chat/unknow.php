@@ -52,6 +52,9 @@
             }
             exit;
         }
+    }else{
+        header('Location: ../index.php/Login_to_CustCount'); // Redirect to the login page
+
     }
 
 
