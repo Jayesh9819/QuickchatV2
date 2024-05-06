@@ -20,7 +20,7 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 // Check for errors
-if ($row >=0) {
+if ($row['unread_count'] >=0) {
     $data = [
         'message' => "You have {$row['unread_count']} new unread messages.",
         'color' => 'blue' // You can dynamically set this based on conditions
