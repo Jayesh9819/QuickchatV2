@@ -215,6 +215,12 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
                   <div>
                      <h1>Hello <?php echo  $_SESSION["fullname"];  ?>! </h1>
                      <p>Hey, how are you <?php echo  $_SESSION["role"];  ?>? </p>
+                     <?php
+                     if ($_SESSION['role'] == 'User') {
+                        echo '<a name="" id="" class="btn btn-secondary shprofile" href="./Redeem_Request?u=' . $chatWith['username'] . '" role="button">Send Redeem </a>';
+                     }
+                     ?>
+
                   </div>
                   <div>
                      <a href="#" class="btn btn-link btn-soft-light">
