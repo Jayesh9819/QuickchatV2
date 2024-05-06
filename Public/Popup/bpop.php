@@ -10,11 +10,10 @@ header('Access-Control-Allow-Origin: *'); // Enable CORS if needed
 
 require_once '../../App/db/db_connect.php';
 
-function sendSSEData($message, $url, $color,$sleep) {
+function sendSSEData($message, $url, $color) {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
-    flush();
-    sleep($sleep); // Consider adjusting or removing sleep for performance
+    flush(); // Ensure the data is sent in real time
 }
 
 if (empty($_SESSION['role']) || empty($_SESSION['user_id'])) {
@@ -53,8 +52,7 @@ if (isset($sql) && $result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $notificationMessage = "You have a new redeem request from {$row['username']} for amount {$row['redeem']}";
-            $seleep=3;
-            sendSSEData($notificationMessage, $url, $color,$seleep);
+            sendSSEData($notificationMessage, $url, $color);
         }
     } 
 } else {
@@ -67,7 +65,7 @@ if ($result = $conn->query($sql)) {
             $notificationMessage = "You have a new message. Please check your inbox.";
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
             $color = "green"; // Choosing green for new messages
-            sendSSEData($notificationMessage, $url, $color,60);
+            sendSSEData($notificationMessage, $url, $color);
         }
     } 
 } else {
@@ -80,7 +78,7 @@ if ($result = $conn->query($sql)) {
             $notificationMessage = "Transaction successfully Done Of the User {$row['username']} of Amount {$row['redeem']} .";
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
             $color = "green"; // Choosing green for new messages
-            sendSSEData($notificationMessage, $url, $color,3);
+            sendSSEData($notificationMessage, $url, $color);
         }
     } 
 } else {
@@ -89,5 +87,3 @@ if ($result = $conn->query($sql)) {
 
 $conn->close();
 ?>
-
-
