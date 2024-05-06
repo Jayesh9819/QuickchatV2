@@ -14,8 +14,12 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $notifications = [];
-while($row = $result->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $notifications[] = $row;
 }
 
-echo json_encode($notifications);
+if (count($notifications) > 0) {
+    echo json_encode($notifications);
+} else {
+    echo json_encode(['content' => 'No new notification']);
+}
