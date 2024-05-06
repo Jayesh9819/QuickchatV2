@@ -132,7 +132,6 @@
                                                         <td>{$row['redeem']}</td>
                                                         <td>{$row['excess']}</td>
                                                         <td>{$row['tip']}</td>
-
                                                         <td>{$row['platform']}</td>
                                                         <td>{$row['cashapp']}</td>
                                                         <td>{$row['by_u']}</td>
