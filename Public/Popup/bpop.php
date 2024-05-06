@@ -38,16 +38,16 @@ if ($role === 'Agent') {
     }
     $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL $whereClause AND approval_status = 0 AND created_at >= NOW() - INTERVAL 5 SECOND";
     $url = "./See_Redeem_Request"; // Example URL for viewing redeem requests
-    $color = "red"; // High priority notifications in red
+    $color = "low"; // High priority notifications in red
 } elseif ($role === 'Manager' || $role === 'Supervisor') {
     $branch = $_SESSION['branch1'] ?? '';
     $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND branch = '$branch' AND approval_status = 1 AND updated_at >= NOW() - INTERVAL 5 SECOND";
     $url = "./See_Redeem_Request"; // Example URL for viewing redeem requests
-    $color = "red"; // High priority notifications in red
+    $color = "low"; // High priority notifications in red
 } elseif ($role === 'Admin') {
     $sql = "SELECT username, redeem FROM transaction WHERE Redeem != 0 AND Redeem IS NOT NULL AND (redeem_status = 0 OR cashout_status = 0) AND updated_at >= NOW() - INTERVAL 5 SECOND";
     $url = "./See_Redeem_Request"; // Example URL for viewing redeem requests
-    $color = "red"; // High priority notifications in red
+    $color = "low"; // High priority notifications in red
 }
 
 if (isset($sql) && $result = $conn->query($sql)) {
@@ -66,7 +66,7 @@ if ($result = $conn->query($sql)) {
         while ($row = $result->fetch_assoc()) {
             $notificationMessage = "You have a new message. Please check your inbox.";
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
-            $color = "green"; // Choosing green for new messages
+            $color = "medium"; // Choosing green for new messages
             sendSSEData($notificationMessage, $url, $color);
         }
     }
@@ -119,7 +119,7 @@ if ($result->num_rows > 0) {
             $insertStmt->close();
         }
 
-        sendSSEData($notificationMessage, "./Portal_Chats", "red");
+        sendSSEData($notificationMessage, "./Portal_Chats", "high");
     }
 } else {
     error_log("SQL error: " . $conn->error);

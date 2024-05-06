@@ -76,7 +76,7 @@
                     high: 'red',
                     medium: 'yellow',
                     low: 'green'
-                } [data.priority] || 'grey'; // Default color if priority is undefined
+                } [data.color] || 'grey'; // Default color if priority is undefined
 
                 let closeButton = document.createElement('button');
                 closeButton.textContent = 'Close';
