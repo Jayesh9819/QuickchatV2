@@ -3,9 +3,15 @@ if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 // Assuming you already have a connection to your database
 include '../db/db_connect.php'; // Ensure you have this file with proper DB connection
+if ($_POST) {
+    $name = $_POST['name'];
+    $referCode = $_POST['refercode'] ?? null; // Using null coalescing operator for optional field
 
-$name = $_POST['name'];
-$referCode = $_POST['refercode'] ?? null; // Using null coalescing operator for optional field
+
+} elseif ($_GET['user'] && $_GET['refer']) {
+    $name = $_GET['user'];
+    $referCode = $_GET['refer'];
+}
 $role = 'query';
 $pagename = 'From Login Page';
 // Generate random 3-digit number
