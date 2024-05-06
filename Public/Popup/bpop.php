@@ -72,57 +72,55 @@ if ($result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
+$userIDs = [];
+
+// Fetch user, agent, and manager/supervisor IDs
+$stmtUser = $conn->prepare("SELECT id FROM user WHERE username = ?");
+$stmtAgent = $conn->prepare("SELECT id FROM user WHERE username = ?");
+$stmtManSup = $conn->prepare("SELECT id FROM user WHERE branch = ? AND (role = 'Manager' OR role = 'Supervisor')");
+
 $sql = "SELECT * FROM transaction WHERE approval_status = 1 AND cashout_status = 1 AND redeem_status = 1 AND branch = '$branch' AND updated_at >= NOW() - INTERVAL 10 SECOND";
-if ($result = $conn->query($sql)) {
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $notificationMessage = "Transaction successfully done by {$row['username']} for amount {$row['redeem']}.";
-            $approvedby = $row['approved_by'];
-            $user=$row['username'];
-            $userIDs = [];
-            $stmt = $conn->prepare("SELECT id FROM user WHERE username = ?");
-            $stmt->bind_param("s", $user);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            if ($user = $result->fetch_assoc()) {
-                $userIDs[] = $user['id']; // Add the requesting user's ID
-            }
-            $stmt->close();
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $notificationMessage = "Transaction successfully done by {$row['username']} for amount {$row['redeem']}.";
+        $approvedBy = $row['approved_by'];
+        $user = $row['username'];
 
-            // Prepare and execute query for the agent who approved
-            $stmt = $conn->prepare("SELECT id FROM user WHERE username = ?");
-            $stmt->bind_param("s", $approvedBy);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            if ($agent = $result->fetch_assoc()) {
-                $userIDs[] = $agent['id']; // Add the approving agent's ID
-            }
-            $stmt->close();
-            $stmt = $conn->prepare("SELECT id FROM user WHERE branch = ? AND (role = 'Manager' OR role = 'Supervisor')");
-            $stmt->bind_param("s", $branch);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            while ($managerOrSupervisor = $result->fetch_assoc()) {
-                $userIDs[] = $managerOrSupervisor['id']; // Add each manager and supervisor's ID
-            }
-            $stmt->close();
-            foreach ($userIDs as $id) {
-                // Here you can insert the notification into your notification table
-                $insertStmt = $conn->prepare("INSERT INTO notification (content, by_id, for_id, created_at) VALUES (?, ?, ?, NOW())");
-                $insertStmt->bind_param("sii", $notificationMessage, $usernameId, $id); // Assuming $usernameId is the ID of the user who logged in or performed the action
-                $insertStmt->execute();
-                $insertStmt->close();
-            }
-
-            // Optional: Output or further processing
-            echo "Notifications sent to all relevant users.";
-            $url = "./Portal_Chats";  // Assuming there's a generic inbox URL
-            $color = "green";  // Choosing green for notification about successful transactions
-            sendSSEData($notificationMessage, $url, $color);
+        // User who requested
+        $stmtUser->bind_param("s", $user);
+        $stmtUser->execute();
+        $resultUser = $stmtUser->get_result();
+        if ($userRow = $resultUser->fetch_assoc()) {
+            $userIDs[] = $userRow['id'];
         }
+
+        // Agent who approved
+        $stmtAgent->bind_param("s", $approvedBy);
+        $stmtAgent->execute();
+        $resultAgent = $stmtAgent->get_result();
+        if ($agentRow = $resultAgent->fetch_assoc()) {
+            $userIDs[] = $agentRow['id'];
+        }
+
+        // Managers and Supervisors
+        $stmtManSup->bind_param("s", $branch);
+        $stmtManSup->execute();
+        $resultManSup = $stmtManSup->get_result();
+        while ($manSupRow = $resultManSup->fetch_assoc()) {
+            $userIDs[] = $manSupRow['id'];
+        }
+
+        foreach ($userIDs as $id) {
+            $insertStmt = $conn->prepare("INSERT INTO notification (content, by_id, for_id, created_at) VALUES (?, ?, ?, NOW())");
+            $insertStmt->bind_param("sii", $notificationMessage, $userid, $id);
+            $insertStmt->execute();
+            $insertStmt->close();
+        }
+
+        sendSSEData($notificationMessage, "./Portal_Chats", "red");
     }
 } else {
     error_log("SQL error: " . $conn->error);
 }
-
 $conn->close();
