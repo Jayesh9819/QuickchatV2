@@ -24,8 +24,8 @@ $pagename = 'From Login Page';
 
 // Check if the user already exists
 if ($name) {
-    $stmt = $conn->prepare("SELECT * FROM unknown_users WHERE username = ?");
-    $stmt->bind_param("s", $name);
+    $stmt = $conn->prepare("SELECT * FROM unknown_users WHERE username = ? AND email = ?");
+    $stmt->bind_param("ss", $name,$email);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -45,8 +45,8 @@ if ($name) {
         $randomNumber = rand(1000, 99999);
         $id = 'UT' . $randomNumber;
 
-        $stmt = $conn->prepare("INSERT INTO unknown_users (username, Refer, id, role, pagename, last_seen) VALUES (?, ?, ?, ?, ?, NOW())");
-        $stmt->bind_param("sssss", $name, $referCode, $id, $role, $pagename);
+        $stmt = $conn->prepare("INSERT INTO unknown_users (username, Refer, id, role, email,pagename, last_seen) VALUES (?, ?, ?, ?,?, ?, NOW())");
+        $stmt->bind_param("ssssss", $name, $referCode, $id, $role,$email, $pagename);
         $result = $stmt->execute();
 
         if ($result) {
