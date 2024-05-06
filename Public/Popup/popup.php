@@ -131,7 +131,7 @@
             closeAllButton.style.display = notificationCount > 2 ? 'block' : 'none';
         }
         setInterval(() => {
-            fetch('../Public/Popup/bpop.php') // Adjust path as needed
+            fetch('../Public/Popup/delay.php') // Adjust path as needed
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) { // Ensure there's a message to display
