@@ -131,7 +131,7 @@
             closeAllButton.style.display = notificationCount > 2 ? 'block' : 'none';
         }
         setInterval(() => {
-            fetch('../Public/Popup/get_periodic_update.php')
+            fetch('../Public/Popup/bpop.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.countmsg) {

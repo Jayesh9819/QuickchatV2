@@ -66,7 +66,7 @@ if (isset($sql) && $result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
-$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid created_at >= NOW() - INTERVAL 3 SECOND";
+$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid AND created_at >= NOW() - INTERVAL 3 SECOND";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
