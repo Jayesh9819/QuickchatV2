@@ -34,6 +34,8 @@ if ($result) {
     $_SESSION['id'] = $id;
 
     echo json_encode(['success' => true]);
+    header("Location: ./unkno");
+
 } else {
     echo json_encode(['success' => false]);
 }

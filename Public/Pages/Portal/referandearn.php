@@ -170,8 +170,8 @@
             $stmt->close();
 
             // Generate the referral link
-            $domain = "https://riverdragon.me/referchar"; // Replace with your domain
-            $referralLink = $domain . "/user="; // Later appended via JavaScript
+            $domain = "https://quickchat.biz/referchar"; // Replace with your domain
+            $referralLink = $domain . "?user="; // Later appended via JavaScript
             ?>
 
             <div class="container py-5">
