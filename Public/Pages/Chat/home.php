@@ -56,9 +56,6 @@
 		$chats = getChats($_SESSION['user_id'], $chatWith['id'], $conn);
 		opened($chatWith['id'], $conn, $chats);
 	}
-
-
-
 	?>
 
 	<style>

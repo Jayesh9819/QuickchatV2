@@ -36,18 +36,35 @@ function getConversation($user_id, $conn) {
       
       if ($stmt2->rowCount() > 0) {
         $otherUserDetails = $stmt2->fetch(); // Assuming you need just one row per user
-
-        // Prepare the conversation data, including unread messages count
         $otherUserDetails['unread_messages'] = $conversation['unread_messages'];
-
-        // Push the conversation data into the array
         array_push($user_data, $otherUserDetails);
       }
     }
-
     return $user_data;
   } else {
     return []; // No conversations found
   }
 }
+
+
+function getUnreadMessagesWithUserDetails($user_id, $conn) {
+  // SQL query to get all unread messages for the current user, including details of the user who sent the messages
+  $sql = "SELECT u.id, u.name, u.email, COUNT(m.id) AS unread_messages
+          FROM user u
+          JOIN messages m ON u.id = m.from_id
+          WHERE m.to_id = ? AND m.opened = 0 AND u.role = 'user'
+          GROUP BY u.id, u.name, u.email
+          ORDER BY unread_messages DESC";
+
+  $stmt = $conn->prepare($sql);
+  $stmt->execute([$user_id]);
+
+  if ($stmt->rowCount() > 0) {
+    $messages = $stmt->fetchAll();
+    return $messages;
+  } else {
+    return []; // No unread messages found
+  }
+}
+
 ?>

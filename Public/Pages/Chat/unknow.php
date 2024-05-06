@@ -338,13 +338,6 @@
                                 });
                         });
 
-
-
-
-                        /** 
-                        auto update last seen 
-                        for logged in user
-                        **/
                         let lastSeenUpdate = function() {
                             $.get('../Public/Pages/Chat/app/ajax/update_last_seen.php')
                                 .done(function(data) {
