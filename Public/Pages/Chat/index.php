@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 
 <head>
+	<meta http-equiv="refresh" content="30">
+
 	<?php
 	ob_start();
 	include("./Public/Pages/Common/header.php");
