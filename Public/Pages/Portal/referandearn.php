@@ -170,7 +170,7 @@
             $stmt->close();
 
             // Generate the referral link
-            $domain = "https://quickchat.biz/referchar"; // Replace with your domain
+            $domain = "https://riverdragon.me/referchar"; // Replace with your domain
             $referralLink = $domain . "/user="; // Later appended via JavaScript
             ?>
 
@@ -202,21 +202,6 @@
                     </div>
                 </div>
             </div>
-
-            <script>
-                function generateLink() {
-                    var name = document.getElementById('referredName').value;
-                    var link = '<?php echo $referralLink; ?>' + encodeURIComponent(name) + "&refer=<?php echo $userId; ?>";
-                    document.getElementById('referralLinkInput').value = link;
-                }
-
-                function copyReferralLink() {
-                    var copyText = document.getElementById("referralLinkInput");
-                    copyText.select();
-                    document.execCommand("copy");
-                    alert("Copied the link: " + copyText.value);
-                }
-            </script>
             <?php
             // Ensure database connection is established
             include "./App/db/db_connect.php";
@@ -265,95 +250,112 @@
 
             ?>
 
-            < div class="referrals-list">
-                < h3> Your Referrals and Affiliates < /h3>
-                        < p> Total Referral Earnings: $<?php echo htmlspecialchars(number_format((float)$totalEarnings, 2, '.', '')); ?> < /p>
-                                < a href="./See_Refer" class="btn btn-primary"> View Earnings < /a>
-                                        <?php if ($totalEarnings >= $withdrawAmount) : ?>
-                                            < a href="./Withdraw_Earning" class="btn btn-primary" onclick="<?php $_SESSION['withdrawAmount'] = $totalEarnings; ?>"> Withdraw Earnings < /a>
-                                                <?php else : ?>
-                                                    < p> You need at least $<?php echo htmlspecialchars(number_format((float)$withdrawAmount, 2, '.', '')); ?> to withdraw. < /p>
-                                                        <?php endif; ?>
+            <div class="referrals-list">
+                <h3>Your Referrals and Affiliates</h3>
+                <p>Total Referral Earnings: $<?php echo htmlspecialchars(number_format((float)$totalEarnings, 2, '.', '')); ?></p>
+                <a href="./See_Refer" class="btn btn-primary">View Earnings</a>
+                <?php if ($totalEarnings >= $withdrawAmount) : ?>
+                    <a href="./Withdraw_Earning" class="btn btn-primary" onclick="<?php $_SESSION['withdrawAmount'] = $totalEarnings; ?>">Withdraw Earnings</a>
+                <?php else : ?>
+                    <p>You need at least $<?php echo htmlspecialchars(number_format((float)$withdrawAmount, 2, '.', '')); ?> to withdraw.</p>
+                <?php endif; ?>
 
 
-                                                        <?php foreach ($referrals as $userDetails) : ?>
-                                                            < div class="referral-card">
-                                                                < div class="card-header">
-                                                                    Referred User: <?= htmlspecialchars($userDetails['username']); ?> < /div>
-                                                                        < div class="card-body">
-                                                                            < h5> Affiliates: < /h5>
-                                                                                    <?php if (!empty($userDetails['affiliates'])) : ?>
-                                                                                        < ul class="affiliate-list">
-                                                                                            <?php foreach ($userDetails['affiliates'] as $affiliateUsername) : ?> < li>
-                                                                                                    <?= htmlspecialchars($affiliateUsername); ?> < button class="chat-btn" onclick="window.location.href='./Chat_Screen?user=<?= urlencode($affiliateUsername); ?>'"> Chat < /button>
-                                                                                                            < /li>
-                                                                                                            <?php endforeach; ?>
-                                                                                                            < /ul>
-                                                                                                            <?php else : ?>
-                                                                                                                < p> No affiliates
-                                                                                                                    for this user. < /p>
-                                                                                                                    <?php endif; ?>
-                                                                                                                    < !--Chat button for the referred user-->
-                                                                                                                        < button class="chat-btn" onclick="window.location.href='./Chat_Screen?user=<?= urlencode($userDetails['username']); ?>'"> Chat with Referred User < /button>
-                                                                                                                                < /div>
-                                                                                                                                    < /div>
-                                                                                                                                    <?php endforeach; ?>
-                                                                                                                                    < /div>
-                                                                                                                                        < /div>
+                <?php foreach ($referrals as $userDetails) : ?>
+                    <div class="referral-card">
+                        <div class="card-header">
+                            Referred User: <?= htmlspecialchars($userDetails['username']); ?>
+                        </div>
+                        <div class="card-body">
+                            <h5>Affiliates:</h5>
+                            <?php if (!empty($userDetails['affiliates'])) : ?>
+                                <ul class="affiliate-list">
+                                    <?php foreach ($userDetails['affiliates'] as $affiliateUsername) : ?>
+                                        <li>
+                                            <?= htmlspecialchars($affiliateUsername); ?>
+                                            <button class="chat-btn" onclick="window.location.href='./Chat_Screen?user=<?= urlencode($affiliateUsername); ?>'">Chat</button>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php else : ?>
+                                <p>No affiliates for this user.</p>
+                            <?php endif; ?>
+                            <!-- Chat button for the referred user -->
+                            <button class="chat-btn" onclick="window.location.href='./Chat_Screen?user=<?= urlencode($userDetails['username']); ?>'">Chat with Referred User</button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
 
 
-                                                                                                                                            < /div>
-                                                                                                                                                <?
-                                                                                                                                                include("./Public/Pages/Common/footer.php");
+        </div>
+        <?
+        include("./Public/Pages/Common/footer.php");
 
-                                                                                                                                                ?>
+        ?>
 
-                                                                                                                                                < /main>
-                                                                                                                                                    < !--Wrapper End-->
-                                                                                                                                                        < !--Live Customizer start-->
-                                                                                                                                                            < !--Setting offcanvas start here-->
-                                                                                                                                                                <?php
-                                                                                                                                                                include("./Public/Pages/Common/theme_custom.php");
+    </main>
+    <!-- Wrapper End-->
+    <!-- Live Customizer start -->
+    <!-- Setting offcanvas start here -->
+    <?php
+    include("./Public/Pages/Common/theme_custom.php");
 
-                                                                                                                                                                ?>
+    ?>
 
-                                                                                                                                                                < !--Settings sidebar end here-->
+    <!-- Settings sidebar end here -->
 
-                                                                                                                                                                    <?php
-                                                                                                                                                                    include("./Public/Pages/Common/settings_link.php");
+    <?php
+    include("./Public/Pages/Common/settings_link.php");
 
-                                                                                                                                                                    ?> < !--Live Customizer end-->
+    ?>
+    <!-- Live Customizer end -->
 
-                                                                                                                                                                        < !--Library Bundle Script-->
-                                                                                                                                                                            <?php
-                                                                                                                                                                            include("./Public/Pages/Common/scripts.php");
+    <!-- Library Bundle Script -->
+    <?php
+    include("./Public/Pages/Common/scripts.php");
 
-                                                                                                                                                                            ?> < script>
-                                                                                                                                                                                // Function to copy referral link to clipboard
-                                                                                                                                                                                function copyReferralLink() {
-                                                                                                                                                                                var copyText = document.getElementById("referralLinkInput");
-                                                                                                                                                                                copyText.select(); // Select the text field
-                                                                                                                                                                                copyText.setSelectionRange(0, 99999); // For mobile devices
-                                                                                                                                                                                navigator.clipboard.writeText(copyText.value); // Copy the text inside the text field
-                                                                                                                                                                                alert("Copied the link: " + copyText.value); // Alert the copied text
-                                                                                                                                                                                }
+    ?>
+    <script>
+        function generateLink() {
+            var name = document.getElementById('referredName').value;
+            var link = '<?php echo $referralLink; ?>' + encodeURIComponent(name) + "&refer=<?php echo $userId; ?>";
+            document.getElementById('referralLinkInput').value = link;
+        }
 
-                                                                                                                                                                                function shareReferralLink() {
-                                                                                                                                                                                var shareUrl = document.getElementById("referralLinkInput").value;
-                                                                                                                                                                                if (navigator.share) {
-                                                                                                                                                                                navigator.share({
-                                                                                                                                                                                title: 'Join me on CustCount',
-                                                                                                                                                                                url: shareUrl
-                                                                                                                                                                                }).then(() => {
-                                                                                                                                                                                console.log('Thanks for sharing!');
-                                                                                                                                                                                })
-                                                                                                                                                                                .catch(console.error);
-                                                                                                                                                                                } else {
-                                                                                                                                                                                copyReferralLink();
-                                                                                                                                                                                alert("Link copied to clipboard. Please paste it to share.");
-                                                                                                                                                                                }
-                                                                                                                                                                                }
-                                                                                                                                                                                </script>
+        function copyReferralLink() {
+            var copyText = document.getElementById("referralLinkInput");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Copied the link: " + copyText.value);
+        }
+
+        // Function to copy referral link to clipboard
+        function copyReferralLink() {
+            var copyText = document.getElementById("referralLinkInput");
+            copyText.select(); // Select the text field
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(copyText.value); // Copy the text inside the text field
+            alert("Copied the link: " + copyText.value); // Alert the copied text
+        }
+
+        function shareReferralLink() {
+            var shareUrl = document.getElementById("referralLinkInput").value;
+            if (navigator.share) {
+                navigator.share({
+                        title: 'Join me on CustCount',
+                        url: shareUrl
+                    }).then(() => {
+                        console.log('Thanks for sharing!');
+                    })
+                    .catch(console.error);
+            } else {
+                copyReferralLink();
+                alert("Link copied to clipboard. Please paste it to share.");
+            }
+        }
+    </script>
 
 </body>
 
