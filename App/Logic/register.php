@@ -32,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
     // Additional fields
     $fbLink = isset($_POST['fb_link']) ? $_POST['fb_link'] : null;
     $selectedPages = isset($_POST['selectedPages']) ? $_POST['selectedPages'] : [];
-    // Check if $selectedPages is not an array
     if (!is_array($selectedPages)) {
         // Convert it to an array with the single element
         $selectedPages = [$selectedPages];
