@@ -41,7 +41,7 @@ function getChats($id_1, $id_2, $conn)
         WHERE (chats.from_id = ? OR chats.to_id = ?)
         ORDER BY chats.chat_id ASC";
         $params = [$id_2, $id_2];
-    } elseif (in_array($r, $role) && in_array($r, $roleu)) {
+    } elseif (in_array($role, $r) && in_array($roleu, $r)) {
         $sql = "SELECT chats.*, 
         sender.username AS sender_username, 
         receiver.username AS receiver_username
