@@ -270,39 +270,43 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
    //    setInterval(fetchNotifications, 1000);
    // });
    $(document).ready(function() {
-    function fetchNotifications() {
-        $.ajax({
+      function fetchNotifications() {
+         $.ajax({
             url: '../App/helper/notification.php',
             type: 'GET',
             dataType: 'json', // Ensures the response is parsed as JSON automatically
-            success: function(notifications) {
-                let notificationHtml = '';
-                notifications.forEach(function(notification) {
-                    notificationHtml += `
-                        <a href="#" class="iq-sub-card">
-                            <div class="d-flex align-items-center">
-                                <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/03.png" alt="" loading="lazy">
-                                <div class="ms-3 w-100">
-                                    <h5 class="mb-0">${notification.content}</h5>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">Received on: ${new Date(notification.created_at).toLocaleString()}</p>
+            success: function(response) {
+               if (response.length > 0) {
+                  let notificationHtml = '';
+                  response.forEach(function(notification) {
+                     notificationHtml += `
+                            <a href="#" class="iq-sub-card">
+                                <div class="d-flex align-items-center">
+                                    <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/03.png" alt="" loading="lazy">
+                                    <div class="ms-3 w-100">
+                                        <h5 class="mb-0">${notification.content}</h5>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="mb-0">Received on: ${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>`;
-                });
-                $('.all-notification').html(notificationHtml);
+                            </a>`;
+                  });
+                  $('.all-notification').html(notificationHtml);
+               } else {
+                  $('.all-notification').html('<p>No new notifications</p>');
+               }
             },
             error: function(xhr, status, error) {
-                console.error("Error fetching notifications: " + error);
+               console.error("Error fetching notifications: " + error);
             }
-        });
-    }
+         });
+      }
 
-    // Fetch notifications every second (1000 milliseconds)
-    setInterval(fetchNotifications, 1000);
-});
-
+      // Fetch notifications initially and then every second (1000 milliseconds)
+      fetchNotifications(); // Fetch initially
+      setInterval(fetchNotifications, 1000); // Fetch every second
+   });
 </script>
 <!-- Footer Section Start -->
 
