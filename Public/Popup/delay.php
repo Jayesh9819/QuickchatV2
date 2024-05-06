@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 require_once '../../App/db/db_connect.php';
 
 // Prepare and execute a query to the database
-$sql = "SELECT COUNT(*) AS unread_count FROM chats WHERE opened = 0 AND to_id = ?";
+$sql = "SELECT COUNT(*) AS unread_count FROM chats WHERE opened = 0 AND to_id = ? ";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
@@ -20,7 +20,7 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 // Check for errors
-if ($row) {
+if ($row >=0) {
     $data = [
         'message' => "You have {$row['unread_count']} new unread messages.",
         'color' => 'blue' // You can dynamically set this based on conditions
