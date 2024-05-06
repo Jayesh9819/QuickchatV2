@@ -35,6 +35,9 @@ if ($result) {
 
     echo json_encode(['success' => true]);
     header("Location: ./unkno");
+    header("Location: ../../index.php/unkno");
+
+
 
 } else {
     echo json_encode(['success' => false]);
