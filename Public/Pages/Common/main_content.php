@@ -216,7 +216,7 @@ if (isset($_SESSION['visited_urls']) && count($_SESSION['visited_urls']) > 1) {
                      <h1>Hello <?php echo  $_SESSION["fullname"];  ?>! </h1>
                      <?php
                      if ($_SESSION['role'] == 'User') {
-                        echo '<a name="" id="" class="btn btn-secondary shprofile" href="./Redeem_Request" role="button">Send Redeem </a>';
+                        echo '<a name="" id="" class="btn btn-primary shprofile" href="./Redeem_Request" role="button">Send Redeem </a>';
                      }
                      ?>
 

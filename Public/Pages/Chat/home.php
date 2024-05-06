@@ -386,7 +386,7 @@
 
 					if ($chatWith['role'] == 'User') {
 						echo '<a name="" id="" class="btn btn-primary shprofile" href="./Show_Profile?u=' . $chatWith['id'] . '" role="button">Show Profile</a>';
-						echo '				<a name="" id="" class="btn btn-secondary shprofile" href="./cash_out?u=' . $chatWith['username'] . '" role="button">Redeem </a>
+						echo '				<a name="" id="" class="btn btn-primary shprofile" href="./cash_out?u=' . $chatWith['username'] . '" role="button">Redeem </a>
 					<a name="" id="" class="btn btn-danger shprofile" href="./deposit?u=' . $chatWith['username'] . '" role="button">Recharge </a>';
 					}
 					?>
