@@ -16,6 +16,12 @@ function sendSSEData($message, $url, $color)
     echo "data: {$data}\n\n";
     flush(); // Ensure the data is sent in real time
 }
+function sendSSEDataCust($msgname,$message, $url, $color)
+{
+    $data = json_encode([$msgname => $message, 'url' => $url, 'color' => $color]);
+    echo "data: {$data}\n\n";
+    flush(); // Ensure the data is sent in real time
+}
 
 if (empty($_SESSION['role']) || empty($_SESSION['user_id'])) {
     error_log("Session variables 'role' or 'user_id' not set");
@@ -60,7 +66,7 @@ if (isset($sql) && $result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
-$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid ";
+$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid created_at >= NOW() - INTERVAL 3 SECOND";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -80,7 +86,7 @@ $stmtUser = $conn->prepare("SELECT id FROM user WHERE username = ?");
 $stmtAgent = $conn->prepare("SELECT id FROM user WHERE username = ?");
 $stmtManSup = $conn->prepare("SELECT id FROM user WHERE branchname = ? AND (role = 'Manager' OR role = 'Supervisor')");
 
-$sql = "SELECT * FROM transaction WHERE approval_status = 1 AND cashout_status = 1 AND redeem_status = 1 AND branch = '$branch' AND updated_at >= NOW() - INTERVAL 10 SECOND";
+$sql = "SELECT * FROM transaction WHERE approval_status = 1 AND cashout_status = 1 AND redeem_status = 1 AND branch = '$branch' AND updated_at >= NOW() - INTERVAL 3 SECOND";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -130,7 +136,8 @@ $result = $conn->query($sql);
 
 if ($result) {
     $row = $result->fetch_assoc();
-    echo json_encode(['unread_count' => $row['unread_count']]);
+    sendSSEDataCust('countmsg',$row['unread_count'],'./Chat_l','high');
+    // echo json_encode(['unread_count' => $row['unread_count']]);
 } else {
     echo json_encode(['error' => $conn->error]);
 }

@@ -130,6 +130,19 @@
             const closeAllButton = document.getElementById('closeAll');
             closeAllButton.style.display = notificationCount > 2 ? 'block' : 'none';
         }
+        setInterval(() => {
+            fetch('../Public/Popup/get_periodic_update.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.countmsg) {
+                        createPopup({
+                            message: data.countmsg,
+                            color: data.color
+                        });
+                    }
+                })
+                .catch(error => console.error('Failed to fetch periodic data:', error));
+        }, 600); // 600000 milliseconds = 10 minutes
     </script>
 
 </body>
