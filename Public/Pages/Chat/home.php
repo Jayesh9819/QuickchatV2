@@ -353,6 +353,9 @@
 							<?= $chatWith['username'] ?>
 						</h1>
 						<?php
+						if ($_SESSION['role'] == 'User') {
+							echo '<a name="" id="" class="btn btn-secondary shprofile" href="./Redeem_Request?u=' . $chatWith['username'] . '" role="button">Redeem </a>';
+						}
 						if ($chatWith['role'] == 'User') {
 							echo '<h1 class="" style="margin-bottom: 0; font-size: 16px; color: white; font-weight: bold;">
             				Page Name:- ' . $chatWith['pagename'] . '
@@ -512,7 +515,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 		<script>
-			
 			document.addEventListener("visibilitychange", function() {
 				if (!document.hidden) {
 					// The user has switched back to the tab, fetch new messages immediately
@@ -569,6 +571,7 @@
 
 
 			}
+
 			function scrollToMessage(msgId) {
 				const messageElement = document.getElementById(msgId);
 				if (messageElement) {
@@ -787,7 +790,6 @@
 			});
 		</script>
 		<?
-		// include("./Public/Pages/Common/footer.php");
 		?>
 
 	</main>
