@@ -67,7 +67,7 @@ if (isset($sql) && $result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
-$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid AND created_at >= NOW() - INTERVAL 30 SECOND";
+$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid AND created_at >= NOW() - INTERVAL 2 SECOND";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -87,7 +87,7 @@ $stmtUser = $conn->prepare("SELECT id FROM user WHERE username = ?");
 $stmtAgent = $conn->prepare("SELECT id FROM user WHERE username = ?");
 $stmtManSup = $conn->prepare("SELECT id FROM user WHERE branchname = ? AND (role = 'Manager' OR role = 'Supervisor')");
 
-$sql = "SELECT * FROM transaction WHERE approval_status = 1 AND cashout_status = 1 AND redeem_status = 1 AND branch = '$branch' AND updated_at >= NOW() - INTERVAL 3 SECOND";
+$sql = "SELECT * FROM transaction WHERE approval_status = 1 AND cashout_status = 1 AND redeem_status = 1 AND branch = '$branch' AND updated_at >= NOW() - INTERVAL 2 SECOND";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
