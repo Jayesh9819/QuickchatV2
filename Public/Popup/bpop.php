@@ -24,7 +24,7 @@ if (empty($_SESSION['role']) || empty($_SESSION['user_id'])) {
 
 $role = $_SESSION['role'];
 $userid = $_SESSION['user_id'];
-$branch=$_SESSION['branch1'];
+$branch = $_SESSION['branch1'];
 $whereClause = '';
 
 if ($role === 'Agent') {
@@ -60,7 +60,7 @@ if (isset($sql) && $result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
-$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid";
+$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid ";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -124,4 +124,15 @@ if ($result->num_rows > 0) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
+$userid = $_SESSION['user_id'];
+$sql = "SELECT COUNT(*) AS unread_count FROM chats WHERE opened = 0 AND to_id = $userid";
+$result = $conn->query($sql);
+
+if ($result) {
+    $row = $result->fetch_assoc();
+    echo json_encode(['unread_count' => $row['unread_count']]);
+} else {
+    echo json_encode(['error' => $conn->error]);
+}
+
 $conn->close();
