@@ -98,9 +98,6 @@ if ($result = $conn->query($sql)) {
                 $userIDs[] = $agent['id']; // Add the approving agent's ID
             }
             $stmt->close();
-
-            // Prepare and execute query for managers and supervisors in the branch
-            // Assuming role is stored and can distinguish between Manager and Supervisor
             $stmt = $conn->prepare("SELECT id FROM user WHERE branch = ? AND (role = 'Manager' OR role = 'Supervisor')");
             $stmt->bind_param("s", $branch);
             $stmt->execute();
@@ -109,9 +106,6 @@ if ($result = $conn->query($sql)) {
                 $userIDs[] = $managerOrSupervisor['id']; // Add each manager and supervisor's ID
             }
             $stmt->close();
-
-            // Now $userIDs contains all the user IDs that need to receive the notification
-            // You can proceed to create notifications for each of these IDs
             foreach ($userIDs as $id) {
                 // Here you can insert the notification into your notification table
                 $insertStmt = $conn->prepare("INSERT INTO notification (content, by_id, for_id, created_at) VALUES (?, ?, ?, NOW())");
