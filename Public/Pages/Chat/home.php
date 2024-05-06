@@ -787,7 +787,7 @@
 			});
 		</script>
 		<?
-		include("./Public/Pages/Common/footer.php");
+		// include("./Public/Pages/Common/footer.php");
 		?>
 
 	</main>
