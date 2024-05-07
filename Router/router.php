@@ -115,8 +115,6 @@ if ($uri == $firstparam || $uri == $secondparam) {
         $prefix . $root . '/UNC'                         => './Public/Pages/Chat/unh.php',
 
         $prefix . $root . '/Portal_exchat'                        => './Public/Pages/Portal/portal_exchat.php',
-
-
     ];
 
     function routeToController($uri, $routes)

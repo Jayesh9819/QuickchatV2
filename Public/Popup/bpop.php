@@ -126,6 +126,49 @@ if ($result->num_rows > 0) {
             $insertStmt->close();
         }
 
+        sendSSEData($notificationMessage, "./Portal_Chats", "low");
+    }
+} else {
+    error_log("SQL error: " . $conn->error);
+}
+
+$sql = "SELECT * FROM transaction WHERE approval_status = 2 AND cashout_status = 0 AND redeem_status = 0 AND branch = '$branch' AND updated_at >= NOW()";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $notificationMessage = "Redeem Not Done Sucessfully of amount {$row['redeem']} because of {$row['Reject_msg']} ";
+        $approvedBy = $row['approved_by'];
+        $user = $row['username'];
+        $stmtUser->bind_param("s", $user);
+        $stmtUser->execute();
+        $resultUser = $stmtUser->get_result();
+        if ($userRow = $resultUser->fetch_assoc()) {
+            $userIDs[] = $userRow['id'];
+        }
+
+        // Agent who approved
+        $stmtAgent->bind_param("s", $approvedBy);
+        $stmtAgent->execute();
+        $resultAgent = $stmtAgent->get_result();
+        if ($agentRow = $resultAgent->fetch_assoc()) {
+            $userIDs[] = $agentRow['id'];
+        }
+
+        // Managers and Supervisors
+        $stmtManSup->bind_param("s", $branch);
+        $stmtManSup->execute();
+        $resultManSup = $stmtManSup->get_result();
+        while ($manSupRow = $resultManSup->fetch_assoc()) {
+            $userIDs[] = $manSupRow['id'];
+        }
+
+        foreach ($userIDs as $id) {
+            $insertStmt = $conn->prepare("INSERT INTO notification (content, by_id, for_id, created_at) VALUES (?, ?, ?, NOW())");
+            $insertStmt->bind_param("sii", $notificationMessage, $userid, $id);
+            $insertStmt->execute();
+            $insertStmt->close();
+        }
+
         sendSSEData($notificationMessage, "./Portal_Chats", "high");
     }
 } else {
