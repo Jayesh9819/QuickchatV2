@@ -397,7 +397,7 @@
 													echo '<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;">Page Name: -' . htmlspecialchars($conversation['from_pagename'] ?? 'N/A') . '</h5>';
 													?>
 												</div>
-												<span class="badge badge-primary unread-badge" data-conversation-id="<?= $conversation['id']; ?>" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;">
+												<span class="badge badge-primary unread-badge" data-conversation-id="<?= $conversation['from_user_id']; ?>" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;">
 													<?= $conversation['unread_count']; ?>
 												</span>
 
