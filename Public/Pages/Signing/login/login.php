@@ -190,7 +190,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function showAddToHomeScreenButton() {
   // Display your custom button or link and attach an event listener to trigger the prompt
   const addToHomeScreenButton = document.getElementById('addToHomeScreenButton');
-  addToHomeScreenButton.style.display = 'block';
+//   addToHomeScreenButton.style.display = 'block';
   addToHomeScreenButton.addEventListener('click', () => {
     // Show the prompt
     deferredPrompt.prompt();
