@@ -387,21 +387,19 @@
 							?> <?php if ($hasUnread) { ?>
 
 										<li class="list-group-item" style="border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: <?= $bgColor; ?>;">
-											<a href="./Chat_Screen?user=<?= htmlspecialchars($conversation['from_user_name']); ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
+											<a href="./Chat_Screen?user=<?= htmlspecialchars($conversation['from_user_name'] ?? 'Unknown'); ?>" style="display: flex; align-items: center; text-decoration: none; color: #ddd; width: 100%;">
 												<div class="chat-avatar" style="flex-shrink: 0;">
 													<img src="../uploads/profile/<?= !empty($conversation['p_p']) ? htmlspecialchars($conversation['p_p']) : '07.png'; ?>" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c2c2c;">
 												</div>
 												<div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
-													<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= htmlspecialchars($conversation['from_user_name']); ?></h5>
+													<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= htmlspecialchars($conversation['from_user_name'] ?? 'Unknown'); ?></h5>
 													<?php
-														echo '<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;">Page Name:-' . htmlspecialchars($conversation['from_pagename']) . '</h5>';
+													echo '<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;">Page Name: -' . htmlspecialchars($conversation['from_pagename'] ?? 'N/A') . '</h5>';
 													?>
 												</div>
-
 												<span class="badge badge-primary unread-badge" data-conversation-id="<?= $conversation['id']; ?>" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;">
-													<?= $conversation['unread_messages']; ?>
+													<?= $conversation['unread_count']; ?>
 												</span>
-												<?= $statusDot; ?>
 
 											<?php } ?>
 
@@ -446,6 +444,8 @@
 												<span class="badge badge-primary unread-badge" data-conversation-id="<?= $conversation['id']; ?>" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;">
 													<?= $conversation['unread_messages']; ?>
 												</span>
+												<?= $statusDot; ?>
+
 											<?php } ?>
 
 										</a>
