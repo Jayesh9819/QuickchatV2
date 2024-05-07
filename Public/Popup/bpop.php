@@ -10,13 +10,20 @@ header('Access-Control-Allow-Origin: *'); // Enable CORS if needed
 
 require_once '../../App/db/db_connect.php';
 
+function sendSSEDatasleep($message, $url, $color)
+{
+    $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
+    echo "data: {$data}\n\n";
+    flush(); 
+    sleep(1);
+}
 function sendSSEData($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
     flush(); 
-    sleep(2);
 }
+
 function sendSSEDataCust($msgname,$message, $url, $color)
 {
     $data = json_encode([$msgname => $message, 'url' => $url, 'color' => $color]);
@@ -126,7 +133,7 @@ if ($result->num_rows > 0) {
             $insertStmt->close();
         }
 
-        sendSSEData($notificationMessage, "./Portal_Chats", "low");
+        sendSSEDatasleep($notificationMessage, "./Portal_Chats", "low");
     }
 } else {
     error_log("SQL error: " . $conn->error);
@@ -169,7 +176,7 @@ if ($result->num_rows > 0) {
             $insertStmt->close();
         }
 
-        sendSSEData($notificationMessage, "./Portal_Chats", "high");
+        sendSSEDatasleep($notificationMessage, "./Portal_Chats", "high");
     }
 } else {
     error_log("SQL error: " . $conn->error);
