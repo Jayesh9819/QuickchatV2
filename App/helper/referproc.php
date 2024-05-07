@@ -39,10 +39,10 @@ function processReferralCode($conn, $name, $referralCode)
         mysqli_stmt_bind_param($stmt, "sss", $userName, $referredByUserName, $affiliateUserName);
         if (mysqli_stmt_execute($stmt)) {
             // Set success toast message
-            setToast('success', 'Referral code added successfully!');
+            print_r('success', 'Referral code added successfully!');
         } else {
             // Set error toast message
-            setToast('error', 'Error adding referral code: ' . mysqli_error($conn));
+            print_r('error', 'Error adding referral code: ' . mysqli_error($conn));
         }
     } else {
         // Set error toast message if referral code does not exist
