@@ -394,11 +394,7 @@
 												<div class="chat-details" style="flex-grow: 1; margin-left: 15px;">
 													<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;"><?= htmlspecialchars($conversation['from_user_name']); ?></h5>
 													<?php
-													if ($conversation['role'] == 'User') {
 														echo '<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;">Page Name:-' . htmlspecialchars($conversation['from_pagename']) . '</h5>';
-													} elseif ($conversation['role'] == 'query') {
-														echo '<h5 style="margin: 0; font-size: 16px; font-weight: 500; color: darkblue;">Page Name:-' . htmlspecialchars($conversation['from_pagename']) . '</h5>';
-													}
 													?>
 												</div>
 
