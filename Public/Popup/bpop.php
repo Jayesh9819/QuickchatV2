@@ -14,17 +14,17 @@ function sendSSEDatasleep($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
-    flush(); 
+    flush();
     sleep(1);
 }
 function sendSSEData($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
-    flush(); 
+    flush();
 }
 
-function sendSSEDataCust($msgname,$message, $url, $color)
+function sendSSEDataCust($msgname, $message, $url, $color)
 {
     $data = json_encode([$msgname => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
@@ -175,8 +175,10 @@ if ($result->num_rows > 0) {
             $insertStmt->execute();
             $insertStmt->close();
         }
+        if (in_array($_SESSION['user_id'], $userIDs)) {
 
-        sendSSEDatasleep($notificationMessage, "./Portal_Chats", "high");
+            sendSSEDatasleep($notificationMessage, "./Portal_Chats", "high");
+        }
     }
 } else {
     error_log("SQL error: " . $conn->error);
