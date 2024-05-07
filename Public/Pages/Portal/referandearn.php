@@ -321,38 +321,38 @@
     include("./Public/Pages/Common/scripts.php");
 
     ?>
-  <script>
-    function generateLink() {
-        var name = document.getElementById('referredName').value;
-        var email = document.getElementById('email').value; // Get the email from the input
-        var link = '<?php echo $referralLink; ?>' + encodeURIComponent(name) + "&refer=<?php echo $userId; ?>&email=" + encodeURIComponent(email);
-        document.getElementById('referralLinkInput').value = link;
-    }
-
-    function copyReferralLink() {
-        var copyText = document.getElementById("referralLinkInput");
-        copyText.select(); // Select the text field
-        copyText.setSelectionRange(0, 99999); // For mobile devices
-        navigator.clipboard.writeText(copyText.value); // Copy the text inside the text field
-        alert("Copied the link: " + copyText.value); // Alert the copied text
-    }
-
-    function shareReferralLink() {
-        var shareUrl = document.getElementById("referralLinkInput").value;
-        if (navigator.share) {
-            navigator.share({
-                    title: 'Join me on QuickChat',
-                    url: shareUrl
-                }).then(() => {
-                    console.log('Thanks for sharing!');
-                })
-                .catch(console.error);
-        } else {
-            copyReferralLink();
-            alert("Link copied to clipboard. Please paste it to share.");
+    <script>
+        function generateLink() {
+            var name = document.getElementById('referredName').value;
+            var email = document.getElementById('email').value; // Get the email from the input
+            var link = '<?php echo $referralLink; ?>' + encodeURIComponent(name) + "&refer=<?php echo $refercode; ?>&email=" + encodeURIComponent(email);
+            document.getElementById('referralLinkInput').value = link;
         }
-    }
-</script>
+
+        function copyReferralLink() {
+            var copyText = document.getElementById("referralLinkInput");
+            copyText.select(); // Select the text field
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(copyText.value); // Copy the text inside the text field
+            alert("Copied the link: " + copyText.value); // Alert the copied text
+        }
+
+        function shareReferralLink() {
+            var shareUrl = document.getElementById("referralLinkInput").value;
+            if (navigator.share) {
+                navigator.share({
+                        title: 'Join me on QuickChat',
+                        url: shareUrl
+                    }).then(() => {
+                        console.log('Thanks for sharing!');
+                    })
+                    .catch(console.error);
+            } else {
+                copyReferralLink();
+                alert("Link copied to clipboard. Please paste it to share.");
+            }
+        }
+    </script>
 
 </body>
 

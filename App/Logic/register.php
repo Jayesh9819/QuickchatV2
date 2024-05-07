@@ -134,11 +134,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "register") {
 
     $role = trim($_POST['role']);
     $termsAccepted = isset($_POST['terms']) && $_POST['terms'] == 'on';
-
-    // Additional fields
     $fbLink = trim($_POST['fb_link']);
     $pageId = trim($_POST['page']);
-    // $branchname = trim($_POST['branchname']);
     $by_u = $_SESSION['username'];
     $selectedPages = isset($_POST['selectedPages']) ? $_POST['selectedPages'] : [];
     // Check if $selectedPages is not an array

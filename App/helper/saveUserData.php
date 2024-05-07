@@ -2,6 +2,8 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+include './App/Logic/register.php';
+include '../Logic/register.php';
 
 include '../db/db_connect.php'; 
 include './App/db/db_connect.php';
@@ -13,10 +15,14 @@ if ($_POST) {
     $name = $_POST['name'];
     $referCode = $_POST['refercode'] ?? null;
     $email = $_POST['email'] ?? null;
+
 } elseif ($_GET) {
     $name = $_GET['user'] ?? null;
     $referCode = $_GET['refer'] ?? null;
     $email = $_GET['email'] ?? null;
+}
+if(isset($referCode) && $referCode != ""){
+    processReferralCode($conn, $name, $referCode);
 }
 
 $role = 'query';
