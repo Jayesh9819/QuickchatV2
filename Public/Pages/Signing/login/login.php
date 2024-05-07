@@ -117,10 +117,10 @@
                                                     </ul>
                                                 </div>
                                             </form>
+                                            <p class="mt-3 text-center">
                                             <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
-                                            <!-- <p class="mt-3 text-center"> -->
-                                                
+                                            </p>
     <!-- <button id="addToHomeScreenButton" >Add to Home Screen</button> -->
 
     
