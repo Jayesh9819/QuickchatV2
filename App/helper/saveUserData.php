@@ -2,9 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-include './App/Logic/register.php';
-include '../Logic/register.php';
-
+include 'referproc.php';
 include '../db/db_connect.php'; 
 include './App/db/db_connect.php';
 
