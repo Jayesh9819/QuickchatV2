@@ -3,6 +3,8 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="../manifest.json">
+
 
 
     <?php include     "./Public/Pages/Common/header.php";
@@ -116,7 +118,11 @@
                                                 </div>
                                             </form>
                                             <p class="mt-3 text-center">
-                                                <button onclick="window.location.href='<?php echo $settings['androidlink']; ?>'" class="btn btn-primary">Download for Android</button>
+                                                <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button>
+                                                
+    <!-- <button id="addToHomeScreenButton" >Add to Home Screen</button> -->
+
+    
 
                                                 <!-- For iOS -->
                                                 <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
@@ -154,6 +160,54 @@
 
         </section>
     </div>
+
+
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+
+
+
+    let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the default prompt from showing
+  e.preventDefault();
+  // Store the event for later use
+  deferredPrompt = e;
+  // Optionally show your custom "Add to Home Screen" button or link
+  showAddToHomeScreenButton();
+});
+
+function showAddToHomeScreenButton() {
+  // Display your custom button or link and attach an event listener to trigger the prompt
+  const addToHomeScreenButton = document.getElementById('addToHomeScreenButton');
+  addToHomeScreenButton.style.display = 'block';
+  addToHomeScreenButton.addEventListener('click', () => {
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      } else {
+        console.log('User dismissed the A2HS prompt');
+      }
+      // Clear the deferredPrompt variable
+      deferredPrompt = null;
+    });
+  });
+}
+</script>
+
 
     <script src="../Public/Pages/Signing/login/script.js"></script>
 
