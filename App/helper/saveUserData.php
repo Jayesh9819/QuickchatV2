@@ -15,17 +15,19 @@ if ($_POST) {
     $name = $_POST['name'];
     $referCode = $_POST['refercode'] ?? null;
     $email = $_POST['email'] ?? null;
+    $pagename = 'From Login Page';
+
 
 } elseif ($_GET) {
     $name = $_GET['user'] ?? null;
     $referCode = $_GET['refer'] ?? null;
     $email = $_GET['email'] ?? null;
+    $pagename = 'By Refer of ReferID' .$referCode;
 }
 if(isset($referCode) && $referCode != ""){
     processReferralCode($conn, $name, $referCode);
 }
 $role = 'query';
-$pagename = 'From Login Page';
 
 // Check if the user already exists
 if ($name) {
