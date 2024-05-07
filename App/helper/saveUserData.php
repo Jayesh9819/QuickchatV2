@@ -24,7 +24,6 @@ if ($_POST) {
 if(isset($referCode) && $referCode != ""){
     processReferralCode($conn, $name, $referCode);
 }
-
 $role = 'query';
 $pagename = 'From Login Page';
 
