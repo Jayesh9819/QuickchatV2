@@ -118,7 +118,7 @@
                                                 </div>
                                             </form>
                                             <p class="mt-3 text-center">
-                                                <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button>
+                                                <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 
     <!-- <button id="addToHomeScreenButton" >Add to Home Screen</button> -->
 
