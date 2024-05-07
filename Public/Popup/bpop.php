@@ -132,8 +132,10 @@ if ($result->num_rows > 0) {
             $insertStmt->execute();
             $insertStmt->close();
         }
+        if (in_array($_SESSION['user_id'], $userIDs)) {
 
-        sendSSEDatasleep($notificationMessage, "./Portal_Chats", "low");
+            sendSSEDatasleep($notificationMessage, "./Portal_Chats", "low");
+        }
     }
 } else {
     error_log("SQL error: " . $conn->error);
