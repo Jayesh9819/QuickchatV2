@@ -400,8 +400,8 @@
 												<span class="badge badge-primary unread-badge" data-conversation-id="<?= $conversation['from_user_id']; ?>" style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px;">
 													<?= $conversation['unread_count']; ?>
 												</span>
-
-											<?php } ?>
+												
+												<?php } ?>
 
 											</a>
 										</li>
