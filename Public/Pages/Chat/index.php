@@ -382,7 +382,7 @@
 							<?php
 							if (!empty($pending)) {
 								foreach ($pending as $conversation) {
-									$hasUnread = !empty($conversation['unread_count']) && $conversation['unread_messages'] > 0;
+									$hasUnread = !empty($conversation['unread_count']) && $conversation['unread_count'] > 0;
 									$bgColor = $hasUnread ? 'limegreen' : 'lightblue';
 							?> <?php if ($hasUnread) { ?>
 
