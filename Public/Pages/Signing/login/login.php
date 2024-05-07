@@ -140,9 +140,25 @@
                     <img src="<?php echo $settings['banner']; ?>" class="img-fluid gradient-main" alt="images" loop autoplay muted></img>
                 </div>
             </div>
-            <div id="chatButton" class="chat-button">
-                Open Chat
-            </div>
+            <style>
+                .chat-button{
+                    left: 60%;
+                }
+                @media only screen and (min-width: 600px) {
+                    .chat-button{
+                    left: 90%;
+                }
+  
+}
+
+
+
+
+            </style>
+            
+                <div id="chatButton"  style="right: 20px;"  class="chat-button">
+                    Open Chat
+                </div>
             <div id="userFormModal" class="modal">
                 <div class="modal-content">
                     <span class="close-button">&times;</span>
