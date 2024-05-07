@@ -117,15 +117,15 @@
                                                     </ul>
                                                 </div>
                                             </form>
-                                            <p class="mt-3 text-center">
-                                                <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
+                                            <!-- <p class="mt-3 text-center"> -->
                                                 
     <!-- <button id="addToHomeScreenButton" >Add to Home Screen</button> -->
 
     
 
                                                 <!-- For iOS -->
-                                                <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
                                             <p class="mt-3 text-center">
                                                 For iOS Install using Scarlet or AltStore or similar tools
                                             </p>
