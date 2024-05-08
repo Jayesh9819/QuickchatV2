@@ -635,6 +635,11 @@
 				function sendMessage() {
 					console.log("this is exexcuting");
 					const message = document.getElementById('message').value.trim();
+					if (message === '') {
+						console.error('Cannot send an empty message.');
+						return; // Exit the function if message is empty
+					}
+
 					const fileInput = document.getElementById('fileInput');
 					const formData = new FormData();
 
