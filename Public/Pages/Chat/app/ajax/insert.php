@@ -69,9 +69,16 @@ if (isset($_POST['message'], $_POST['to_id'])) {
 	}
 
 	$messageHtml .= '<p style="margin: 0;">' . linkify($message);
-	// Corrected Button Code Inside PHP Block
 	$messageHtml .= '</p>';
-	$messageHtml .= '<small style="display: block; color: #666; font-size: smaller;">' . date("h:i:s a") . '</small>';
+	if (isset($_SESSION['timezone'])) {
+		$timezone = new DateTimeZone($_SESSION['timezone']);
+	} else {
+		$timezone = new DateTimeZone('UTC');
+	}
+	$currentTime = new DateTime('now', new DateTimeZone('UTC'));
+	$currentTime->setTimezone($timezone); // Convert to user's timezone
+	$formattedTime = $currentTime->format('h:i:s a');
+	$messageHtml .= '<small style="display: block; color: #666; font-size: smaller;">' . $formattedTime . '</small>';
 	$messageHtml .= '</div>';
 	$messageHtml .= '</div>';
 
