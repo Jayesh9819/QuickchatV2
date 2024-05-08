@@ -464,15 +464,14 @@
 										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
 										<?php
 										if (isset($_SESSION['timezone'])) {
-											date_default_timezone_set($_SESSION['timezone']);
+											$timezone = new DateTimeZone($_SESSION['timezone']);
+										} else {
+											$timezone = new DateTimeZone('UTC');
 										}
-
-										$displayTime = date('M d, Y h:i A', strtotime($chat['created_at']));
-										print_r($_SESSION);
-										
+										$dateTime = new DateTime($chat['created_at'], new DateTimeZone('UTC')); // Assuming stored time is in UTC
+										$dateTime->setTimezone($timezone); // Convert to user's timezone
+										$displayTime = $dateTime->format('M d, Y h:i A');
 										?>
-
-										
 										<small style="display: block; color: #666; font-size: smaller;"><?= $displayTime ?></small>
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
 											<small style="display: block; color: #666; font-size: smaller;">By <?= htmlspecialchars($chat['sender_username']) ?></small>
