@@ -72,7 +72,9 @@
             include './App/db/db_connect.php';
 
             // Assuming $conn is your database connection
-            $query = "SELECT id,name, content, image FROM offers";
+            $ubranch = $_SESSION['branch1'];
+            $upage = $_SESSION['page1'];
+            $query = "SELECT * FROM offers where role='User' AND (branch='$ubranch' OR branch ='ALL' ) And (page like '%$upage%' OR page ='ALL') AND status=1 ";
             $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) > 0) {

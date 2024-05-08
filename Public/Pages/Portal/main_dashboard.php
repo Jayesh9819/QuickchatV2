@@ -344,9 +344,11 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
             <div id="page_layout">
                 <?php
                 include './App/db/db_connect.php';
+                $ubranch = $_SESSION['branch1'];
+                $upage = $_SESSION['page1'];
 
                 // Assuming $conn is your database connection
-                $query = "SELECT id,name, content, image FROM offers";
+                $query = "SELECT * FROM offers where role='User' AND (branch='$ubranch' OR branch ='ALL' ) And (page like '%$upage%' OR page ='ALL') AND status=1 ";
                 $result = mysqli_query($conn, $query);
 
                 if (mysqli_num_rows($result) > 0) {
@@ -356,10 +358,11 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                         $content = htmlspecialchars($row["content"]);
                         $image = htmlspecialchars($row["image"]);
                         $id = htmlspecialchars($row["id"]);
-
+                        $branch = htmlspecialchars($row["branch"]);
+                        $page = htmlspecialchars($row["page"]);
                         $imagePath = "../uploads/" . $image; // Adjust the path as needed
-
-                        // Display the data in a Bootstrap card
+                        $ubranch = $_SESSION['branch1'];
+                        $upage = $_SESSION['page1'];
                         echo "
                     <div class='col-md-4'>
                         <div class='card'>
