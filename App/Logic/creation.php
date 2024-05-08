@@ -87,9 +87,9 @@ class Creation
             $stmt->bind_param("sdsssdss", $namef, $amount, $type, $addedBy, $from, $openingBalance, $closingBalance, $remark);
 
             if ($stmt->execute()) {
-                $_SESSION['toast'] = ['type' => 'success', 'message' => 'Platform recharged successfully.'];
+                // $_SESSION['toast'] = ['type' => 'success', 'message' => 'Platform recharged successfully.'];
             } else {
-                $_SESSION['toast'] = ['type' => 'error', 'message' => 'Error recharging Platform: ' . $stmt->error];
+                // $_SESSION['toast'] = ['type' => 'error', 'message' => 'Error recharging Platform: ' . $stmt->error];
             }
             $stmt->close();
         } else {
