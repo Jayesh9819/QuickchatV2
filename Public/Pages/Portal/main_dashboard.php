@@ -441,7 +441,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                                     <div class="card text-center">
                                         <div class="card-body">
                                             <!-- Calculate and display the difference -->
-                                            <h2 class="mb-3"><?php echo abs((isset($totalRecharge) ? $totalRecharge : 0) - (isset($totalRedeem) ? $totalRedeem : 0)); ?></h2>
+                                            <h2 class="mb-3"><?php echo (isset($totalRecharge) ? $totalRecharge : 0) - (isset($totalRedeem) ? $totalRedeem : 0); ?></h2>
                                             <h5>Net Profit (Recharge - Redeem)</h5>
                                         </div>
                                     </div>
