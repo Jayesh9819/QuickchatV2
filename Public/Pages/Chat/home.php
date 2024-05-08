@@ -463,8 +463,8 @@
 
 										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
 										<?php
-										if (isset($_SESSION['user_timezone'])) {
-											date_default_timezone_set($_SESSION['user_timezone']);
+										if (isset($_SESSION['timezone'])) {
+											date_default_timezone_set($_SESSION['timezone']);
 										}
 
 										$displayTime = date('M d, Y h:i A', strtotime($chat['created_at']));
