@@ -468,9 +468,11 @@
 										}
 
 										$displayTime = date('M d, Y h:i A', strtotime($chat['created_at']));
+										print_r($_SESSION);
+										
 										?>
 
-										?>
+										
 										<small style="display: block; color: #666; font-size: smaller;"><?= $displayTime ?></small>
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
 											<small style="display: block; color: #666; font-size: smaller;">By <?= htmlspecialchars($chat['sender_username']) ?></small>
