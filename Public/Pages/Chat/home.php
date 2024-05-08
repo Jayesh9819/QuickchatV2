@@ -462,8 +462,16 @@
 										?>
 
 										<p style="margin: 0;"><?= linkify($chat['message']) ?></p>
+										<?php
+										if (isset($_SESSION['user_timezone'])) {
+											date_default_timezone_set($_SESSION['user_timezone']);
+										}
 
-										<small style="display: block; color: #666; font-size: smaller;"><?= date('M d, Y h:i A', strtotime($chat['created_at'])) ?></small>
+										$displayTime = date('M d, Y h:i A', strtotime($chat['created_at']));
+										?>
+
+										?>
+										<small style="display: block; color: #666; font-size: smaller;"><?= $displayTime ?></small>
 										<?php if (isset($chat['sender_username']) && !empty($chat['sender_username'])) : ?>
 											<small style="display: block; color: #666; font-size: smaller;">By <?= htmlspecialchars($chat['sender_username']) ?></small>
 										<?php endif; ?>
