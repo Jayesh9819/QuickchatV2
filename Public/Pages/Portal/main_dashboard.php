@@ -343,6 +343,9 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
 
             <div id="page_layout">
                 <?php
+                $role = $_SESSION['role'];
+                if ($role == 'User') { 
+
                 include './App/db/db_connect.php';
                 $ubranch = $_SESSION['branch1'];
                 $upage = $_SESSION['page1'];
@@ -392,13 +395,12 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                     echo '</div>'; // End the Bootstrap row
                 } else {
                     echo "No results found.";
-                }
+                }}
                 ?>
 
             </div>
 
             <?php
-            $role = $_SESSION['role'];
 
             if ($role != 'User') { ?>
 
