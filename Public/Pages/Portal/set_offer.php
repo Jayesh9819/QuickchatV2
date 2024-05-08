@@ -26,13 +26,52 @@
         echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
         unset($_SESSION['login_error']); // Clear the error message
     }
+    include "./Public/Pages/Portal/Components/formcomp.php";
+    $role = $_SESSION['role'];
+    $gbranch = $_SESSION['branch1'];
+    $username = $_SESSION['username'];
+    $page = [];
+    $page[] = 'ALL';
+    $pageopt = []; // Array to hold page options
+
+    if ($role == 'Admin') {
+        $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE page.status = 1");
+    } else if ($role == 'Agent') {
+        $resultPage = $conn->query("SELECT pagename  as name from user where username='$username'");
+    } else {
+        $resultPage = $conn->query("SELECT branch.name AS bname, page.name FROM branch JOIN page ON page.bid = branch.bid WHERE branch.name = '$gbranch' AND page.status = 1");
+    }
+    if ($resultPage->num_rows > 0) {
+        while ($row = $resultPage->fetch_assoc()) {
+            $page[] = $row;
+            $pageopt[] = htmlspecialchars($row['name']); // Add each page name to the array
+        }
+    }
+    $branchOpt = [];
+    $branchOpt[] = 'ALL';
+    $resultBranch = $conn->query("Select name from branch where status=1 ");
+    if ($resultBranch->num_rows > 0) {
+        while ($row = $resultBranch->fetch_assoc()) {
+            $branchOpt[] = htmlspecialchars($row['name']);
+        }
+    }
+
+    // print_r($page);
+    // print_r($pageopt);
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         include './App/db/db_connect.php';
-
-        // Capture form data
         $title = mysqli_real_escape_string($conn, $_POST['tittle']);
         $content = mysqli_real_escape_string($conn, $_POST['content']);
-        $page = $_SESSION['page'];
+        $branch = mysqli_real_escape_string($conn, $_POST['branch']);
+        $selectedPages = isset($_POST['selectedPages']) ? $_POST['selectedPages'] : [];
+        // Check if $selectedPages is not an array
+        if (!is_array($selectedPages)) {
+            // Convert it to an array with the single element
+            $selectedPages = [$selectedPages];
+        }
+        $serialized = serialize($selectedPages);
+        $array = unserialize($serialized);
+        $page = implode(", ", $array);    // echo $string;
         $by = $_SESSION['username'];
 
         // Handle file upload
@@ -46,13 +85,11 @@
             $targetDir = "uploads/";
             $targetFile = $targetDir . basename($fileName);
 
-            // You can add file validation here (e.g., file size, type)
-
             // Move the file to your target directory
             if (move_uploaded_file($fileTmpName, $targetFile)) {
                 // File is successfully uploaded
                 // Insert form data and file name into the database
-                $sql = "INSERT INTO offers (name, content, image,by_u,page) VALUES ('$title', '$content', '$fileName','$by','$page')";
+                $sql = "INSERT INTO offers (name, content, image,by_u,page,branch) VALUES ('$title', '$content', '$fileName','$by','$page','$branch')";
 
                 if (mysqli_query($conn, $sql)) {
                     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Details submitted successfully!'];
@@ -128,6 +165,15 @@
                         <label for="formFile" class="form-label">Upload Image</label>
                         <input class="form-control" name="image" type="file" id="formFile">
                     </div>
+                    <?php
+                    if ($role == 'Admin') {
+                        echo select("Branch name", "branch", "branch", $branchOpt);
+                        echo '<div id="checkboxContainer"></div>';
+                        echo generateDynamicCheckboxScript('branch', 'checkboxContainer', $page, '');
+                    } else {
+                        echo generateCheckboxes($pageopt, 'selectedPages');
+                    }
+                    ?>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -135,7 +181,7 @@
             include './App/db/db_connect.php';
 
             // Assuming $conn is your database connection
-            $query = "SELECT id,name, content, image FROM offers";
+            $query = "SELECT * FROM offers";
             $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) > 0) {
@@ -145,6 +191,9 @@
                     $content = htmlspecialchars($row["content"]);
                     $image = htmlspecialchars($row["image"]);
                     $id = htmlspecialchars($row["id"]);
+                    $page = htmlspecialchars($row["page"]);
+                    $branch = htmlspecialchars($row["branch"]);
+
 
                     $imagePath = "../uploads/" . $image; // Adjust the path as needed
 
@@ -158,6 +207,7 @@
                             <img src='{$imagePath}' class='card-img-top' alt='{$title}'>
                             <div class='card-body'>
                                 <h5 class='card-title'>{$title}</h5>
+
                                 <div class='content-collapse'>
                                     <p class='card-text'>{$content}</p>
                                 </div>

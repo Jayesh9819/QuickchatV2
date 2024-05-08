@@ -208,8 +208,8 @@ function generateDynamicCheckboxScript($branchDropdownId, $checkboxContainerId, 
         // Function to update checkbox options based on selected branch
         function updateCheckboxOptions() {
             const selectedBranch = branchSelect.value;
-            // Clear previous checkboxes
-            checkboxContainer.innerHTML = '';
+            // Clear previous checkboxes and set title
+            checkboxContainer.innerHTML = '<h6>Select The Pages</h6>';
             // Populate checkboxes based on selected branch
             pagesData.forEach(page => {
                 if (page.bname === selectedBranch) {
