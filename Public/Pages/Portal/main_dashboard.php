@@ -344,25 +344,25 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
             <div id="page_layout">
                 <?php
                 $role = $_SESSION['role'];
-                if ($role == 'User') { 
+                if ($role == 'User') {
 
-                include './App/db/db_connect.php';
-                $ubranch = $_SESSION['branch1'];
-                $upage = $_SESSION['page1'];
-                $query = "SELECT * FROM offers where role='User' AND (branch='$ubranch' OR branch ='ALL' ) And (page like '%$upage%' OR page ='ALL') AND status=1 ";
-                $result = mysqli_query($conn, $query);
+                    include './App/db/db_connect.php';
+                    $ubranch = $_SESSION['branch1'];
+                    $upage = $_SESSION['page1'];
+                    $query = "SELECT * FROM offers where role='User' AND (branch='$ubranch' OR branch ='ALL' ) And (page like '%$upage%' OR page ='ALL') AND status=1 ";
+                    $result = mysqli_query($conn, $query);
 
-                if (mysqli_num_rows($result) > 0) {
-                    echo '<div class="row">'; // Start the Bootstrap row
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $title = htmlspecialchars($row["name"]); // Escape special characters to prevent XSS
-                        $content = htmlspecialchars($row["content"]);
-                        $image = htmlspecialchars($row["image"]);
-                        $id = htmlspecialchars($row["id"]);
-                        $branch = htmlspecialchars($row["branch"]);
-                        $page = htmlspecialchars($row["page"]);
-                        $imagePath = "../uploads/" . $image; // Adjust the path as needed
-                        echo "
+                    if (mysqli_num_rows($result) > 0) {
+                        echo '<div class="row">'; // Start the Bootstrap row
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $title = htmlspecialchars($row["name"]); // Escape special characters to prevent XSS
+                            $content = htmlspecialchars($row["content"]);
+                            $image = htmlspecialchars($row["image"]);
+                            $id = htmlspecialchars($row["id"]);
+                            $branch = htmlspecialchars($row["branch"]);
+                            $page = htmlspecialchars($row["page"]);
+                            $imagePath = "../uploads/" . $image; // Adjust the path as needed
+                            echo "
                     <div class='col-md-4'>
                         <div class='card'>
                             <img src='{$imagePath}' class='card-img-top' alt='{$title}'>
@@ -377,7 +377,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                     </div>
                     ";
 
-                        echo "
+                            echo "
                     <script>
                     function expandText(button) {
                         var content = button.previousElementSibling;
@@ -391,78 +391,78 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                     }
                     </script>
                     ";
+                        }
+                        echo '</div>'; // End the Bootstrap row
+                    } else {
+                        echo "No results found.";
                     }
-                    echo '</div>'; // End the Bootstrap row
-                } else {
-                    echo "No results found.";
-                }}
+                }
                 ?>
 
-            </div>
 
-            <?php
+                <?php
 
-            if ($role != 'User') { ?>
+                if ($role != 'User') { ?>
 
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <h4 class="mb-5">Analytics Overview</h4>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <!-- Check if $totalRecharge is null, if yes, display 0 -->
-                                        <h2 class="mb-3"><?php echo isset($totalRecharge) ? $totalRecharge : 0; ?></h2>
-                                        <h5>Today Recharge Total</h5>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <h4 class="mb-5">Analytics Overview</h4>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <!-- Check if $totalRecharge is null, if yes, display 0 -->
+                                            <h2 class="mb-3"><?php echo isset($totalRecharge) ? $totalRecharge : 0; ?></h2>
+                                            <h5>Today Recharge Total</h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <!-- Check if $totalRedeem is null, if yes, display 0 -->
-                                        <h2 class="mb-3"><?php echo isset($totalRedeem) ? $totalRedeem : 0;
-                                                            ?></h2>
-                                        <h5>Today Redeem Amount</h5>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <!-- Check if $totalRedeem is null, if yes, display 0 -->
+                                            <h2 class="mb-3"><?php echo isset($totalRedeem) ? $totalRedeem : 0;
+                                                                ?></h2>
+                                            <h5>Today Redeem Amount</h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <!-- Check if $activeUsers is null, if yes, display 0 -->
-                                        <h2 class="mb-3"><?php echo isset($activeUsers) ? $activeUsers : 0; ?></h2>
-                                        <h5>Active Users</h5>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <!-- Check if $activeUsers is null, if yes, display 0 -->
+                                            <h2 class="mb-3"><?php echo isset($activeUsers) ? $activeUsers : 0; ?></h2>
+                                            <h5>Active Users</h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Optional: Display the difference between recharge and redeem -->
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <!-- Calculate and display the difference -->
-                                        <h2 class="mb-3"><?php echo abs((isset($totalRecharge) ? $totalRecharge : 0) - (isset($totalRedeem) ? $totalRedeem : 0)); ?></h2>
-                                        <h5>Net Profit (Recharge - Redeem)</h5>
+                                <!-- Optional: Display the difference between recharge and redeem -->
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <!-- Calculate and display the difference -->
+                                            <h2 class="mb-3"><?php echo abs((isset($totalRecharge) ? $totalRecharge : 0) - (isset($totalRedeem) ? $totalRedeem : 0)); ?></h2>
+                                            <h5>Net Profit (Recharge - Redeem)</h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-            <?php } else { ?>
+                <?php } else { ?>
 
 
 
-            <?php }  ?>
+                <?php }  ?>
 
 
-            <?
-            include("./Public/Pages/Common/footer.php");
+                <?
+                include("./Public/Pages/Common/footer.php");
 
-            ?>
-        </div>
+                ?>
+            </div>
 
     </main>
     <!-- Wrapper End-->
