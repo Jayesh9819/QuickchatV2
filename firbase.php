@@ -12,12 +12,12 @@ function sendNotification($title, $body, $userIdentity = null, $openLinkUrl = nu
     // if ($userIdentity) {
     //     $postData['user_identity'] = $userIdentity;
     // // }
-    // if ($openLinkUrl) {
-    //     $postData['open_link_url'] = $openLinkUrl;
-    // }
-    // if ($notificationImage) {
-    //     $postData['notification_image'] = $notificationImage;
-    // }
+    if ($openLinkUrl) {
+        $postData['open_link_url'] = $openLinkUrl;
+    }
+    if ($notificationImage) {
+        $postData['notification_image'] = $notificationImage;
+    }
 
     // Initialize cURL
     $ch = curl_init();
