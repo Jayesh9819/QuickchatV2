@@ -9,9 +9,9 @@ function sendNotification($title, $body, $userIdentity = null, $openLinkUrl = nu
     ];
 
     // // Add optional parameters if provided
-    // if ($userIdentity) {
-    //     $postData['user_identity'] = $userIdentity;
-    // // }
+    if ($userIdentity) {
+        $postData['user_identity'] = $userIdentity;
+    }
     if ($openLinkUrl) {
         $postData['open_link_url'] = $openLinkUrl;
     }
