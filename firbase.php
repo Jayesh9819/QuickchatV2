@@ -18,7 +18,7 @@ function sendNotification($title, $body, $userIdentity = null, $openLinkUrl = nu
     if ($notificationImage) {
         $postData['notification_image'] = $notificationImage;
     }
-
+print_r($postData);
     // Initialize cURL
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
