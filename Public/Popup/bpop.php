@@ -9,7 +9,7 @@ header('Cache-Control: no-cache');
 header('Access-Control-Allow-Origin: *'); // Enable CORS if needed
 
 require_once '../../App/db/db_connect.php';
-include './firbase.php';
+include '../../firbase.php';
 function sendSSEDatasleep($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);

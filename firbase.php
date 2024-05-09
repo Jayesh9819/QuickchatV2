@@ -39,4 +39,4 @@ print_r($postData);
 }
 
 // Example usage
-sendNotification('Hello!', 'This is your notification message.');
+// sendNotification('Hello!', 'This is your notification message.');
