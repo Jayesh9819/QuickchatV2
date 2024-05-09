@@ -9,7 +9,7 @@ header('Cache-Control: no-cache');
 header('Access-Control-Allow-Origin: *'); // Enable CORS if needed
 
 require_once '../../App/db/db_connect.php';
-
+include './firbase.php';
 function sendSSEDatasleep($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
@@ -21,6 +21,7 @@ function sendSSEData($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
+    sendNotification($message, 'This is your notification message.');
     flush();
 }
 
@@ -74,13 +75,19 @@ if (isset($sql) && $result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
-$sql = "SELECT * FROM chats WHERE opened = 0 AND to_id = $userid AND created_at >= NOW() - INTERVAL 2 SECOND";
+$sql = "SELECT chats.*, users.name AS from_name 
+FROM chats 
+JOIN users ON chats.from_id = users.id 
+WHERE chats.opened = 0 
+AND chats.to_id = $userid 
+AND chats.created_at >= NOW() - INTERVAL 2 SECOND;
+";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $notificationMessage = "You have a new message. Please check your inbox.";
+            $notificationMessage = "You have a new message. From ".$row['from_name'];
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
-            $color = "medium"; // Choosing green for new messages
+            $color = "medium"; 
             sendSSEData($notificationMessage, $url, $color);
         }
     }
