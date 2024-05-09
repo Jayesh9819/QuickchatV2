@@ -75,9 +75,9 @@ if (isset($sql) && $result = $conn->query($sql)) {
 } else {
     error_log("SQL error: " . $conn->error);
 }
-$sql = "SELECT chats.*, users.name AS from_name 
+$sql = "SELECT chats.*, user.name AS from_name 
 FROM chats 
-JOIN users ON chats.from_id = users.id 
+JOIN user ON chats.from_id = user.id 
 WHERE chats.opened = 0 
 AND chats.to_id = $userid 
 AND chats.created_at >= NOW() - INTERVAL 2 SECOND;
