@@ -34,20 +34,19 @@ include './Public/Popup/popup.php'
     $(document).ready(function() {
 
 
-let lastSeenUpdat = function() {
-    $.get('../Api/notification.php')
-        .done(function(data) {
-            console.log('Success:', data); // Successful response handling
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-            console.error('AJAX Error:', textStatus); // Error handling
-        });
-};
+        let lastSeenUpdat = function() {
+            $.get('../Api/notification.php')
+                .done(function(data) {
+                    console.log('Success:', data); // Successful response handling
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX Error:', textStatus); // Error handling
+                });
+        };
 
-lastSeenUpdat(); // Initial call
-setInterval(lastSeenUpdat, 1000); // Set to run every 10 seconds
-});
-
+        lastSeenUpdat(); // Initial call
+        setInterval(lastSeenUpdat, 1000); // Set to run every 10 seconds
+    });
 </script>
 <!-- jQuery Library - Load this first to ensure it's available for all jQuery-dependent scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
