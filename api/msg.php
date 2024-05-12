@@ -28,7 +28,7 @@ function sendFCMNotification($userId, $title, $body)
                 'title' => $title,
                 'body' => $body,
                 'channel_id' => 'high_importance_channel',  // This should match the channel ID in Flutter
-                'sound' => 's'  // This is optional and mainly controlled by Flutter
+                'sound' => 's.mp3'  // This is optional and mainly controlled by Flutter
             ],
             'priority' => 'high'
         ];
@@ -50,4 +50,4 @@ function sendFCMNotification($userId, $title, $body)
         return "No token found.";
     }
 }
-// echo sendFCMNotification(2,"hellooo","Hiiiiiiiiii");
+ echo sendFCMNotification(2,"hellooo","Hiiiiiiiiii");
