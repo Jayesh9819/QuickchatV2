@@ -27,7 +27,7 @@ function sendFCMNotification($userId, $title, $body)
             'notification' => [
                 'title' => $title,
                 'body' => $body,
-                'sound' => 's' 
+                'sound' => 'default'  // Use default system sound to test
             ],
             'priority' => 'high'
         ];
