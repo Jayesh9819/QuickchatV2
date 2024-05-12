@@ -1,6 +1,6 @@
 <?php
 // Include database configuration file
-include_once './App/db/db_connect.php';
+include_once '../App/db/db_connect.php';
 
 // Function to send FCM notification
 function sendFCMNotification($userId, $title, $body)
@@ -9,7 +9,7 @@ function sendFCMNotification($userId, $title, $body)
     echo $title;
     echo $body;
     echo $userId;
-    include './App/db/db_connect.php';
+    include '../App/db/db_connect.php';
     $sql = "SELECT fcm_token FROM user_tokens WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $userId);

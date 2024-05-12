@@ -6,7 +6,6 @@
     <link rel="manifest" href="../manifest.json">
 
 
-
     <?php include     "./Public/Pages/Common/header.php";
 
 
@@ -77,58 +76,58 @@
                                 <div class="card  d-flex justify-content-center mb-0 auth-card iq-auth-form">
                                     <div class="card-body">
                                         <h2 class="mb-2 text-center" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Sign In</h2>
-                                    <p class=" text-center">Login to stay connected.</p>
-                                            <form action="../App/Logic/login.php" method="post">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="username" class="form-label">User Name</label>
-                                                            <input value="<?php echo isset($_SESSION['login_form_values']['username']) ? htmlspecialchars($_SESSION['login_form_values']['username']) : ''; ?>" class="form-control" type="text" id="username" name="username" placeholder="Enter your user-name" required="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="password" class="form-label">Password</label>
-                                                            <input class="form-control" type="password" required="" id="password" name="password" placeholder="Enter your password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 d-flex justify-content-between">
-                                                        <div class="form-check mb-3">
-                                                            <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                            <label class="form-check-label" for="customCheck1">Remember Me</label>
-                                                        </div>
-                                                        <a href="#">Forgot Password?</a>
+                                        <p class=" text-center">Login to stay connected.</p>
+                                        <form action="../App/Logic/login.php" method="post">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="username" class="form-label">User Name</label>
+                                                        <input value="<?php echo isset($_SESSION['login_form_values']['username']) ? htmlspecialchars($_SESSION['login_form_values']['username']) : ''; ?>" class="form-control" type="text" id="username" name="username" placeholder="Enter your user-name" required="">
                                                     </div>
                                                 </div>
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="submit" class="btn btn-primary">Sign In</button>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="password" class="form-label">Password</label>
+                                                        <input class="form-control" type="password" required="" id="password" name="password" placeholder="Enter your password">
+                                                    </div>
                                                 </div>
-                                                <p class="text-center my-3">or sign in with other accounts?</p>
-                                                <!-- For Android -->
-                                                </p>
-
-                                                <div class="d-flex justify-content-center">
-                                                    <ul class="list-group list-group-horizontal list-group-flush">
-
-                                                        <li class="list-group-item border-0 pb-0">
-                                                            <a href="#"><img src="https://templates.iqonic.design/product/qompac-ui/html/dist/assets/images/brands/fb.svg" alt="fb" loading="lazy"></a>
-                                                        </li>
-
-                                                    </ul>
+                                                <div class="col-lg-12 d-flex justify-content-between">
+                                                    <div class="form-check mb-3">
+                                                        <input type="checkbox" class="form-check-input" id="customCheck1">
+                                                        <label class="form-check-label" for="customCheck1">Remember Me</label>
+                                                    </div>
+                                                    <a href="#">Forgot Password?</a>
                                                 </div>
-                                            </form>
-                                            <p class="mt-3 text-center">
-                                            <button  id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary">Sign In</button>
+                                            </div>
+                                            <p class="text-center my-3">or sign in with other accounts?</p>
+                                            <!-- For Android -->
+                                            </p>
+
+                                            <div class="d-flex justify-content-center">
+                                                <ul class="list-group list-group-horizontal list-group-flush">
+
+                                                    <li class="list-group-item border-0 pb-0">
+                                                        <a href="#"><img src="https://templates.iqonic.design/product/qompac-ui/html/dist/assets/images/brands/fb.svg" alt="fb" loading="lazy"></a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </form>
+                                        <p class="mt-3 text-center">
+                                            <button id="addToHomeScreenButton" class="btn btn-primary">Download for Android</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <button onclick="window.location.href='<?php echo $settings['ioslink']; ?>'" class="btn btn-primary">Download for iOS</button>
-                                            </p>
-    <!-- <button id="addToHomeScreenButton" >Add to Home Screen</button> -->
+                                        </p>
+                                        <!-- <button id="addToHomeScreenButton" >Add to Home Screen</button> -->
 
-    
 
-                                                <!-- For iOS -->
-                                            <p class="mt-3 text-center">
-                                                For iOS Install using Scarlet or AltStore or similar tools
-                                            </p>
+
+                                        <!-- For iOS -->
+                                        <p class="mt-3 text-center">
+                                            For iOS Install using Scarlet or AltStore or similar tools
+                                        </p>
 
                                     </div>
                                 </div>
@@ -141,24 +140,21 @@
                 </div>
             </div>
             <style>
-                .chat-button{
+                .chat-button {
                     left: 60%;
                 }
+
                 @media only screen and (min-width: 600px) {
-                    .chat-button{
-                    left: 90%;
+                    .chat-button {
+                        left: 90%;
+                    }
+
                 }
-  
-}
-
-
-
-
             </style>
-            
-                <div id="chatButton"  style="right: 20px;"  class="chat-button">
-                    Open Chat
-                </div>
+
+            <div id="chatButton" style="right: 20px;" class="chat-button">
+                Open Chat
+            </div>
             <div id="userFormModal" class="modal">
                 <div class="modal-content">
                     <span class="close-button">&times;</span>
@@ -180,49 +176,49 @@
 
 
     <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, function(err) {
-                console.log('ServiceWorker registration failed: ', err);
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
             });
+        }
+
+
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the default prompt from showing
+            e.preventDefault();
+            // Store the event for later use
+            deferredPrompt = e;
+            // Optionally show your custom "Add to Home Screen" button or link
+            showAddToHomeScreenButton();
         });
-    }
 
-
-
-    let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the default prompt from showing
-  e.preventDefault();
-  // Store the event for later use
-  deferredPrompt = e;
-  // Optionally show your custom "Add to Home Screen" button or link
-  showAddToHomeScreenButton();
-});
-
-function showAddToHomeScreenButton() {
-  // Display your custom button or link and attach an event listener to trigger the prompt
-  const addToHomeScreenButton = document.getElementById('addToHomeScreenButton');
-//   addToHomeScreenButton.style.display = 'block';
-  addToHomeScreenButton.addEventListener('click', () => {
-    // Show the prompt
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
-      // Clear the deferredPrompt variable
-      deferredPrompt = null;
-    });
-  });
-}
-</script>
+        function showAddToHomeScreenButton() {
+            // Display your custom button or link and attach an event listener to trigger the prompt
+            const addToHomeScreenButton = document.getElementById('addToHomeScreenButton');
+            //   addToHomeScreenButton.style.display = 'block';
+            addToHomeScreenButton.addEventListener('click', () => {
+                // Show the prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    } else {
+                        console.log('User dismissed the A2HS prompt');
+                    }
+                    // Clear the deferredPrompt variable
+                    deferredPrompt = null;
+                });
+            });
+        }
+    </script>
 
 
     <script src="../Public/Pages/Signing/login/script.js"></script>
