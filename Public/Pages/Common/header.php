@@ -1,5 +1,6 @@
 <?php 
-include "./App/Logic/webset.php"
+include "./App/Logic/webset.php";
+include "./api/notification.php";
 ?>
 
 <meta charset="utf-8">
