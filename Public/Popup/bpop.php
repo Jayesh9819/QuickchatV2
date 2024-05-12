@@ -87,13 +87,34 @@ if ($result = $conn->query($sql)) {
             $notificationMessage = "You have a new message. From ".$row['from_name'];
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
             $color = "medium"; 
-            sendFCMNotification($userid,$row['from_name'],$row['message']);
             sendSSEData($notificationMessage, $url, $color);
         }
     }
 } else {
     error_log("SQL error: " . $conn->error);
 }
+
+$sql = "SELECT chats.*, user.name AS from_name 
+FROM chats 
+JOIN user ON chats.from_id = user.id 
+WHERE chats.opened = 0 
+AND chats.from_id = $userid 
+AND chats.created_at >= NOW() - INTERVAL 2 SECOND;
+";
+if ($result = $conn->query($sql)) {
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $notificationMessage = "You have a new message. From ".$row['from_name'];
+            $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
+            $color = "medium"; 
+            sendFCMNotification($row['to_id'],$row['from_name'],$row['message']);
+            // sendSSEData($notificationMessage, $url, $color);
+        }
+    }
+} else {
+    error_log("SQL error: " . $conn->error);
+}
+
 $userIDs = [];
 
 // Fetch user, agent, and manager/supervisor IDs
