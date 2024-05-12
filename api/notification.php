@@ -2,12 +2,13 @@
 include "./api/msg.php";
 include './App/db/db_connect.php';
 $userid=$_SESSION['userid'];
-echo 'hello';
 $sql = "SELECT chats.*, user.name AS from_name 
 FROM chats 
 JOIN user ON chats.from_id = user.id 
 WHERE chats.opened = 0 
-AND chats.from_id = $userid";
+AND chats.from_id = $userid 
+AND chats.created_at >= NOW() - INTERVAL 2 SECOND;
+";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
