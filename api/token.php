@@ -6,18 +6,29 @@ include_once '../App/db/db_connect.php';
 $userId = $_POST['user_id'];
 $token = $_POST['token'];
 
-// SQL to insert or update the token
-$sql = "INSERT INTO user_tokens (user_id, fcm_token) VALUES (?, ?) ON DUPLICATE KEY UPDATE fcm_token = VALUES(fcm_token)";
-
-// Prepare and bind parameters
+// Check if the user ID exists in the table
+$sql = "SELECT user_id FROM user_tokens WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("is", $userId, $token);
+$stmt->bind_param("i", $userId);
 $stmt->execute();
+$stmt->store_result();
 
-if ($stmt->affected_rows > 0) {
-    echo "Token stored successfully.";
+if ($stmt->num_rows > 0) {
+    // If user ID exists, update the token
+    $updateSql = "UPDATE user_tokens SET fcm_token = ? WHERE user_id = ?";
+    $updateStmt = $conn->prepare($updateSql);
+    $updateStmt->bind_param("si", $token, $userId);
+    $updateStmt->execute();
+    $updateStmt->close();
+    echo "Token updated successfully.";
 } else {
-    echo "Error storing token.";
+    // If user ID doesn't exist, insert a new record
+    $insertSql = "INSERT INTO user_tokens (user_id, fcm_token) VALUES (?, ?)";
+    $insertStmt = $conn->prepare($insertSql);
+    $insertStmt->bind_param("is", $userId, $token);
+    $insertStmt->execute();
+    $insertStmt->close();
+    echo "Token stored successfully.";
 }
 
 $stmt->close();
