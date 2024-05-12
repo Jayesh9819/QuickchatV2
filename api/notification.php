@@ -1,5 +1,5 @@
 <?php 
-include "../api/msg.php";
+include "./api/msg.php";
 include '../App/db/db_connect.php';
 $userid=$_SESSION['userid'];
 $sql = "SELECT chats.*, user.name AS from_name 
