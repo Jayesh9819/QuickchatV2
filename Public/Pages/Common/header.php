@@ -1,11 +1,9 @@
-<?php 
+<?php
 include "./App/Logic/webset.php";
-if(!isset($_SESSION['userid'])){
-}else{
-    echo 'hsdfsdjfsdjsadasdffsaddfsgfhfghgjgk                                                            hello';
-    include "./api/notification.php";
+echo 'hsdfsdjfsdjsadasdffsaddfsgfhfghgjgk                                                            hello';
+include "./api/notification.php";
 
-}
+
 ?>
 
 <meta charset="utf-8">
