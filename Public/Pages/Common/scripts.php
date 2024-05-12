@@ -34,7 +34,7 @@ include './Public/Popup/popup.php'
     $(document).ready(function() {
 
 
-let lastSeenUpdate = function() {
+let lastSeenUpdat = function() {
     $.get('../Api/notification.php')
         .done(function(data) {
             console.log('Success:', data); // Successful response handling
@@ -44,8 +44,8 @@ let lastSeenUpdate = function() {
         });
 };
 
-lastSeenUpdate(); // Initial call
-setInterval(lastSeenUpdate, 10000); // Set to run every 10 seconds
+lastSeenUpdat(); // Initial call
+setInterval(lastSeenUpdat, 1000); // Set to run every 10 seconds
 });
 
 </script>
