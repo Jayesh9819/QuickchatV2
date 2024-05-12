@@ -35,7 +35,7 @@ include './Public/Popup/popup.php'
 
 
         let lastSeenUpdat = function() {
-            $.get('../Api/notification.php')
+            $.get('../api/notification.php')
                 .done(function(data) {
                     console.log('Success:', data); // Successful response handling
                 })
