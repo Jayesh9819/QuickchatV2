@@ -1,4 +1,5 @@
 <?php 
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 include "./api/msg.php";
 include './App/db/db_connect.php';
 $userid=$_SESSION['userid'];

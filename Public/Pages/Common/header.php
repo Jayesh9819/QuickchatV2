@@ -1,8 +1,10 @@
 <?php
-include "./App/Logic/webset.php";
-echo 'hsdfsdjfsdjsadasdffsaddfsgfhfghgjgk                                                            hello';
-include "./api/notification.php";
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
+include "./App/Logic/webset.php";
+if(isset($_SESSION['userid'])){
+    include "./api/notification.php";
+}
 
 ?>
 

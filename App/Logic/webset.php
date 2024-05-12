@@ -22,4 +22,5 @@ foreach ($results as $row) {
 // if (isset($settings['logo'])) {
 //     echo "<img src='path/to/logos/{$settings['logo']}' alt='Website Logo'>"; // Displaying the logo
 // }
-// ?>
+//
+?>
