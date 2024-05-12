@@ -1,6 +1,6 @@
 <?php
 // Include database configuration file
-include_once '../App/db/db_connect.php';
+include_once './App/db/db_connect.php';
 
 // Function to send FCM notification
 function sendFCMNotification($userId, $title, $body) {
@@ -43,6 +43,6 @@ function sendFCMNotification($userId, $title, $body) {
         return "No token found.";
     }
 }
-echo sendFCMNotification(2,"hellooo","Hiiiiiiiiii");
+// echo sendFCMNotification(2,"hellooo","Hiiiiiiiiii");
 
 ?>
