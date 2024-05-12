@@ -2,8 +2,7 @@
 // Include database configuration file
 include_once '../App/db/db_connect.php';
 
-// User ID to target
-$userId = 1;  // Example user ID
+$userId = $_GET['id'];  // Example user ID
 
 // Fetch the user's token
 $sql = "SELECT fcm_token FROM user_tokens WHERE user_id = ?";
