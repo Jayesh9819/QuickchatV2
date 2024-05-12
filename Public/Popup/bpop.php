@@ -9,7 +9,7 @@ header('Cache-Control: no-cache');
 header('Access-Control-Allow-Origin: *'); // Enable CORS if needed
 
 require_once '../../App/db/db_connect.php';
-include '../../firbase.php';
+include '../../api/msg.php';
 function sendSSEDatasleep($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
@@ -21,7 +21,6 @@ function sendSSEData($message, $url, $color)
 {
     $data = json_encode(['message' => $message, 'url' => $url, 'color' => $color]);
     echo "data: {$data}\n\n";
-    sendNotification($message, 'This is your notification message.');
     flush();
 }
 
@@ -88,6 +87,7 @@ if ($result = $conn->query($sql)) {
             $notificationMessage = "You have a new message. From ".$row['from_name'];
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
             $color = "medium"; 
+            sendFCMNotification($userid,$row['from_name'],$row['message']);
             sendSSEData($notificationMessage, $url, $color);
         }
     }
