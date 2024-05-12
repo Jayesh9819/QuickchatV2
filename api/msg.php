@@ -50,4 +50,4 @@ function sendFCMNotification($userId, $title, $body)
         return "No token found.";
     }
 }
- echo sendFCMNotification(2,"hellooo","Hiiiiiiiiii");
+//  echo sendFCMNotification(2,"hellooo","Hiiiiiiiiii");
