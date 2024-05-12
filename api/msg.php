@@ -27,7 +27,8 @@ function sendFCMNotification($userId, $title, $body)
             'notification' => [
                 'title' => $title,
                 'body' => $body,
-                'sound' => 'default'  // Use default system sound to test
+                'channel_id' => 'high_importance_channel',  // This should match the channel ID in Flutter
+                'sound' => 's'  // This is optional and mainly controlled by Flutter
             ],
             'priority' => 'high'
         ];
