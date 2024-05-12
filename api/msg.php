@@ -5,7 +5,7 @@ include_once './App/db/db_connect.php';
 // Function to send FCM notification
 function sendFCMNotification($userId, $title, $body)
 {
-    echo "this is executing";
+    echo "this is execu";
     echo $title;
     echo $body;
     echo $userId;
