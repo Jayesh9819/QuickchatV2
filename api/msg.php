@@ -28,7 +28,6 @@ function sendFCMNotification($userId, $title, $body)
                 'title' => $title,
                 'body' => $body,
                 "sound" => "default" 
-
             ],
             'priority' => 'high'
         ];
