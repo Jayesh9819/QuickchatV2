@@ -270,7 +270,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
 
 
 
-<body class="  ">
+<body onload="sendSessionDataToFlutter();">
     <!-- loader Start -->
     <?php
     include("./Public/Pages/Common/loader.php");
@@ -471,6 +471,15 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
     <?php
     include("./Public/Pages/Common/theme_custom.php");
     ?>
+    <script>
+        function sendSessionDataToFlutter() {
+            var userId = "<?php echo $_SESSION['userid']; ?>"; // Getting user ID from PHP session
+            if (window.Flutter) {
+                Flutter.postMessage(userId);
+            }
+        }
+    </script>
+    
     <script>
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("myBtn");
