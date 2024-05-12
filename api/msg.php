@@ -22,7 +22,7 @@ if ($token) {
 }
 
 function sendFCMNotification($fcmToken, $title, $body) {
-    $apiKey = 'YOUR_FCM_SERVER_KEY';
+    $apiKey = 'AAAAfnk_oyY:APA91bE5TDkyJdwr1dTDtNmYAmeZ3-B6nlC_AwcRD3zgFQ4TcosDdq4JPCHFl_pd_CILt-x5H1Fh4NOgPkrVwgzF08wbkz1wZaCvWrui4qy528UVFVky02PRj6Bur5PnKflPbcdxwd63';
     $url = 'https://fcm.googleapis.com/fcm/send';
     $fields = [
         'to' => $fcmToken,
