@@ -1,7 +1,6 @@
 <?php 
 include "./App/Logic/webset.php";
 if(isset($_SESSION['userid'])){
-
     include "./api/notification.php";
 }
 ?>

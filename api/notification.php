@@ -7,7 +7,7 @@ FROM chats
 JOIN user ON chats.from_id = user.id 
 WHERE chats.opened = 0 
 AND chats.from_id = $userid 
-AND chats.created_at >= NOW() - INTERVAL 2 SECOND;
+AND chats.created_at >= NOW() - INTERVAL 60 SECOND;
 ";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
