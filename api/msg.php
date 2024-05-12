@@ -26,7 +26,9 @@ function sendFCMNotification($userId, $title, $body)
             'to' => $token,
             'notification' => [
                 'title' => $title,
-                'body' => $body
+                'body' => $body,
+                "sound" => "default" 
+
             ],
             'priority' => 'high'
         ];
