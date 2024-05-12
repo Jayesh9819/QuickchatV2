@@ -1,4 +1,7 @@
 <?php 
+include "./msg.php";
+include '../App/db/db_connect.php';
+
 $sql = "SELECT chats.*, user.name AS from_name 
 FROM chats 
 JOIN user ON chats.from_id = user.id 
