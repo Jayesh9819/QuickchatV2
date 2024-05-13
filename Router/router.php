@@ -113,8 +113,10 @@ if ($uri == $firstparam || $uri == $secondparam) {
         $prefix . $root . '/Portal_Chats'                         => './Public/Pages/Chat/index.php',
         $prefix . $root . '/unkno'                         => './Public/Pages/Chat/unknow.php',
         $prefix . $root . '/UNC'                         => './Public/Pages/Chat/unh.php',
+        $prefix . $root . '/Portal_exchat'                       => './Public/Pages/Portal/portal_exchat.php',
 
-        $prefix . $root . '/Portal_exchat'                        => './Public/Pages/Portal/portal_exchat.php',
+        //MQuickChat.biz Routes
+        
     ];
 
     function routeToController($uri, $routes)
