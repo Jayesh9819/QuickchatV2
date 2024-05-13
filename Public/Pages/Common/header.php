@@ -50,6 +50,14 @@ include "./App/Logic/webset.php";
 
 <!-- Then Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.1.0/remixicon.min.css">
+<!-- <link rel="stylesheet" href="../assets/css/swap.css">
+<link rel="stylesheet" href="../assets/css/boostrap.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/media-query.css"> -->
 
 
 <!-- Finally Toastr JavaScript -->
@@ -85,6 +93,5 @@ include "./App/Logic/webset.php";
         $('#columnToggleDropdown').on('click', function() {
             table.buttons().container().appendTo($('#columnControls'));
         });
-
     });
 </script>

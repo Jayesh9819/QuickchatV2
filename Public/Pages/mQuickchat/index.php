@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AmigoGPT</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.1.0/remixicon.min.css">
-    <link rel="stylesheet" href="assets/css/swap.css">
-    <link rel="stylesheet" href="assets/css/boostrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/media-query.css">
+    <?php
+    include("./Public/Pages/Common/header.php"); ?>
+
 </head>
+
 <body>
     <div class="site_content">
         <!-- ====================================== Loader Mask ===================================== -->
@@ -35,12 +30,9 @@
         <div class="container">
             <div id="carouselExampleIndicators" class="carousel slide onboarding-slider" data-bs-ride="carousel">
                 <div class="carousel-indicators custom-slider-btn">
-                    <button type="button" id="first" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="custom-slider-dots active"></button>
-                    <button type="button" id="second" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        class="custom-slider-dots" aria-current="true"></button>
-                    <button type="button" id="third" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        class="custom-slider-dots"></button>
+                    <button type="button" id="first" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="custom-slider-dots active"></button>
+                    <button type="button" id="second" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="custom-slider-dots" aria-current="true"></button>
+                    <button type="button" id="third" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" class="custom-slider-dots"></button>
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item first_slide active" id="slide1">
@@ -71,8 +63,7 @@
                                 <div class="Onboarding-Screen-1-full">
                                     <div class="boarding-title">
                                         <div class="Image-unscreen_main">
-                                            <img class="Image-unscreen" src="assets/images/robot-slider-img2.png"
-                                                alt="robot-slider-img2">
+                                            <img class="Image-unscreen" src="assets/images/robot-slider-img2.png" alt="robot-slider-img2">
                                         </div>
                                         <h2 class="welcome_to_amigo_text">The Intelligent Way to Get Started</h2>
                                         <p class="proin">Quisque blandit risus duis odio. In pretium nibh velit a aenean
@@ -94,8 +85,7 @@
                                 <div class="Onboarding-Screen-1-full">
                                     <div class="boarding-title">
                                         <div class="Image-unscreen_main">
-                                            <img class="Image-unscreen" src="assets/images/robot-slider-img3.png"
-                                                alt="robot-slider-img3">
+                                            <img class="Image-unscreen" src="assets/images/robot-slider-img3.png" alt="robot-slider-img3">
                                         </div>
                                         <h2 class="welcome_to_amigo_text">Accelerate Your Learning with Amigo</h2>
                                         <p class="proin">Pulvinar in et eu volutpat mauris viverra ut orci. Lacus
@@ -103,8 +93,7 @@
                                         </p>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center">
-                                        <div class="onboarding-next-btn-slider bottom-fix-btn"
-                                            onclick="location.href='lets_you_in.html'">
+                                        <div class="onboarding-next-btn-slider bottom-fix-btn" onclick="location.href='lets_you_in.html'">
                                             <a href="lets_you_in.html">Get Started</a>
                                         </div>
                                     </div>
@@ -117,8 +106,9 @@
         </div>
         <!-- ====================================== Slider End===================================== -->
     </div>
-    <script src="assets/javascript/jquery.min.js"></script>
-    <script src="assets/javascript/bootstrap.bundle.min.js"></script>
-    <script src="assets/javascript/script.js"></script>
+    <?php
+    include("./Public/Pages/Common/header.php"); ?>
+
 </body>
+
 </html>

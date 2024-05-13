@@ -75,6 +75,10 @@ include './Public/Popup/popup.php'
 <script src="../assets/js/pages/chat-popup.js"></script>
 <script src="../assets/js/template.js"></script>
 <script src="../assets/js/vendor_components/datatable/datatables.min.js"></script>
+<script src="../assets/javascript/jquery.min.js"></script>
+<script src="../assets/javascript/bootstrap.bundle.min.js"></script>
+<script src="../assets/javascript/script.js"></script>
+
 <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('../Public/Pages/Common/service-worker.js')
