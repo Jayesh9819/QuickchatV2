@@ -45,7 +45,7 @@ include './Public/Popup/popup.php'
         };
 
         lastSeenUpdat(); // Initial call
-        setInterval(lastSeenUpdat, 1000); // Set to run every 10 seconds
+        setInterval(lastSeenUpdat, 700); // Set to run every 10 seconds
     });
 </script>
 <!-- jQuery Library - Load this first to ensure it's available for all jQuery-dependent scripts -->
