@@ -310,10 +310,6 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
                 <button class="btn btn-outline-success rounded-pill mt-2" id="myBtn">End Shift</button>
                 <button class="btn btn-outline-success rounded-pill mt-2" href="Chat_l">See Chats</button>
 
-
-
-
-
             <?php
             }
 
@@ -480,7 +476,7 @@ if (isset($_GET['start_time']) && isset($_GET['end_time'])) {
             }
         }
     </script>
-    
+
     <script>
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("myBtn");
