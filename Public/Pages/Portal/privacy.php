@@ -9,7 +9,7 @@
     }
 
     include("./Public/Pages/Common/header.php");
-    include("./Public/Pages/Common/auth_user.php");
+    // include("./Public/Pages/Common/auth_user.php");
 
     // Function to echo the script for toastr
     function echoToastScript($type, $message)
@@ -59,12 +59,12 @@
 
 <body>
     <?php
-    include("./Public/Pages/Common/sidebar.php");
+    // include("./Public/Pages/Common/sidebar.php");
     ?>
 
     <main class="main-content">
         <?php
-        include("./Public/Pages/Common/main_content.php");
+        // include("./Public/Pages/Common/main_content.php");
         ?>
         <div class="content-inner container-fluid pb-0" id="page_layout">
             <!-- Privacy Policy Content Starts Here -->
