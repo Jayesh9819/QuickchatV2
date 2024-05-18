@@ -30,6 +30,27 @@
         unset($_SESSION['login_error']); // Clear the error message
     }
     ?>
+    <style>
+    #page_layout {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+    #page_layout h1, #page_layout h2 {
+        color: #333;
+    }
+    #page_layout p {
+        color: #666;
+        line-height: 1.6;
+    }
+    .content-inner {
+        max-width: 800px;
+        margin: auto;
+    }
+</style>
+
 </head>
 
 <body>
