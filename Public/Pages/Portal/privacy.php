@@ -31,25 +31,29 @@
     }
     ?>
     <style>
-    #page_layout {
-        background-color: #f9f9f9;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-    #page_layout h1, #page_layout h2 {
-        color: #333;
-    }
-    #page_layout p {
-        color: #666;
-        line-height: 1.6;
-    }
-    .content-inner {
-        max-width: 800px;
-        margin: auto;
-    }
-</style>
+        #page_layout {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #page_layout h1,
+        #page_layout h2 {
+            color: #333;
+        }
+
+        #page_layout p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .content-inner {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
 
 </head>
 
@@ -66,31 +70,32 @@
             <!-- Privacy Policy Content Starts Here -->
             <h1>Privacy Policy for QuickChat</h1>
             <p>Welcome to QuickChat, your go-to solution for seamless chatting and accounting. This policy outlines our practices regarding data collection, usage, and protection.</p>
-            
+
             <h2>Information Collection</h2>
             <p>We collect personal data such as your name, email address, and contact details through registration. For accounting functionalities, we may also collect transactional data to provide services.</p>
-            
+
             <h2>Use of Information</h2>
             <p>The information collected is used to deliver and enhance our services, including maintaining your account, providing customer support, and improving user experience.</p>
-            
+
             <h2>Sharing of Information</h2>
             <p>Your data may be shared under limited circumstances, such as with service providers who assist us in our operations, or if required by law.</p>
-            
+
             <h2>Data Security</h2>
             <p>We take precautions to protect your data, employing commercially acceptable means to prevent data theft, unauthorized access, and disclosure.</p>
-            
+
             <h2>User Rights</h2>
             <p>You have rights to access, correct, or delete your personal information that we store, which can be done through your account settings or contacting support.</p>
-            
+
             <h2>Changes to This Policy</h2>
             <p>We may update our Privacy Policy from time to time and will notify you of any changes by posting the new policy on this page.</p>
-            
+
             <h2>Contact Us</h2>
             <p>If you have any questions about this Privacy Policy, please contact us.</p>
             <!-- Privacy Policy Content Ends Here -->
         </div>
+
     </main>
-    
+
     <?php
     include("./Public/Pages/Common/theme_custom.php");
     include("./Public/Pages/Common/settings_link.php");
