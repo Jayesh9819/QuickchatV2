@@ -114,6 +114,7 @@ if ($uri == $firstparam || $uri == $secondparam) {
         $prefix . $root . '/unkno'                         => './Public/Pages/Chat/unknow.php',
         $prefix . $root . '/UNC'                         => './Public/Pages/Chat/unh.php',
         $prefix . $root . '/Portal_exchat'                       => './Public/Pages/Portal/portal_exchat.php',
+        $prefix . $root . '/Privacy'                       => './Public/Pages/Portal/privacy.php',
 
         //MQuickChat.biz Routes
         $prefix . $root . '/MIndex'                       => './Public/Pages/mQuickchat/index.php',
