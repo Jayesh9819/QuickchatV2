@@ -1,4 +1,6 @@
 <?php
+ob_start();
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) {
         $userId = $_SESSION['user_id'];
         $sharedDir = '/var/www/quickchat/data/www/share/profile/';
