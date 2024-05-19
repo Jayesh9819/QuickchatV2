@@ -1,13 +1,8 @@
 <?php
-ob_start();
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-// Assuming you have your database connection in $conn
-// $conn = new mysqli($servername, $username, $password, $dbname);
-include './App/db/db_connect.php';
-
+include "./App/db/db_connect.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_picture'])) {
     $userId = $_SESSION['user_id'];
     $sharedDir = '/var/www/quickchat/data/www/share/profile/';
@@ -21,6 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_picture'])) {
     } else {
         echo "Directory exists.";
     }
+    if (is_writable($sharedDir)) {
+        echo "Directory is writable.<br>";
+    } else {
+        echo "Directory is not writable.<br>";
+        exit;
+    }
 
     $profilePicture = null;
     if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
@@ -28,18 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_picture'])) {
         $fileName = time() . '-' . basename($_FILES['profile_picture']['name']);
         $targetFilePath = $sharedDir . $fileName;
 
-        // Debugging: Check file upload status
+        // Check file upload status
         if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath)) {
-            echo "File uploaded successfully.";
-            $profilePicture = $fileName;
+            echo "File uploaded successfully.<br>";
         } else {
-            echo "Error uploading file.";
-            exit;
+            echo "Error uploading file.<br>";
+            var_dump($_FILES['profile_picture']);
+            echo "<br>";
+            var_dump(error_get_last());
         }
     } else {
-        echo "File upload error: " . $_FILES['profile_picture']['error'];
+        echo "File upload error: " . $_FILES['profile_picture']['error'] . "<br>";
     }
-
     // Update the database with the new profile picture file name
     $sql = "UPDATE user SET p_p = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
@@ -52,5 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_picture'])) {
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
     header("Location: " . $_SERVER['PHP_SELF']);
 }
-print_r($_SESSION);
+
+
 ?>
