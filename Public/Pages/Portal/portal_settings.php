@@ -101,12 +101,12 @@
         // Update the session with the new profile picture
         unset($_SESSION['p_p']);
         $_SESSION['p_p'] = $profilePicture;
-        print_r($_SESSION);
         // Set a success message and redirect the user
         $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
         exit;
         header("Location: " . $_SERVER['PHP_SELF']);
     }
+    print_r($_SESSION);
 
 
     function updateChatSetting($conn, $userId, $type, $path, $isActive)
