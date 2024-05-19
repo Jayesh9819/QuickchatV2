@@ -63,26 +63,34 @@
     // Handle profile picture upload
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) {
         $userId = $_SESSION['user_id'];
-        $sharedDir = '/var/www/shared_assets/profile/';
+        $sharedDir = '/var/www/quickchat/data/www/share/profile/';
     
-        // Ensure the shared directory exists
+        // Debugging: Check if the directory exists
         if (!is_dir($sharedDir)) {
-            mkdir($sharedDir, 0777, true);
+            echo "Directory does not exist. Creating directory...";
+            if (!mkdir($sharedDir, 0777, true)) {
+                die('Failed to create directories...');
+            }
+        } else {
+            echo "Directory exists.";
         }
     
         $profilePicture = null;
-        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
             // Generate a unique file name
             $fileName = time() . '-' . basename($_FILES['profile_picture']['name']);
             $targetFilePath = $sharedDir . $fileName;
     
-            // Move the uploaded file to the shared directory
+            // Debugging: Check file upload status
             if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath)) {
+                echo "File uploaded successfully.";
                 $profilePicture = $fileName;
             } else {
                 echo "Error uploading file.";
                 exit;
             }
+        } else {
+            echo "File upload error: " . $_FILES['profile_picture']['error'];
         }
     
         // Update the database with the new profile picture file name
@@ -99,6 +107,7 @@
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
+    
     
     function updateChatSetting($conn, $userId, $type, $path, $isActive)
     {
