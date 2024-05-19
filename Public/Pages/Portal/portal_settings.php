@@ -290,7 +290,7 @@
                     <!-- Profile Picture Update Form -->
                     <form action="../test.php" method="post" class="settings-form">
                         <div class="form-group">
-                            <input type="file" name="profile_picture" required class="form-control-file">
+                            <input type="file" name="p" required class="form-control-file">
                         </div>
                         <button type="submit" value="upload" class="btn btn-primary">Upload Picture</button>
                     </form>
