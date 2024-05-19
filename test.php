@@ -3,7 +3,6 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include "./App/db/db_connect.php";
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_POST['profile_picture'])) {
     $userId = $_SESSION['user_id'];
     $sharedDir = '/var/www/quickchat/data/www/share/profile/';
 
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_POST['profile_picture'])) {
     // Set a success message and redirect the user
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
     header("Location: " . $_SERVER['PHP_SELF']);
-}
+
 
 
 ?>
