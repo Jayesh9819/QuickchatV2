@@ -50,7 +50,7 @@ include "./App/db/db_connect.php";
     $_SESSION['p_p'] = $profilePicture;
     // Set a success message and redirect the user
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-    header("Location: " . $_SERVER['PHP_SELF']);
+    // header("Location: " . $_SERVER['PHP_SELF']);
 
 
 
