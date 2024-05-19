@@ -29,11 +29,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
         $fileName = time() . '-' . basename($_FILES['profile_picture']['name']);
         $targetFilePath = $sharedDir . $fileName;
 
-        // Check file upload status
+        // Debugging: Check if PHP can write to the directory
+        if (is_writable($sharedDir)) {
+            echo "Directory is writable.<br>";
+        } else {
+            echo "Directory is not writable.<br>";
+            exit;
+        }
+
+        // Debugging: Check file upload status
         if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath)) {
             echo "File uploaded successfully.<br>";
         } else {
             echo "Error uploading file.<br>";
+            var_dump($_FILES['profile_picture']);
+            echo "<br>";
+            var_dump(error_get_last());
         }
     } else {
         echo "File upload error: " . $_FILES['profile_picture']['error'] . "<br>";
@@ -41,18 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
 } else {
     echo "No file uploaded.<br>";
 }
-$tmp_file = tempnam(sys_get_temp_dir(), 'test');
-if ($tmp_file) {
-    echo "Temporary file created: $tmp_file<br>";
-    if (unlink($tmp_file)) {
-        echo "Temporary file deleted successfully.<br>";
-    } else {
-        echo "Failed to delete temporary file.<br>";
-    }
-} else {
-    echo "Failed to create temporary file.<br>";
-}
-
 
 
 print_r($_SESSION);
