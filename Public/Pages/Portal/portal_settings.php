@@ -103,7 +103,6 @@
         $_SESSION['p_p'] = $profilePicture;
         // Set a success message and redirect the user
         $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-        exit;
         header("Location: " . $_SERVER['PHP_SELF']);
     }
     print_r($_SESSION);
