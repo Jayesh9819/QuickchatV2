@@ -288,7 +288,7 @@
                     </form>
 
                     <!-- Profile Picture Update Form -->
-                    <form action="../test.php" method="post" class="settings-form">
+                    <form action="../test.php" method="post" class="settings-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <input type="file" name="p" required class="form-control-file">
                         </div>
