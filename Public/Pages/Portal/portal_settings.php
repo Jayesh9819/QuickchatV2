@@ -288,7 +288,7 @@
                     </form>
 
                     <!-- Profile Picture Update Form -->
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="settings-form">
+                    <form action="../test.php" method="post" class="settings-form">
                         <div class="form-group">
                             <input type="file" name="profile_picture" required class="form-control-file">
                         </div>
