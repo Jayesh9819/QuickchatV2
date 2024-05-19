@@ -1,8 +1,8 @@
 <?php
 ob_start();
 session_start();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $userId = $_SESSION['user_id'];
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $userId = $_SESSION['user_id']
         $sharedDir = '/var/www/quickchat/data/www/share/profile/';
 
         // Debugging: Check if the directory exists
@@ -43,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['p_p'] = $profilePicture;
         // Set a success message and redirect the user
         $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-        exit;
-        header("Location: " . $_SERVER['PHP_SELF']);
-    }
+        // header("Location: " . $_SERVER['PHP_SELF']);
+    // }
     print_r($_SESSION);
