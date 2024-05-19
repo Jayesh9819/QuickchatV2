@@ -41,6 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
 } else {
     echo "No file uploaded.<br>";
 }
+$tmp_file = tempnam(sys_get_temp_dir(), 'test');
+if ($tmp_file) {
+    echo "Temporary file created: $tmp_file<br>";
+    if (unlink($tmp_file)) {
+        echo "Temporary file deleted successfully.<br>";
+    } else {
+        echo "Failed to delete temporary file.<br>";
+    }
+} else {
+    echo "Failed to create temporary file.<br>";
+}
 
 
 
