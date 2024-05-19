@@ -289,10 +289,11 @@
                     </form>
 
                     <!-- Profile Picture Update Form -->
-                    <form action="../test.php" method="post" enctype="multipart/form-data">
-                        <label for="profile_picture">Upload Profile Picture:</label>
-                        <input type="file" name="profile_picture" id="profile_picture" required>
-                        <input type="submit" value="Upload">
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="settings-form">
+                        <div class="form-group">
+                            <input type="file" name="profile_picture" required class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Picture</button>
                     </form>
                     <!-- Enhanced Wallpaper Selector -->
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="settings-form">
