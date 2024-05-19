@@ -3,6 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include "./App/db/db_connect.php";
+print_r($_POST);
     $userId = $_SESSION['user_id'];
     $sharedDir = '/var/www/quickchat/data/www/share/profile/';
 
