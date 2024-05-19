@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 
 // Assuming you have your database connection in $conn
 // $conn = new mysqli($servername, $username, $password, $dbname);
+include './App/db/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['user_id'];
@@ -62,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Set a success message and redirect the user
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
+    // header("Location: " . $_SERVER['PHP_SELF']);
+    // exit;
 }
 
 print_r($_SESSION);
