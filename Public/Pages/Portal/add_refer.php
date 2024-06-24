@@ -35,9 +35,9 @@
         $byname = $_SESSION['username'];
         $trans = "Credit";
 
-        $sql = "INSERT INTO referrecord (username, amount, type, byname, trans) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO referrecord (username, amount, type, byname, trans,status) VALUES (?, ?, ?, ?, ?,?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdsss", $referName, $amount, $type, $byname, $trans);
+        $stmt->bind_param("sdsssd", $referName, $amount, $type, $byname, $trans,1);
         if ($stmt->execute()) {
             header("Location: ./Set_Refer");
             echoToastScript('success', 'Record inserted successfully');
