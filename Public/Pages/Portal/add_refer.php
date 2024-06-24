@@ -34,10 +34,11 @@
         $type = "Referred Bonus";
         $byname = $_SESSION['username'];
         $trans = "Credit";
+        $status=1;
 
         $sql = "INSERT INTO referrecord (username, amount, type, byname, trans,status) VALUES (?, ?, ?, ?, ?,?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdssss", $referName, $amount, $type, $byname, $trans,'1');
+        $stmt->bind_param("sdssss", $referName, $amount, $type, $byname, $trans,$status);
         if ($stmt->execute()) {
             header("Location: ./Set_Refer");
             echoToastScript('success', 'Record inserted successfully');
