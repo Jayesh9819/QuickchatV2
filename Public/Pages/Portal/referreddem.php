@@ -31,7 +31,7 @@
     // Handle Approve Action
     if (isset($_POST['approve_id'])) {
         $approve_id = intval($_POST['approve_id']);
-        $sql = "UPDATE referrecord SET status = 1, byname=$username WHERE id = ?";
+        $sql = "UPDATE referrecord SET status = 1, byname='$username' WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $approve_id);
 
@@ -49,7 +49,7 @@
     // Handle Reject Action
     if (isset($_POST['reject_id'])) {
         $reject_id = intval($_POST['reject_id']);
-        $sql = "UPDATE referrecord SET status = 2 , byname=$username WHERE id = ?";
+        $sql = "UPDATE referrecord SET status = 2 , byname= '$username' WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $reject_id);
 
