@@ -65,6 +65,8 @@ if ($uri == $firstparam || $uri == $secondparam) {
         $prefix . $root . '/Refer_And_Earn'                         => './Public/Pages/Portal/referandearn.php',
         $prefix . $root . '/Set_Refer'                         => './Public/Pages/Portal/set_referal.php',
         $prefix . $root . '/See_Refer'                         => './Public/Pages/Portal/see_refer.php',
+        $prefix . $root . '/Send_Refer'                         => './Public/Pages/Portal/referreddem.php',
+
         $prefix . $root . '/Withdraw_Earning'                         => './Public/Pages/Portal/withdrawlearning.php',
         $prefix . $root . '/Redeem_Request'                         => './Public/Pages/Portal/temp.php',
         $prefix . $root . '/See_Redeem_Request'                         => './Public/Pages/Portal/redeem.php',
