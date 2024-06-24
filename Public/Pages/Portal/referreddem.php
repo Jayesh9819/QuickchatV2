@@ -113,7 +113,7 @@
                         $page = $_SESSION['page1'];
 
                         if ($role === 'Admin') {
-                            $sql = "SELECT * FROM referrecord where type='Withdrawal'";
+                            $sql = "SELECT * FROM referrecord where type='Withdrawal' and status=0";
                             // No parameters needed for Admin
                         }
 
