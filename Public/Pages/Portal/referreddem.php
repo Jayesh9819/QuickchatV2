@@ -26,8 +26,44 @@
         unset($_SESSION['login_error']); // Clear the error message
     }
 
-    ?>
+    include './App/db/db_connect.php';
 
+    // Handle Approve Action
+    if (isset($_POST['approve_id'])) {
+        $approve_id = intval($_POST['approve_id']);
+        $sql = "UPDATE referrecord SET status = 1 WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $approve_id);
+
+        if ($stmt->execute()) {
+            $_SESSION['toast'] = ['type' => 'success', 'message' => 'Request approved successfully'];
+        } else {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Failed to approve request'];
+        }
+
+        $stmt->close();
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    }
+
+    // Handle Reject Action
+    if (isset($_POST['reject_id'])) {
+        $reject_id = intval($_POST['reject_id']);
+        $sql = "UPDATE referrecord SET status = 2 WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $reject_id);
+
+        if ($stmt->execute()) {
+            $_SESSION['toast'] = ['type' => 'success', 'message' => 'Request rejected successfully'];
+        } else {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Failed to reject request'];
+        }
+
+        $stmt->close();
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    }
+    ?>
 
     <?php
     $role = $_SESSION['role'];
@@ -61,9 +97,7 @@
         include("./Public/Pages/Common/main_content.php");
         ?>
 
-
         <div class="content-inner container-fluid pb-0" id="page_layout">
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -75,7 +109,6 @@
                         </div>
                         <?php
 
-                        include './App/db/db_connect.php';
                         $branch = $_SESSION['branch1'];
                         $page = $_SESSION['page1'];
 
@@ -83,99 +116,71 @@
                             $sql = "SELECT * FROM referrecord where type='Withdrawal'";
                             // No parameters needed for Admin
                         }
-                        // elseif ($role === 'Manager') {
-                        //     $sql = "SELECT * FROM user WHERE Role IN ('Agent', 'User', 'Supervisor') AND branchname='$branch'";
-                        //     $params = [];
-                        // } elseif ($role === 'Supervisor') {
-                        //     $sql = "SELECT * FROM user WHERE Role IN ('Agent', 'User') AND branchname='$branch' ";
-                        //     $params = [];
-                        // } elseif ($role === 'Agent') {
-                        //     $page = $_SESSION['page1'];
-
-                        //     $pagesArray = explode(", ", $page);
-                        //     $quotedPages = [];
-                        //     foreach ($pagesArray as $pageName) {
-                        //         $quotedPages[] = "'" . mysqli_real_escape_string($conn, $pageName) . "'";
-                        //     }
-                        //     $whereClause = "pagename IN (" . implode(", ", $quotedPages) . ")";
-                        //     $sql = "SELECT * FROM user WHERE Role = 'User' AND $whereClause";
-                        //     $params = [];
-                        // }
-
 
                         $result = $conn->query($sql);
-
 
                         if ($result->num_rows > 0) {
                         ?>
                             <div class="card-body">
-                                <div class="custom-table-effect table-responsive  border rounded">
+                                <div class="custom-table-effect table-responsive border rounded">
                                     <table class="table mb-0" id="example">
                                         <thead>
                                             <tr class="bg-white">
-                                                <?php
-                                                echo '<tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Action</th>
-                                            <th scope="col">Created At</th>
-                                            </tr>';
-                                                ?>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Action</th>
+                                                <th scope="col">Created At</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             while ($row = $result->fetch_assoc()) {
-
                                                 echo "<tr>
-                <td>{$row['username']}</td>
-                                <td>{$row['amount']}</td>
-                <td>{$row['username']}</td>
+                                                    <td>{$row['username']}</td>
+                                                    <td>{$row['amount']}</td>
                                                     <td>
-                                                        <button class='btn btn-success' onclick='approveRequest({$row['id']})'>Approve</button>
-                                                        <button class='btn btn-danger' onclick='rejectRequest({$row['id']})'>Reject</button>
+                                                        <form method='post' style='display:inline;'>
+                                                            <input type='hidden' name='approve_id' value='{$row['id']}'>
+                                                            <button class='btn btn-success' type='submit'>Approve</button>
+                                                        </form>
+                                                        <form method='post' style='display:inline;'>
+                                                            <input type='hidden' name='reject_id' value='{$row['id']}'>
+                                                            <button class='btn btn-danger' type='submit'>Reject</button>
+                                                        </form>
                                                     </td>
-
-                <td>{$row['created_at']}</td>
-              </tr>";
+                                                    <td>{$row['created_at']}</td>
+                                                  </tr>";
                                             }
                                             ?>
                                         </tbody>
-                                    <?php
-
-                                    // End table
-                                    echo '</table>';
-                                } else {
-                                    echo "0 results";
-                                }
-
-                                // Close connection
-                                $conn->close();
-                                    ?>
-
-
-
+                                    </table>
                                 </div>
                             </div>
+                        <?php
+                        } else {
+                            echo "0 results";
+                        }
+
+                        $conn->close();
+                        ?>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <?
+        <?php
         include("./Public/Pages/Common/footer.php");
-
         ?>
 
     </main>
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
                 "order": [
-                    [8, "desc"]
+                    [3, "desc"]
                 ],
-                dom: 'Bfrtip', // Add the Bfrtip option to enable buttons
-
+                dom: 'Bfrtip',
                 buttons: [
                     'copy', 'excel', 'pdf'
                 ]
@@ -185,17 +190,9 @@
 
     <?php
     include("./Public/Pages/Common/theme_custom.php");
-
-    ?>
-    <?php
     include("./Public/Pages/Common/settings_link.php");
-
-    ?>
-    <?php
     include("./Public/Pages/Common/scripts.php");
-
     ?>
-
 </body>
 
 </html>
