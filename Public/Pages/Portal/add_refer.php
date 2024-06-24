@@ -37,7 +37,7 @@
 
         $sql = "INSERT INTO referrecord (username, amount, type, byname, trans,status) VALUES (?, ?, ?, ?, ?,?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdsssd", $referName, $amount, $type, $byname, $trans,1);
+        $stmt->bind_param("sdssss", $referName, $amount, $type, $byname, $trans,'1');
         if ($stmt->execute()) {
             header("Location: ./Set_Refer");
             echoToastScript('success', 'Record inserted successfully');
