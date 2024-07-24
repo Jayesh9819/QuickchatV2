@@ -1,24 +1,42 @@
 #!/bin/bash
 
-# Push to the main branch on origin
-git push origin main
+# Add all changes
+git add .
 
-# Check if the first command was successful
+# Commit changes with a message
+commit_message="Auto commit"
+if [ -n "$1" ]; then
+    commit_message="$1"
+fi
+
+git commit -m "$commit_message"
+
+# Check if the commit was successful
 if [ $? -eq 0 ]; then
-    echo "Successfully pushed to origin main"
+    echo "Successfully committed changes"
     
-    # Push to the main branch on production
-    git push production main
+    # Push to the main branch on origin
+    git push origin main
     
-    # Check if the second command was successful
+    # Check if the first push was successful
     if [ $? -eq 0 ]; then
-        echo "Successfully pushed to production main"
+        echo "Successfully pushed to origin main"
+        
+        # Push to the main branch on production
+        git push production main
+        
+        # Check if the second push was successful
+        if [ $? -eq 0 ]; then
+            echo "Successfully pushed to production main"
+        else
+            echo "Failed to push to production main"
+            exit 1
+        fi
     else
-        echo "Failed to push to production main"
+        echo "Failed to push to origin main"
         exit 1
     fi
 else
-    echo "Failed to push to origin main"
+    echo "Failed to commit changes"
     exit 1
 fi
-
