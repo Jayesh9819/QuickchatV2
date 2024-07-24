@@ -1,6 +1,6 @@
 <?php
 // Include database configuration file
-include '../App/db/db_connect.php';
+// include '../App/db/db_connect.php';
 
 // Function to send FCM notification
 function sendFCMNotification($userId, $title, $body)
