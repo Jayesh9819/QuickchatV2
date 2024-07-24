@@ -1,8 +1,7 @@
 <?php 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 include "../api/msg.php";
-// Use __DIR__ to construct the absolute path to the included file
-include_once __DIR__ . '/../App/db/db_connect.php';
+include '../../App/db/db_connect.php';
 $userid=$_SESSION['userid'];
 $sql = "SELECT chats.*, user.name AS from_name 
 FROM chats 
