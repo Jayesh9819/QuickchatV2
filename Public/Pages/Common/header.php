@@ -13,7 +13,6 @@ include "./App/Logic/webset.php";
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="<?php echo $settings['icon']; ?>">
-<link rel="manifest" href="./Public/Pages/Common/manifest.json">
 
 <!-- Library / Plugin Css Build -->
 <link rel="stylesheet" href="../assets/css/core/libs.min.css">
