@@ -16,7 +16,7 @@ if ($result = $conn->query($sql)) {
             $url = "./Portal_Chats"; // Assuming there's a generic inbox URL
             $color = "medium"; 
             echo sendFCMNotification($row['to_id'],$row['from_name'],$row['message']);
-            // sendSSEData($notificationMessage, $url, $color);
+            // skendSSEData($notificationMessage, $url, $color);
         }
     }
 } else {
