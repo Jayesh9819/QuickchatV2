@@ -80,4 +80,4 @@ function sendFCMNotification($userId, $title, $body)
 }
 
 // Test function
-echo sendFCMNotification(20, "Hello", "This is a test notification.");
+// echo sendFCMNotification(20, "Hello", "This is a test notification.");
