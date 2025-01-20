@@ -9,7 +9,7 @@ $dbname = "quickchat";
 // Create connectionhh
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connectionh
+// Check connectionhdf
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } else {
