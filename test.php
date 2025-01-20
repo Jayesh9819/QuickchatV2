@@ -2,45 +2,46 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 include "./App/db/db_connect.php";
 
 $userId = $_SESSION['user_id'];
-$sharedDir = '/var/www/quickchat_bi_usr/data/www/uploads';
+$sharedDir = '/var/www/quickchat/data/www/share/profile/';
 
-// Debug: Check directory existence and permissions
+// Ensure directory exists
 if (!is_dir($sharedDir)) {
-    die("Error: Directory does not exist. Cannot continue.<br>");
-}
-if (!is_writable($sharedDir)) {
-    die("Error: Directory is not writable. Check permissions.<br>");
+    if (!mkdir($sharedDir, 0777, true)) {
+        die('Failed to create directory...');
+    }
 }
 
-echo "Directory exists and is writable.<br>";
+// Check if directory is writable
+if (!is_writable($sharedDir)) {
+    die('Directory is not writable.');
+}
 
 $profilePicture = null;
-if ($_FILES['p']['error'] === UPLOAD_ERR_OK) {
-    // Generate a unique file name
+
+// Handle file upload
+if (!empty($_FILES['p']['name']) && $_FILES['p']['error'] === UPLOAD_ERR_OK) {
     $fileName = time() . '-' . basename($_FILES['p']['name']);
     $targetFilePath = $sharedDir . $fileName;
 
-    // Debugging
-    echo "Attempting to move uploaded file to: $targetFilePath <br>";
-
     if (move_uploaded_file($_FILES['p']['tmp_name'], $targetFilePath)) {
-        echo "File uploaded successfully.<br>";
-        $profilePicture = $fileName;  // Store filename in database
+        $profilePicture = $fileName;
     } else {
-        echo "Error uploading file.<br>";
+        echo "Error uploading file.";
         var_dump($_FILES['p']);
-        echo "<br>";
         var_dump(error_get_last());
+        exit;
     }
-} else {
-    echo "File upload error: " . $_FILES['p']['error'] . "<br>";
 }
 
-// Update the database with the new profile picture file name
+// Handle icon selection if no file is uploaded
+if (empty($profilePicture) && !empty($_POST['icon'])) {
+    $profilePicture = $_POST['icon'];  // Store the selected icon name
+}
+
+// Update the database with the new profile picture
 if ($profilePicture) {
     $sql = "UPDATE user SET p_p = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
@@ -48,12 +49,48 @@ if ($profilePicture) {
 
     // Update session
     $_SESSION['p_p'] = $profilePicture;
-
-    // Success message
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-    echo "Database updated successfully.<br>";
 } else {
-    echo "No file uploaded, database not updated.<br>";
+    $_SESSION['toast'] = ['type' => 'error', 'message' => 'No profile picture selected'];
 }
 
+// Redirect to avoid form resubmission
+header("Location: " . $_SERVER['PHP_SELF']);
+exit;
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Profile Picture</title>
+</head>
+<body>
+
+<h2>Upload or Select a Profile Picture</h2>
+
+<form action="" method="POST" enctype="multipart/form-data">
+    <label for="p">Upload Profile Picture:</label>
+    <input type="file" name="p" id="p"><br><br>
+
+    <p>Select an Icon:</p>
+    <label>
+        <input type="radio" name="icon" value="icon1.png">
+        <img src="icons/icon1.png" width="50" alt="Icon 1">
+    </label>
+    <label>
+        <input type="radio" name="icon" value="icon2.png">
+        <img src="icons/icon2.png" width="50" alt="Icon 2">
+    </label>
+    <label>
+        <input type="radio" name="icon" value="icon3.png">
+        <img src="icons/icon3.png" width="50" alt="Icon 3">
+    </label>
+
+    <br><br>
+    <button type="submit">Save Profile Picture</button>
+</form>
+
+</body>
+</html>
