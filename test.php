@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 include "./App/db/db_connect.php";
 
 $userId = $_SESSION['user_id'];
-$sharedDir = '/var/www/quickchat/data/www/share/profile/';
+$sharedDir = '/var/www/quickchat_bi_usr/data/www/uploads';
 
 // Debug: Check directory existence and permissions
 if (!is_dir($sharedDir)) {
