@@ -72,50 +72,53 @@
         file_put_contents($logFile, "[$timestamp] $message" . PHP_EOL, FILE_APPEND);
     }
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) {
-        $userId = $_SESSION['user_id'];
+        $userId = $_SESSION['user_id'] ?? null;
+        if (!$userId) {
+            die("ERROR: User ID is missing.");
+        }
+    
         $sharedDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/Profile/';
-
+    
         // Ensure directory exists
         if (!is_dir($sharedDir)) {
             if (!mkdir($sharedDir, 0777, true)) {
-                logActivity("ERROR: Failed to create directory $sharedDir");
+                logActivity("ERROR: Failed to create directory $sharedDir", $logFile);
                 die('Failed to create directories...');
             }
-            logActivity("INFO: Directory $sharedDir created.");
+            logActivity("INFO: Directory $sharedDir created.", $logFile);
         }
-
+    
         $profilePicture = null;
         if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
             $fileName = time() . '-' . basename($_FILES['profile_picture']['name']);
             $targetFilePath = $sharedDir . $fileName;
-
+    
             if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath)) {
-                logActivity("SUCCESS: User $userId uploaded profile picture: $fileName");
+                logActivity("SUCCESS: User $userId uploaded profile picture: $fileName", $logFile);
                 $profilePicture = $fileName;
             } else {
-                logActivity("ERROR: User $userId failed to upload profile picture.");
+                logActivity("ERROR: User $userId failed to upload profile picture.", $logFile);
                 die("Error uploading file.");
             }
         } else {
-            logActivity("ERROR: User $userId encountered file upload error: " . $_FILES['profile_picture']['error']);
+            logActivity("ERROR: User $userId encountered file upload error: " . $_FILES['profile_picture']['error'], $logFile);
             die("File upload error: " . $_FILES['profile_picture']['error']);
         }
-
+    
         // Update database
         $sql = "UPDATE user SET p_p = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$profilePicture, $userId]);
-
+    
         // Update session
         $_SESSION['p_p'] = $profilePicture;
         $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-
-        logActivity("INFO: User $userId updated profile picture in the database.");
-
+    
+        logActivity("INFO: User $userId updated profile picture in the database.", $logFile);
+    
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
-
 
     function updateChatSetting($conn, $userId, $type, $path, $isActive)
     {
