@@ -63,7 +63,7 @@
     // Handle profile picture upload
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_picture'])) {
         $userId = $_SESSION['user_id'];
-        $sharedDir = '/var/www/quickchat/data/www/share/profile/';
+        $sharedDir = '/var/www/quickchat_bi_usr/data/www/quickchat.biz/uploads/profile';
 
         // Debugging: Check if the directory exists
         if (!is_dir($sharedDir)) {
