@@ -63,13 +63,14 @@
     // Handle profile picture upload
     $logFile = __DIR__ . '/profile_upload.log'; // Log file path
 
-    function logActivity($message)
+    function logActivity($message, $logFile)
     {
-        global $logFile;
+        if (empty($logFile)) {
+            die("ERROR: Log file path is empty.");
+        }
         $timestamp = date("Y-m-d H:i:s");
         file_put_contents($logFile, "[$timestamp] $message" . PHP_EOL, FILE_APPEND);
     }
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) {
         $userId = $_SESSION['user_id'];
         $sharedDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/Profile/';
