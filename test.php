@@ -55,10 +55,8 @@ if ($profilePicture) {
 }
 
 // Redirect to avoid form resubmission
-header("Location: " . $_SERVER['PHP_SELF']);
 exit;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
