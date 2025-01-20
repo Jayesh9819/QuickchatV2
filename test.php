@@ -2,57 +2,58 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 include "./App/db/db_connect.php";
-print_r($_POST);
-    $userId = $_SESSION['user_id'];
-    $sharedDir = '/var/www/quickchat/data/www/share/profile/';
 
-    // Debugging: Check if the directory exists
-    if (!is_dir($sharedDir)) {
-        echo "Directory does not exist. Creating directory...";
-        if (!mkdir($sharedDir, 0777, true)) {
-            die('Failed to create directories...');
-        }
-    } else {
-        echo "Directory exists.";
-    }
-    if (is_writable($sharedDir)) {
-        echo "Directory is writable.<br>";
-    } else {
-        echo "Directory is not writable.<br>";
-        exit;
-    }
+$userId = $_SESSION['user_id'];
+$sharedDir = '/var/www/quickchat/data/www/share/profile/';
 
-    $profilePicture = null;
-    if ($_FILES['p']['error'] === UPLOAD_ERR_OK) {
-        // Generate a unique file name
-        $fileName = time() . '-' . basename($_FILES['p']['name']);
-        $targetFilePath = $sharedDir . $fileName;
+// Debug: Check directory existence and permissions
+if (!is_dir($sharedDir)) {
+    die("Error: Directory does not exist. Cannot continue.<br>");
+}
+if (!is_writable($sharedDir)) {
+    die("Error: Directory is not writable. Check permissions.<br>");
+}
 
-        // Check file upload status
-        if (move_uploaded_file($_FILES['p']['tmp_name'], $targetFilePath)) {
-            echo "File uploaded successfully.<br>";
-        } else {
-            echo "Error uploading file.<br>";
-            var_dump($_FILES['p']);
-            echo "<br>";
-            var_dump(error_get_last());
-        }
+echo "Directory exists and is writable.<br>";
+
+$profilePicture = null;
+if ($_FILES['p']['error'] === UPLOAD_ERR_OK) {
+    // Generate a unique file name
+    $fileName = time() . '-' . basename($_FILES['p']['name']);
+    $targetFilePath = $sharedDir . $fileName;
+
+    // Debugging
+    echo "Attempting to move uploaded file to: $targetFilePath <br>";
+
+    if (move_uploaded_file($_FILES['p']['tmp_name'], $targetFilePath)) {
+        echo "File uploaded successfully.<br>";
+        $profilePicture = $fileName;  // Store filename in database
     } else {
-        echo "File upload error: " . $_FILES['p']['error'] . "<br>";
+        echo "Error uploading file.<br>";
+        var_dump($_FILES['p']);
+        echo "<br>";
+        var_dump(error_get_last());
     }
-    // Update the database with the new profile picture file name
+} else {
+    echo "File upload error: " . $_FILES['p']['error'] . "<br>";
+}
+
+// Update the database with the new profile picture file name
+if ($profilePicture) {
     $sql = "UPDATE user SET p_p = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$profilePicture, $userId]);
 
-    // Update the session with the new profile picture
-    unset($_SESSION['p_p']);
+    // Update session
     $_SESSION['p_p'] = $profilePicture;
-    // Set a success message and redirect the user
+
+    // Success message
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Profile picture updated successfully'];
-    // header("Location: " . $_SERVER['PHP_SELF']);
-
-
+    echo "Database updated successfully.<br>";
+} else {
+    echo "No file uploaded, database not updated.<br>";
+}
 
 ?>
